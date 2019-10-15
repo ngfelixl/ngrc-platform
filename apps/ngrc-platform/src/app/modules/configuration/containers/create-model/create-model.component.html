@@ -1,0 +1,35 @@
+<form [formGroup]="modelForm" (ngSubmit)="save(modelForm.value)" enctype="mutlipart/form-data">
+  <mat-card>
+    <mat-card-content>
+      <b>Create new model</b>
+      <div class="list">
+        <div>
+          <mat-form-field>
+            <input matInput formControlName="title" placeholder="Model Title">
+          </mat-form-field>
+          <button mat-icon-button (click)="addItem()" type="button" color="accent"><mat-icon>add</mat-icon></button>
+        </div>
+        <div class="img-box">
+          <input style="display: none" #imgInput type="file" accept="image/*" (change)="onImgChange($event)">
+          <p>
+            <button mat-raised-button type="button" (click)="imgInput.click()" color="primary">
+              <mat-icon>image</mat-icon> Select Image
+            </button>
+          </p>
+        </div>
+      </div>
+      <div class="list" formArrayName="slots">
+        <div *ngFor="let slot of slots.controls; let i = index" [formGroupName]="i">
+          <mat-form-field>
+            <input matInput formControlName="title" placeholder="Control Name">
+            <button mat-button matSuffix mat-icon-button (click)="removeItem(i)" type="button"><mat-icon>clear</mat-icon></button>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button type="button" mat-button (click)="back()"><mat-icon>navigate_before</mat-icon> Back</button>
+      <button type="submit" mat-button [disabled]="!modelForm.valid"><mat-icon>save</mat-icon> Save</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

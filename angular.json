@@ -24,6 +24,7 @@
               "apps/ngrc-platform/src/assets"
             ],
             "styles": [
+              "apps/ngrc-platform/src/custom-theme.scss",
               "apps/ngrc-platform/src/styles.css"
             ],
             "scripts": []

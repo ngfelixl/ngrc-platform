@@ -1,0 +1,59 @@
+<mat-card>
+  <div class="flex">
+    <div class="logo">
+      <img [src]="'assets/nrf24l01.jpg'">
+    </div>
+    <div class="text">
+      <mat-card-title>Nrf24l01+</mat-card-title>
+    </div>
+  </div>
+
+  <mat-card-content>
+    <form [formGroup]="nrfSettingsForm">
+      <mat-form-field>
+        <mat-select formControlName="Channel" placeholder="Channel">
+          <mat-option *ngFor="let channel of channels" [value]="channel">{{channel}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Datarate" formControlName="DataRate">
+          <mat-option value="RF24_250KBPS">250 kb/s</mat-option>
+          <mat-option value="RF24_1MBPS">1 Mb/s</mat-option>
+          <mat-option value="RF24_2MBPS">2 Mb/s</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="CRC Bytes" formControlName="CRCLength">
+          <mat-option value="RF24_CRC_DISABLED">Disabled</mat-option>
+          <mat-option value="RF24_CRC_8">8 Bit</mat-option>
+          <mat-option value="RF24_CRC_16">16 Bit</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Transmit Power" formControlName="PALevel">
+          <mat-option value="RF24_PA_MIN">-18dBm</mat-option>
+          <mat-option value="RF24_PA_LOW">-12dBm</mat-option>
+          <mat-option value="RF24_PA_HIGH">-6dBm</mat-option>
+          <mat-option value="RF24_PA_MAX">0dBm</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <div>
+      <h3>Test</h3>
+      <button *ngIf="!(transmitting$ | async)" mat-raised-button color="accent" (click)="startTest()">
+        <mat-icon>play_arrow</mat-icon> Start
+      </button>
+      <button *ngIf="(transmitting$ | async)" mat-raised-button color="accent" (click)="stopTest()">
+        <mat-icon>stop</mat-icon> Stop
+      </button>
+      <div class="plots">
+        <app-plot-yt [data]="(data$ | async)?.data"></app-plot-yt>
+        <app-stats-widget></app-stats-widget>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="accent" (click)="back()">Back</button>
+  </mat-card-actions>
+</mat-card>

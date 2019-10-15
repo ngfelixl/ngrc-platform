@@ -1,0 +1,9 @@
+<div class="toolbar mat-elevation-z4" [class.isLandscape]="isLandscape">
+  <mat-icon class="status">{{transmitting ? 'network_wifi_4_bar' : 'signal_wifi_off'}}</mat-icon>
+  <mat-icon class="status">{{batteryIcon}}</mat-icon>
+  <span></span>
+  <button mat-icon-button (click)="openMappingSelect.emit()">
+    <mat-icon [class.selected]="mapping">flight</mat-icon>
+  </button>
+  <button mat-icon-button (click)="openSidenav.emit()"><mat-icon>menu</mat-icon></button>
+</div>

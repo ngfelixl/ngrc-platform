@@ -6,7 +6,9 @@
     "start": "ng serve",
     "start:docs": "ng serve docs",
     "start:server": "ng serve server",
-    "build": "ng build",
+    "build": "ng build --prod",
+    "build:docs": "ng build --prod docs",
+    "build:server": "ng build --prod server",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
@@ -31,18 +33,30 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.0",
+    "@angular/cdk": "~8.2.3",
     "@angular/common": "~8.2.0",
     "@angular/compiler": "~8.2.0",
     "@angular/core": "~8.2.0",
     "@angular/forms": "~8.2.0",
+    "@angular/material": "^8.2.3",
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
+    "@ngrx/effects": "^8.4.0",
+    "@ngrx/entity": "^8.4.0",
+    "@ngrx/router-store": "^8.4.0",
+    "@ngrx/store": "^8.4.0",
+    "@ngrx/store-devtools": "^8.4.0",
     "@nrwl/angular": "8.6.0",
     "core-js": "^2.5.4",
+    "hammerjs": "^2.0.8",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "@nestjs/common": "^6.2.4",
+    "@nestjs/core": "^6.2.4",
+    "@nestjs/platform-express": "^6.2.4",
+    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.802.0",
@@ -73,6 +87,9 @@
     "ts-jest": "24.0.0",
     "cypress": "3.4.1",
     "@nrwl/cypress": "8.6.0",
-    "@nrwl/node": "8.6.0"
+    "@nrwl/node": "8.6.0",
+    "@nestjs/schematics": "^6.3.0",
+    "@nestjs/testing": "^6.2.4",
+    "@nrwl/nest": "8.6.0"
   }
 }

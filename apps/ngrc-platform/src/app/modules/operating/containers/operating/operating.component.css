@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  height: 100%;
+}
+
+.grid {
+  display: grid;
+  flex: 1;
+  grid-gap: 8px;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid.isLandscape {
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid > * {
+  background-color: #eee;
+  overflow: hidden;
+}

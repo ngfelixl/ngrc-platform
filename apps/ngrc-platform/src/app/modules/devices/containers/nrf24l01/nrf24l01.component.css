@@ -1,0 +1,36 @@
+.flex {
+  display: flex
+}
+
+.logo {
+  flex: 1;
+  padding: 0 8px 0 0;
+}
+
+.text {
+  flex: 3
+}
+
+img {
+  width: 100%;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-gap: 12px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.plots {
+  display: flex;
+  margin: 16px 0;
+}
+
+.plots > * {
+  flex: 1;
+  max-width: 200px;
+}

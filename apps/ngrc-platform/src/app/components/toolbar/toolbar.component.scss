@@ -1,0 +1,20 @@
+@import '../../../custom-theme.scss';
+
+:host { flex: 0 0 auto; }
+.toolbar {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  background-color: mat-color($primary);
+  color: white;
+  min-width: 64px;
+  padding: 12px;
+  height: 100%;
+  box-sizing: border-box;
+}
+.toolbar.isLandscape {
+  flex-direction: column;
+}
+span { flex: 1; }
+.status { margin: 8px; }
+.selected { color: #0f0; }

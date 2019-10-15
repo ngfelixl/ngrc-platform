@@ -1,0 +1,17 @@
+<mat-card *ngIf="!mapping">
+  <mat-card-content>
+    <h2>Select a mapping</h2>
+    <p>You need to select a mapping before you are able to control your device.</p>
+  </mat-card-content>
+</mat-card>
+<div class="grid" [class.isLandscape]="isLandscape$ | async" *ngIf="mapping" >
+  <div class="mat-elevation-z1"><app-plot-yt [data]="data$ | async"></app-plot-yt></div>
+  <div class="mat-elevation-z1"><app-stats-widget></app-stats-widget></div>
+  <div class="mat-elevation-z1"><app-ds-visualization></app-ds-visualization></div>
+  <div class="mat-elevation-z1">
+    <app-analog-stick-visualization [data]="dsLeft$ | async" xlabel="x Axis" ylabel="Aileron Left"></app-analog-stick-visualization>
+  </div>
+  <div class="mat-elevation-z1">
+    <app-analog-stick-visualization [data]="dsRight$ | async" xlabel="Aileron Left" ylabel="Elevator"></app-analog-stick-visualization>
+  </div>
+</div>
