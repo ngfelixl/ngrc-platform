@@ -23,7 +23,9 @@
               "apps/ngrc-platform/src/favicon.ico",
               "apps/ngrc-platform/src/assets"
             ],
-            "styles": ["apps/ngrc-platform/src/styles.css"],
+            "styles": [
+              "apps/ngrc-platform/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -61,7 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngrc-platform:build"
+            "browserTarget": "ngrc-platform:build",
+            "proxyConfig": "apps/ngrc-platform/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -86,7 +89,9 @@
               "apps/ngrc-platform/src/favicon.ico",
               "apps/ngrc-platform/src/assets"
             ],
-            "styles": ["apps/ngrc-platform/src/styles.css"],
+            "styles": [
+              "apps/ngrc-platform/src/styles.css"
+            ],
             "scripts": []
           }
         },
@@ -97,7 +102,9 @@
               "apps/ngrc-platform/tsconfig.app.json",
               "apps/ngrc-platform/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -122,7 +129,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/ngrc-platform-e2e/tsconfig.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -143,8 +152,13 @@
             "polyfills": "apps/docs/src/polyfills.ts",
             "tsConfig": "apps/docs/tsconfig.app.json",
             "aot": false,
-            "assets": ["apps/docs/src/favicon.ico", "apps/docs/src/assets"],
-            "styles": ["apps/docs/src/styles.css"],
+            "assets": [
+              "apps/docs/src/favicon.ico",
+              "apps/docs/src/assets"
+            ],
+            "styles": [
+              "apps/docs/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -203,7 +217,10 @@
               "apps/docs/tsconfig.app.json",
               "apps/docs/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/docs/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/docs/**"
+            ]
           }
         },
         "test": {
@@ -237,8 +254,72 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/docs-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/docs-e2e/**"]
+            "tsConfig": [
+              "apps/docs-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/docs-e2e/**"
+            ]
+          }
+        }
+      }
+    },
+    "server": {
+      "root": "apps/server",
+      "sourceRoot": "apps/server/src",
+      "projectType": "application",
+      "prefix": "server",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/server",
+            "main": "apps/server/src/main.ts",
+            "tsConfig": "apps/server/tsconfig.app.json",
+            "assets": [
+              "apps/server/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/server/src/environments/environment.ts",
+                  "with": "apps/server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "server:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/server/tsconfig.app.json",
+              "apps/server/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/server/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/server/jest.config.js",
+            "tsConfig": "apps/server/tsconfig.spec.json"
           }
         }
       }

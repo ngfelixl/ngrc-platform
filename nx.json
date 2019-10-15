@@ -9,15 +9,26 @@
   },
   "projects": {
     "ngrc-platform": {
-      "tags": []
+      "tags": [
+        "frontend"
+      ]
     },
     "ngrc-platform-e2e": {
-      "tags": []
+      "tags": [
+        "frontend"
+      ]
     },
     "docs-e2e": {
-      "tags": []
+      "tags": [
+        "docs"
+      ]
     },
     "docs": {
+      "tags": [
+        "docs"
+      ]
+    },
+    "server": {
       "tags": []
     }
   }

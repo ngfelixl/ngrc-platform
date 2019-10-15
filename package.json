@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:docs": "ng serve docs",
+    "start:server": "ng serve server",
     "build": "ng build",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
@@ -37,12 +38,11 @@
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
-    "@nrwl/workspace": "^8.6.0",
+    "@nrwl/angular": "8.6.0",
+    "core-js": "^2.5.4",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "@nrwl/angular": "8.6.0",
-    "core-js": "^2.5.4"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.802.0",
@@ -72,6 +72,7 @@
     "@types/jest": "24.0.9",
     "ts-jest": "24.0.0",
     "cypress": "3.4.1",
-    "@nrwl/cypress": "8.6.0"
+    "@nrwl/cypress": "8.6.0",
+    "@nrwl/node": "8.6.0"
   }
 }
