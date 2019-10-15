@@ -4,10 +4,28 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:docs": "ng serve docs",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "nx workspace-lint && ng lint",
+    "e2e": "ng e2e",
+    "nx": "nx",
+    "affected:apps": "nx affected:apps",
+    "affected:libs": "nx affected:libs",
+    "affected:build": "nx affected:build",
+    "affected:e2e": "nx affected:e2e",
+    "affected:test": "nx affected:test",
+    "affected:lint": "nx affected:lint",
+    "affected:dep-graph": "nx affected:dep-graph",
+    "affected": "nx affected",
+    "format": "nx format:write",
+    "format:write": "nx format:write",
+    "format:check": "nx format:check",
+    "update": "ng update @nrwl/workspace",
+    "update:check": "ng update",
+    "dep-graph": "nx dep-graph",
+    "workspace-schematic": "nx workspace-schematic",
+    "help": "nx help"
   },
   "private": true,
   "dependencies": {
@@ -19,9 +37,12 @@
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
+    "@nrwl/workspace": "^8.6.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "@nrwl/angular": "8.6.0",
+    "core-js": "^2.5.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.802.0",
@@ -42,6 +63,15 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "@nrwl/workspace": "8.6.0",
+    "prettier": "1.18.2",
+    "jest-preset-angular": "7.0.0",
+    "@nrwl/jest": "8.6.0",
+    "jest": "24.1.0",
+    "@types/jest": "24.0.9",
+    "ts-jest": "24.0.0",
+    "cypress": "3.4.1",
+    "@nrwl/cypress": "8.6.0"
   }
 }

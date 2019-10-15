@@ -1,0 +1,24 @@
+{
+  "npmScope": "ngrc-platform",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "ngrc-platform": {
+      "tags": []
+    },
+    "ngrc-platform-e2e": {
+      "tags": []
+    },
+    "docs-e2e": {
+      "tags": []
+    },
+    "docs": {
+      "tags": []
+    }
+  }
+}

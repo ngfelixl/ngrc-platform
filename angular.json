@@ -1,39 +1,37 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "newProjectRoot": "",
   "projects": {
     "ngrc-platform": {
       "projectType": "application",
       "schematics": {},
-      "root": "",
-      "sourceRoot": "src",
+      "root": "apps/ngrc-platform",
+      "sourceRoot": "apps/ngrc-platform/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngrc-platform",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "outputPath": "dist/apps/ngrc-platform",
+            "index": "apps/ngrc-platform/src/index.html",
+            "main": "apps/ngrc-platform/src/main.ts",
+            "polyfills": "apps/ngrc-platform/src/polyfills.ts",
+            "tsConfig": "apps/ngrc-platform/tsconfig.app.json",
             "aot": false,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/ngrc-platform/src/favicon.ico",
+              "apps/ngrc-platform/src/assets"
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["apps/ngrc-platform/src/styles.css"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "apps/ngrc-platform/src/environments/environment.ts",
+                  "with": "apps/ngrc-platform/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -80,17 +78,15 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
+            "main": "apps/ngrc-platform/src/test.ts",
+            "polyfills": "apps/ngrc-platform/src/polyfills.ts",
+            "tsConfig": "apps/ngrc-platform/tsconfig.spec.json",
+            "karmaConfig": "apps/ngrc-platform/karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/ngrc-platform/src/favicon.ico",
+              "apps/ngrc-platform/src/assets"
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["apps/ngrc-platform/src/styles.css"],
             "scripts": []
           }
         },
@@ -98,19 +94,22 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "apps/ngrc-platform/tsconfig.app.json",
+              "apps/ngrc-platform/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
-        },
+        }
+      }
+    },
+    "ngrc-platform-e2e": {
+      "projectType": "application",
+      "root": "apps/ngrc-platform-e2e",
+      "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
+            "protractorConfig": "apps/ngrc-platform-e2e/protractor.conf.js",
             "devServerTarget": "ngrc-platform:serve"
           },
           "configurations": {
@@ -118,8 +117,144 @@
               "devServerTarget": "ngrc-platform:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/ngrc-platform-e2e/tsconfig.json",
+            "exclude": ["**/node_modules/**"]
+          }
         }
       }
-    }},
-  "defaultProject": "ngrc-platform"
+    },
+    "docs": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/docs",
+      "sourceRoot": "apps/docs/src",
+      "prefix": "ngrc-platform",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/docs",
+            "index": "apps/docs/src/index.html",
+            "main": "apps/docs/src/main.ts",
+            "polyfills": "apps/docs/src/polyfills.ts",
+            "tsConfig": "apps/docs/tsconfig.app.json",
+            "aot": false,
+            "assets": ["apps/docs/src/favicon.ico", "apps/docs/src/assets"],
+            "styles": ["apps/docs/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/docs/src/environments/environment.ts",
+                  "with": "apps/docs/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "docs:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "docs:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "docs:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/docs/tsconfig.app.json",
+              "apps/docs/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/docs/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/docs/jest.config.js",
+            "tsConfig": "apps/docs/tsconfig.spec.json",
+            "setupFile": "apps/docs/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "docs-e2e": {
+      "root": "apps/docs-e2e",
+      "sourceRoot": "apps/docs-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/docs-e2e/cypress.json",
+            "tsConfig": "apps/docs-e2e/tsconfig.e2e.json",
+            "devServerTarget": "docs:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "docs:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/docs-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/docs-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngrc-platform",
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  }
 }
