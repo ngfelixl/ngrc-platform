@@ -11,16 +11,21 @@ export const getMappingsState = createSelector(
   (configuration) => configuration.mappings
 );
 
-export const getSelectedMapping = createSelector(
+export const getSelectedMappingId = createSelector(
   getMappingsState,
   (mappings) => mappings.selectedMapping
 );
-
 
 export const {
   selectEntities: selectMappingsEntities,
   selectAll: selectAllMappings
 } = fromMappings.adapter.getSelectors(getMappingsState);
+
+export const getSelectedMapping = createSelector(
+  getSelectedMappingId,
+  selectMappingsEntities,
+  (id, mappings) => mappings[id]
+);
 
 export const getMappings = createSelector(
   selectAllMappings,

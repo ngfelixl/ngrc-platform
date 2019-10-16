@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
 
@@ -7,8 +7,10 @@ import { MappingsService } from '../../services/mappings.service';
 import { SocketService } from '../../../../services/socket.service';
 
 import * as fromRoot from '../../../../+store';
-import * as fromFeature from '../actions';
 import { Store } from '@ngrx/store';
+import { loadMappings, loadMappingsSuccess, loadMappingsFailed, addMapping,
+  selectMapping, addMappingSuccess, addMappingFailed, updateMapping, updateMappingSuccess,
+  updateMappingFailed, deleteMapping, deleteMappingSuccess, deleteMappingFailed } from '../actions';
 
 @Injectable()
 export class MappingsEffects {
@@ -19,67 +21,64 @@ export class MappingsEffects {
     private store: Store<fromRoot.State>
   ) {}
 
-  @Effect()
-  loadMappings$ = this.actions$.pipe(
-    ofType(fromFeature.MappingsActionTypes.Load),
-    switchMap((action) => {
+  loadMappings$ = createEffect(() => this.actions$.pipe(
+    ofType(loadMappings),
+    switchMap(() => {
       return this.mappingsService.getMappings().pipe(
-        map(mappings => new fromFeature.LoadMappingsSuccess(mappings)),
-        catchError(error => of(new fromFeature.LoadMappingsFailed(error)))
+        map(mappings => loadMappingsSuccess({ mappings })),
+        catchError(error => of(loadMappingsFailed({ error })))
       );
     })
-  );
+  ));
 
-  @Effect()
-  addMapping$ = this.actions$.pipe(
-      ofType(fromFeature.MappingsActionTypes.Add),
-      withLatestFrom(this.store.select(fromRoot.getModelId)),
-      switchMap(([action, id]) => {
-        const temp = (action as any).payload;
-        temp.model_id = id;
-        return this.mappingsService.add(temp).pipe(
-          map(mapping => {
-            this.store.dispatch(new fromFeature.SelectMapping(mapping));
-            return new fromFeature.AddMappingSuccess(mapping);
-          }),
-          catchError(error => of(new fromFeature.AddMappingFailed(error)))
-        );
-      })
-    );
-
-    @Effect()
-    updateMapping$ = this.actions$.pipe(
-        ofType(fromFeature.MappingsActionTypes.Update),
-        switchMap((action: fromFeature.UpdateMapping) => {
-          return this.mappingsService.update(action.payload).pipe(
-            map((mapping) => {
-              this.store.dispatch(new fromFeature.SelectMapping(mapping));
-              return new fromFeature.UpdateMappingSuccess(mapping);
-            }),
-            catchError(error => of(new fromFeature.UpdateMappingFailed(error)))
-          );
-        })
+  addMapping$ = createEffect(() => this.actions$.pipe(
+    ofType(addMapping),
+    withLatestFrom(this.store.select(fromRoot.getModelId)),
+    switchMap(([action, id]) => {
+      const temp = (action as any).payload;
+      temp.model_id = id;
+      return this.mappingsService.add(temp).pipe(
+        map(mapping => addMappingSuccess({ mapping })),
+        catchError(error => of(addMappingFailed(error)))
       );
+    })
+  ));
 
-  @Effect()
-  deleteMapping$ = this.actions$
-    .pipe(
-      ofType(fromFeature.MappingsActionTypes.Delete),
-      switchMap((action: fromFeature.DeleteMapping) => {
-        return this.mappingsService.delete(action.payload).pipe(
-          map(() => new fromFeature.DeleteMappingSuccess()),
-          catchError(error => of(new fromFeature.DeleteMappingFailed(error)))
-        );
-      })
-    );
+  addMappingSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(addMappingSuccess),
+    map(({ mapping }) => selectMapping({id: mapping.id}))
+  ));
 
-  @Effect({ dispatch: false })
-  selectMapping$ = this.actions$
-    .pipe(
-      ofType(fromFeature.MappingsActionTypes.SelectMapping),
-      switchMap((action: fromFeature.SelectMapping) => {
-        this.socketService.emit('[Mapper] Set Mapping', action.payload);
-        return of();
-      })
-    );
+  updateMappingSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(updateMappingSuccess),
+    map(({ id }) => selectMapping({ id }))
+  ));
+
+  updateMapping$ = createEffect(() => this.actions$.pipe(
+    ofType(updateMapping),
+    switchMap((changes) => {
+      return this.mappingsService.update(changes).pipe(
+        map(() => updateMappingSuccess(changes)),
+        catchError(error => of(updateMappingFailed({ error })))
+      );
+    })
+  ));
+
+  deleteMapping$ = createEffect(() => this.actions$.pipe(
+    ofType(deleteMapping),
+    switchMap(({ id }) => {
+      return this.mappingsService.delete(id).pipe(
+        map(() => deleteMappingSuccess()),
+        catchError(error => of(deleteMappingFailed({ error })))
+      );
+    })
+  ));
+
+  selectMapping$ = createEffect(() => this.actions$.pipe(
+    ofType(selectMapping),
+    switchMap(({ id }) => {
+      this.socketService.emit('[Mapper] Set Mapping', id);
+      return of();
+    })
+  ), { dispatch: false });
 }

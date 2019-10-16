@@ -1,107 +1,70 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { Mapping } from '../../models/mapping';
 
-export enum MappingsActionTypes {
-  Load = '[Configuration] Mappings Load',
-  LoadSuccess = '[Configuration] Mappings Load Success',
-  LoadFailed = '[Configuration] Mappings Load Failed',
 
-  Add = '[Configuration] Mapping Add',
-  AddSuccess = '[Configuration] Mapping Add Success',
-  AddFailed = '[Configuration] Mapping Add Failed',
+export const loadMappings = createAction(
+  '[Configuration] Load Mappings'
+);
 
-  Delete = '[Configuration] Mapping Delete',
-  DeleteSuccess = '[Configuration] Mapping Delete Success',
-  DeleteFailed = '[Configuration] Mapping Delete Failed',
+export const loadMappingsSuccess = createAction(
+  '[Configuration] Load Mappings Success',
+  props<{ mappings: Mapping[] }>()
+);
 
-  Update = '[Configuration] Mapping Update',
-  UpdateSuccess = '[Configuration] Mapping Update Success',
-  UpdateFailed = '[Configuration] Mapping Update Failed',
+export const loadMappingsFailed = createAction(
+  '[Configuration] Load Mappings Failed',
+  props<{ error: any }>()
+);
 
-  SelectMapping = '[Configuration] Select Mapping',
-  ClearMapping = '[Configuration] Clear Mapping'
-}
+export const addMapping = createAction(
+  '[Configuration] Add Mapping',
+  props<{ mapping: Mapping }>()
+);
 
+export const addMappingSuccess = createAction(
+  '[Configuration] Add Mapping Success',
+  props<{ mapping: Mapping }>()
+);
 
-export class LoadMappings implements Action {
-  readonly type = MappingsActionTypes.Load;
-}
+export const addMappingFailed = createAction(
+  '[Configuration] Add Mapping Failed',
+  props<{ error: any }>()
+);
 
-export class LoadMappingsSuccess implements Action {
-  readonly type = MappingsActionTypes.LoadSuccess;
-  constructor(public payload: Mapping[]) {}
-}
+export const deleteMapping = createAction(
+  '[Configuration] Delete Mapping',
+  props<{ id: string }>()
+);
 
-export class LoadMappingsFailed implements Action {
-  readonly type = MappingsActionTypes.LoadFailed;
-  constructor(public payload: any) {}
-}
+export const deleteMappingSuccess = createAction(
+  '[Configuration] Delete Mapping Success'
+);
 
-export class AddMapping implements Action {
-  readonly type = MappingsActionTypes.Add;
-  constructor(public payload: Mapping) {}
-}
+export const deleteMappingFailed = createAction(
+  '[Configuration] Delete Mapping Error',
+  props<{ error: any }>()
+);
 
-export class AddMappingSuccess implements Action {
-  readonly type = MappingsActionTypes.AddSuccess;
-  constructor(public payload: Mapping) {}
-}
+export const selectMapping = createAction(
+  '[Configuration] Select Mapping',
+  props<{ id: string }>()
+);
 
-export class AddMappingFailed implements Action {
-  readonly type = MappingsActionTypes.AddFailed;
-  constructor(public payload: any) {}
-}
+export const clearMapping = createAction(
+  '[Configuration] Clear Mapping'
+);
 
-export class DeleteMapping implements Action {
-  readonly type = MappingsActionTypes.Delete;
-  constructor(public payload: string) {}
-}
+export const updateMapping = createAction(
+  '[Configuration] Update Mapping',
+  props<{ id: string, changes: Partial<Mapping> }>()
+);
 
-export class DeleteMappingSuccess implements Action {
-  readonly type = MappingsActionTypes.DeleteSuccess;
-}
+export const updateMappingSuccess = createAction(
+  '[Configuration] Update Mapping Success',
+  props<{ id: string, changes: Partial<Mapping> }>()
+);
 
-export class DeleteMappingFailed implements Action {
-  readonly type = MappingsActionTypes.DeleteFailed;
-  constructor(public payload: any) {}
-}
-
-export class SelectMapping implements Action {
-  readonly type = MappingsActionTypes.SelectMapping;
-  constructor(public payload: Mapping) {}
-}
-
-export class ClearMapping implements Action {
-  readonly type = MappingsActionTypes.ClearMapping;
-}
-
-export class UpdateMapping implements Action {
-  readonly type = MappingsActionTypes.Update;
-  constructor(public payload: Mapping) {}
-}
-
-export class UpdateMappingSuccess implements Action {
-  readonly type = MappingsActionTypes.UpdateSuccess;
-  constructor(public payload: Mapping) {}
-}
-
-export class UpdateMappingFailed implements Action {
-  readonly type = MappingsActionTypes.UpdateFailed;
-  constructor(public payload: any) {}
-}
-
-export type MappingsActions =
-  LoadMappings |
-  LoadMappingsSuccess |
-  LoadMappingsFailed |
-  AddMapping |
-  AddMappingSuccess |
-  AddMappingFailed |
-  DeleteMapping |
-  DeleteMappingSuccess |
-  DeleteMappingFailed |
-  UpdateMapping |
-  UpdateMappingSuccess |
-  UpdateMappingFailed |
-  SelectMapping |
-  ClearMapping;
+export const updateMappingFailed = createAction(
+  '[Configuration] Update Mapping Failed',
+  props<{ error: any }>()
+);

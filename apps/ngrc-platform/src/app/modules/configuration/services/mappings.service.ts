@@ -22,8 +22,8 @@ export class MappingsService {
     return this.http.post<Mapping>(`${environment.api}/mappings`, mapping);
   }
 
-  update(mapping: Mapping): Observable<Mapping> {
-    return this.http.put<Mapping>(`${environment.api}/mappings/${mapping.id}`, mapping);
+  update(update: { id: string, changes: Partial<Mapping> }): Observable<Mapping> {
+    return this.http.put<Mapping>(`${environment.api}/mappings/${update.id}`, update.changes);
   }
 
   delete(id: string): Observable<any> {

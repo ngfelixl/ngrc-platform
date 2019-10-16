@@ -1,43 +1,31 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, createReducer, on, Action } from '@ngrx/store';
 import { createEntityAdapter, EntityState, EntityAdapter } from '@ngrx/entity';
 
-import { MappingsActions, MappingsActionTypes } from '../actions';
 import { Mapping } from '../../models/mapping';
-import * as fromRoot from '../../../../+store/reducers';
+import { loadMappingsSuccess, addMappingSuccess, updateMappingSuccess, selectMapping, clearMapping, deleteMapping } from '../actions';
 
 export const adapter: EntityAdapter<Mapping> = createEntityAdapter<Mapping>({
   selectId: mapping => mapping.id,
   sortComparer: (mappingA, mappingB) => mappingA.title.localeCompare(mappingB.title)
 });
 
-export interface State extends EntityState<Mapping> {
-  selectedMapping: Mapping;
+export interface MappingsState extends EntityState<Mapping> {
+  selectedMapping: string;
 }
 const initialState = adapter.getInitialState({
   selectedMapping: null
 });
 
-export function reducer(state = initialState, action: MappingsActions): State {
-  switch (action.type) {
+const mappingsReducer = createReducer(
+  initialState,
+  on(loadMappingsSuccess, (state, { mappings }) => adapter.addAll(mappings, state)),
+  on(addMappingSuccess, (state, { mapping }) => adapter.addOne(mapping, state)),
+  on(updateMappingSuccess, (state, changes) => adapter.updateOne(changes, state)),
+  on(selectMapping, (state, { id }) => ({...state, selectedMapping: id })),
+  on(clearMapping, (state) => ({...state, selectedMapping: null})),
+  on(deleteMapping, (state, { id }) => adapter.removeOne(id, state))
+);
 
-    case MappingsActionTypes.LoadSuccess:
-      return adapter.addAll(action.payload, state);
-
-    case MappingsActionTypes.AddSuccess:
-      return adapter.addOne(action.payload, state);
-
-    case MappingsActionTypes.UpdateSuccess:
-      return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
-
-    case MappingsActionTypes.SelectMapping:
-      return {...state, selectedMapping: action.payload};
-
-    case MappingsActionTypes.ClearMapping:
-      return {...state, selectedMapping: null };
-
-    case MappingsActionTypes.Delete:
-      return adapter.removeOne(action.payload, state);
-
-    default: return state;
-  }
+export function reducer(state: MappingsState, action: Action) {
+  return mappingsReducer(state, action);
 }

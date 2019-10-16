@@ -6,7 +6,7 @@ import { EntityState } from '@ngrx/entity';
 import { Model } from '../../models/model';
 
 export interface State {
-  mappings: fromMappings.State;
+  mappings: fromMappings.MappingsState;
   models: fromModels.State;
 }
 

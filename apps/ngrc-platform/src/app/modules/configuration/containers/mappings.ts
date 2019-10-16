@@ -6,6 +6,7 @@ import * as fromFeature from '../+store';
 import { Model, Mapping } from '../models';
 import { Observable, of } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { loadMappings, selectMapping, updateMapping, addMapping, clearMapping, deleteMapping } from '../+store';
 
 @Component({
   template: `
@@ -36,7 +37,7 @@ export class MappingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new fromFeature.LoadModels());
-    this.store.dispatch(new fromFeature.LoadMappings());
+    this.store.dispatch(loadMappings());
     this.model$ = this.store.select(fromFeature.getSelectedModel);
     this.mappings$ = this.store.select(fromFeature.getMappings);
     this.mapping$ = this.store.select(fromFeature.getSelectedMapping).pipe(
@@ -51,21 +52,21 @@ export class MappingsComponent implements OnInit {
   }
 
   selectMapping(mapping: Mapping): void {
-    this.store.dispatch(new fromFeature.SelectMapping(mapping));
+    this.store.dispatch(selectMapping({ id: mapping.id }));
   }
 
   save(mapping: Mapping) {
     if (mapping.id) {
-      this.store.dispatch(new fromFeature.UpdateMapping(mapping));
+      this.store.dispatch(updateMapping({id: mapping.id, changes: mapping}));
     } else {
-      this.store.dispatch(new fromFeature.AddMapping(mapping));
+      this.store.dispatch(addMapping({ mapping }));
     }
   }
 
-  delete(mappingId: string): void {
-    if (mappingId) {
-      this.store.dispatch(new fromFeature.ClearMapping());
-      this.store.dispatch(new fromFeature.DeleteMapping(mappingId));
+  delete(id: string): void {
+    if (id) {
+      this.store.dispatch(clearMapping());
+      this.store.dispatch(deleteMapping({ id }));
     } else {
       this.store.dispatch(new fromFeature.DeleteModel());
     }

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromConfiguration from '../../modules/configuration/+store';
 import { Model, Mapping } from '../../modules/configuration/models';
 import { Observable, Subscription } from 'rxjs';
+import { loadMappings, selectMapping } from '../../modules/configuration/+store';
 
 @Component({
   templateUrl: './mapping-select-dialog.component.html',
@@ -26,7 +27,7 @@ export class MappingSelectDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new fromConfiguration.LoadModels());
-    this.store.dispatch(new fromConfiguration.LoadMappings());
+    this.store.dispatch(loadMappings());
     this.models$ = this.store.select(fromConfiguration.selectAllModels);
     this.mapping$ = this.store.select(fromConfiguration.getSelectedMapping);
     this.subscription = this.store.select(fromConfiguration.selectAllMappings).subscribe(mappings => {
@@ -36,7 +37,7 @@ export class MappingSelectDialogComponent implements OnInit, OnDestroy {
 
   select(mappingId: string) {
     const mapping = this.mappings.filter(o => o.id === mappingId)[0];
-    this.store.dispatch(new fromConfiguration.SelectMapping(mapping));
+    this.store.dispatch(selectMapping({ id: mapping.id }));
     this.dialogRef.close();
   }
 

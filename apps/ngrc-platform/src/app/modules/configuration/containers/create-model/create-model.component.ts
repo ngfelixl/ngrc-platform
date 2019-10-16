@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromFeature from '../../+store';
 import { Model } from '../../models/model';
+import { clearMapping } from '../../+store';
 
 @Component({
   templateUrl: './create-model.component.html',
@@ -50,7 +51,7 @@ export class CreateModelComponent {
   }
 
   save(model: Model) {
-    this.store.dispatch(new fromFeature.ClearMapping());
+    this.store.dispatch(clearMapping());
     this.store.dispatch(new fromFeature.AddModel(model));
   }
 
