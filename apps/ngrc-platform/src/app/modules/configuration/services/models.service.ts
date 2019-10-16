@@ -31,7 +31,6 @@ export class ModelsService {
   }
 
   delete(id: string): Observable<any> {
-    console.log(id);
     return this.http.delete(`${environment.api}/models/${id}`);
   }
 }

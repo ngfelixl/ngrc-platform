@@ -60,7 +60,6 @@ export class ConfigFormComponent implements OnChanges {
       this.mappingForm.patchValue(this.mapping);
       this.mappingForm.setControl('slots', this.fb.array(
         this.mapping.slots.map(data => {
-          console.log(data.copy);
           const slot = {
             ...data,
             range: this.fb.group(data.range),

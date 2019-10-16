@@ -51,7 +51,6 @@ export class AppComponent implements OnInit {
     this.socketService.listen('[Dualshock] Connection Changed').subscribe(isConnected => {
       this.store.dispatch(setDualshockConnection({ isConnected }));
     });
-    this.store.select(fromDevices.getNrfState).subscribe(data => console.log(data));
     this.store.dispatch(new fromDevices.GetNrfConfig());
 
 

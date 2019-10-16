@@ -70,7 +70,7 @@ export class PlotYtComponent implements OnInit {
       Math.min(...flat, this.minYRange[0]),
       Math.max(...flat, this.minYRange[1])
     ];
-    // console.log(this.yRange);
+
     if (this.dataArray[0]) {
       for (let i = 0; i < this.dataArray[0].length; i++) {
         this.ctx.beginPath();

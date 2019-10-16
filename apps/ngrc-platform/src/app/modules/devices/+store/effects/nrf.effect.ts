@@ -31,7 +31,6 @@ export class NrfEffects {
     .pipe(
       ofType(fromFeature.NrfActionTypes.SetConfig),
       switchMap((action: fromFeature.NrfSetConfig) => {
-        console.log(action.payload);
         return this.socketService.request('[Nrf] Set Config', action.payload).pipe(
           map((config: NrfState) => new fromFeature.NrfSetConfigSuccess(config)),
           catchError((error) => of(new fromFeature.NrfSetConfigFailed(error)))

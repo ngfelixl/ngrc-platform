@@ -21,7 +21,6 @@ export class CustomRouterStateSerializer
   implements RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     let route = routerState.root;
-    console.log(route);
     const idParams = {};
 
     while (route.firstChild) {

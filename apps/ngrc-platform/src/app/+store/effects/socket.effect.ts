@@ -23,7 +23,6 @@ export class SocketEffect {
     withLatestFrom(this.store.select(getSocketListeners)),
     switchMap(([action, listeners]) => {
       const listener = (action as any).payload;
-      console.log('Try to register listener', listeners, listener);
       if (!this.socketService.hasListener(listener)) {
         return this.socketService.listen(listener).pipe(
           map(data => newSocketData({ listener, data })),
