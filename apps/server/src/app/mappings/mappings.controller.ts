@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { Mapping } from '../models';
+import { Mapping } from '../../models';
 
 @Controller('mappings')
 export class MappingsController {
