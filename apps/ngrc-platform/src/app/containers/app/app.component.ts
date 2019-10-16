@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material';
 import { MappingSelectDialogComponent } from '../mapping-select-dialog/mapping-select-dialog.component';
 import { Mapping } from '../../modules/configuration/models';
 import { setDualshockConnection } from '../../modules/devices/+store';
+import { closeMappingSelect, closeSidenav, openSidenav, openMappingSelect, checkOrientation } from '../../+store';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:orientationchange', ['$event'])
   onResize() {
-    this.store.dispatch(new fromFeature.CheckOrientation());
+    this.store.dispatch(checkOrientation());
   }
 
   constructor(
@@ -68,11 +69,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openMappingSelect() { this.store.dispatch(new fromFeature.OpenMappingSelect()); }
-  closeMappingSelect() { this.store.dispatch(new fromFeature.CloseMappingSelect()); }
+  openMappingSelect() { this.store.dispatch(openMappingSelect()); }
+  closeMappingSelect() { this.store.dispatch(closeMappingSelect()); }
 
-  openSidenav() { this.store.dispatch(new fromFeature.OpenSidenav()); }
-  closeSidenav() { this.store.dispatch(new fromFeature.CloseSidenav()); }
+  openSidenav() { this.store.dispatch(openSidenav()); }
+  closeSidenav() { this.store.dispatch(closeSidenav()); }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(MappingSelectDialogComponent, {
@@ -80,7 +81,7 @@ export class AppComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.store.dispatch(new fromFeature.CloseMappingSelect());
+      this.store.dispatch(closeMappingSelect());
     });
   }
 

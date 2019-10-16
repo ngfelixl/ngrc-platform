@@ -1,34 +1,22 @@
-import * as fromNavigation from '../actions/navigation';
+import { createReducer, on, Action } from '@ngrx/store';
+import { navigateUp, navigateDown } from '../actions';
 
 
-export interface State {
+export interface NavigationState {
   sidenavItemSelected: number;
 }
 
-const initialState: State = {
+const initialState: NavigationState = {
   sidenavItemSelected: 0
 };
 
-export function reducer(state: State = initialState, action: fromNavigation.NavigationAction): State {
-  switch (action.type) {
-    case fromNavigation.NAVIGATE_UP: {
-      if (state.sidenavItemSelected > 0) {
-        return {...state, sidenavItemSelected: state.sidenavItemSelected - 1 };
-      } else {
-        return state;
-      }
-    }
+const navigationReducer = createReducer(
+  initialState,
+  on(navigateUp, (state) => ({...state, sidenavItemSelected: Math.max(state.sidenavItemSelected - 1, 0)})),
+  on(navigateDown, (state) => ({...state, sidenavItemSelected: Math.min(state.sidenavItemSelected + 1, 3)}))
+);
 
-    case fromNavigation.NAVIGATE_DOWN: {
-      if (state.sidenavItemSelected < 3) {
-        return {...state, sidenavItemSelected: state.sidenavItemSelected + 1 };
-      } else {
-        return state;
-      }
-    }
-
-    default: return state;
-  }
+export function reducer(state: NavigationState = initialState, action: Action): NavigationState {
+  return navigationReducer(state, action);
 }
 
-export const getSidenavItemSelected = (state: State) => state.sidenavItemSelected;

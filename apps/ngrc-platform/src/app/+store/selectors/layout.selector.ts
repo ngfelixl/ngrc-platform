@@ -1,17 +1,19 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import * as fromRoot from '../reducers';
+import { LayoutState } from '../reducers/layout.reducer';
 
-// export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>('router');
-
-// const getLayoutState = createFeatureSelector<fromRoot.State>('layout');
-
+export const getLayoutState = createFeatureSelector<LayoutState>('layout');
 
 export const getMappingSelectDialog = createSelector(
-  fromRoot.getLayoutState,
+  getLayoutState,
   layout => layout.showMappingSelect
 );
 
 export const isLandscape = createSelector(
-  fromRoot.getLayoutState,
+  getLayoutState,
   layout => layout.isLandscape
+);
+
+export const getShowSidenav = createSelector(
+  getLayoutState,
+  (state) => state.showSidenav
 );

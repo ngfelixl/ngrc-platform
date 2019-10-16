@@ -1,50 +1,50 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
-
-import * as fromRoot from '../reducers';
-import * as fromSocket from '../actions/socket';
-import * as fromSelectors from '../selectors/socket.selector';
-import { switchMap, withLatestFrom, catchError, map } from 'rxjs/operators';
-
-import { SocketService } from '../../services/socket.service';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+
+import { switchMap, withLatestFrom, catchError, map } from 'rxjs/operators';
+import { of, EMPTY } from 'rxjs';
+
+import { SocketState } from '../reducers/socket.reducer';
+import { addSocketListener, newSocketData, removeSocketListener } from '../actions';
+import { getSocketListeners } from '../selectors';
+import { SocketService } from '../../services/socket.service';
 
 @Injectable()
 export class SocketEffect {
   constructor(
     private actions$: Actions,
     private socketService: SocketService,
-    private store: Store<fromRoot.State>
+    private store: Store<SocketState>
   ) {}
 
-  @Effect()
-  addListener$ = this.actions$.pipe(
-      ofType(fromSocket.SocketActionTypes.AddListener),
-      withLatestFrom(this.store.select(fromSelectors.getSocketListeners)),
-      switchMap(([action, listeners]) => {
-        const listenTo = (action as any).payload;
-        console.log('Try to register listener', listeners, listenTo);
-        if (!this.socketService.hasListener(listenTo)) {
-          return this.socketService.listen(listenTo).pipe(
-            map(data => new fromSocket.OnSocketData(listenTo, data)),
-            catchError(error => of(error))
-          );
-        }
-        return of();
-      })
-    );
 
-  @Effect({dispatch: false})
-  removeListener$ = this.actions$.pipe(
-      ofType(fromSocket.SocketActionTypes.RemoveListener),
-      withLatestFrom(this.store.select(fromSelectors.getSocketListeners)),
-      switchMap(([action, listeners]) => {
-        const listenTo = (action as any).payload;
-        if (!listeners[listenTo]) {
-          this.socketService.off(listenTo);
-        }
-        return of();
-      })
-    );
+
+  addListener$ = createEffect(() => this.actions$.pipe(
+    ofType(addSocketListener),
+    withLatestFrom(this.store.select(getSocketListeners)),
+    switchMap(([action, listeners]) => {
+      const listener = (action as any).payload;
+      console.log('Try to register listener', listeners, listener);
+      if (!this.socketService.hasListener(listener)) {
+        return this.socketService.listen(listener).pipe(
+          map(data => newSocketData({ listener, data })),
+          catchError(error => of(error))
+        );
+      }
+      return EMPTY;
+    })
+  ));
+
+  removeListener$ = createEffect(() => this.actions$.pipe(
+    ofType(removeSocketListener),
+    withLatestFrom(this.store.select(getSocketListeners)),
+    switchMap(([action, listeners]) => {
+      const listenTo = (action as any).payload;
+      if (!listeners[listenTo]) {
+        this.socketService.off(listenTo);
+      }
+      return of();
+    })
+  ), { dispatch: false });
 }

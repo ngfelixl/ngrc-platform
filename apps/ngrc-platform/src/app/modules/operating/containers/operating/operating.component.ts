@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { Subscription ,  Observable } from 'rxjs';
 
@@ -9,6 +9,7 @@ import * as fromConfiguration from '../../../configuration/store';
 import * as fromDevices from '../../../devices/+store';
 import { Controller } from '../../../devices/models/controller';
 import { Mapping } from '../../../configuration/models/mapping';
+import { openMappingSelect, addSocketListener, removeSocketListener } from '../../../../+store';
 
 @Component({
   templateUrl: './operating.component.html',
@@ -29,11 +30,11 @@ export class OperatingComponent implements OnDestroy {
     this.isLandscape$ = this.store.select(fromRoot.isLandscape);
     this.subscription = this.store.select(fromConfiguration.getSelectedMapping).subscribe(mapping => {
       if (!mapping) {
-        this.store.dispatch(new fromRoot.OpenMappingSelect());
+        this.store.dispatch(openMappingSelect());
       } else {
         this.mapping = mapping;
         this.store.dispatch(new fromDevices.NrfStartTransmission());
-        this.store.dispatch(new fromRoot.AddListener('[Nrf] Transmit Data'));
+        this.store.dispatch(addSocketListener({ key: '[Nrf] Transmit Data' }));
         this.data$ = this.socketService.listen('[Nrf] Transmit Data');
         this.dsData$ = this.store.select(fromDevices.getDsData);
       }
@@ -43,6 +44,6 @@ export class OperatingComponent implements OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.store.dispatch(new fromDevices.NrfStopTransmission());
-    this.store.dispatch(new fromRoot.RemoveListener('[Nrf] Transmit Data'));
+    this.store.dispatch(removeSocketListener({ key: '[Nrf] Transmit Data' }));
   }
 }

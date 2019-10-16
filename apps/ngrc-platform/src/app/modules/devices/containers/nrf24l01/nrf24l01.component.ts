@@ -8,6 +8,7 @@ import { distinctUntilChanged, skip, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../+store';
 import * as fromFeature from '../../+store';
+import { addSocketListener } from '../../../../+store';
 
 @Component({
   templateUrl: './nrf24l01.component.html',
@@ -68,7 +69,7 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
 
   startTest() {
     this.store.dispatch(new fromFeature.NrfStartTest());
-    this.store.dispatch(new fromRoot.AddListener('[Nrf] Transmit Data'));
+    this.store.dispatch(addSocketListener({ key: '[Nrf] Transmit Data' }));
     this.data$ = this.store.select(fromRoot.getSocketListeners).pipe(map(o => o['[Nrf] Transmit Data']));
   }
 

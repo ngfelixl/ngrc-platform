@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { SocketService } from '../../../services/socket.service';
 
 import * as fromRoot from '../../../+store';
-import * as fromDevices from '../+store';
 
 // import { ToggleSidenav, CloseSidenav } from '../../core/store/actions/layout';
 // import { NavigateUp, NavigateDown, NavigateSelect } from '../../core/store/actions/navigation';
@@ -14,6 +13,7 @@ import * as fromDevices from '../+store';
 // import { getSidenavItemSelected } from '../../core/store/reducers';
 import { Subscription } from 'rxjs';
 import { setDualshockBattery } from '../+store';
+import { toggleSidenav, closeSidenav, navigateDown, navigateUp } from '../../../+store';
 
 const navItems = ['/', '/controls', '/models', '/devices'];
 
@@ -35,16 +35,16 @@ export class DualshockService {
       this.store.dispatch(setDualshockBattery({ battery }));
     });
     this.socketService.listen('[Devices] Dualshock Triangle').subscribe(() => {
-      this.store.dispatch(new fromRoot.ToggleSidenav());
+      this.store.dispatch(toggleSidenav());
     });
     this.socketService.listen('[Devices] Dualshock Circle').subscribe(() => {
       this.location.back();
     });
     this.socketService.listen('[Devices] Dualshock Up').subscribe(() => {
-      this.store.dispatch(new fromRoot.NavigateUp());
+      this.store.dispatch(navigateUp());
     });
     this.socketService.listen('[Devices] Dualshock Down').subscribe(() => {
-      this.store.dispatch(new fromRoot.NavigateDown());
+      this.store.dispatch(navigateDown());
     });
     this.store.select(fromRoot.getSidenavItemSelected).subscribe(item => {
       if (this.subscription) {
@@ -52,7 +52,7 @@ export class DualshockService {
       }
       this.subscription = this.socketService.listen('[Devices] Dualshock X').subscribe(() => {
         this.router.navigate([navItems[item]]);
-        this.store.dispatch(new fromRoot.CloseSidenav());
+        this.store.dispatch(closeSidenav());
       });
     });
   }

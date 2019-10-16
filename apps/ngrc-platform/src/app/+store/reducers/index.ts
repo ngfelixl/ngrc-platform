@@ -14,10 +14,10 @@ import * as fromNavigation from './navigation.reducer';
 import * as fromSocket from './socket.reducer';
 
 export interface State {
-  layout: fromLayout.State;
-  navigation: fromNavigation.State;
+  layout: fromLayout.LayoutState;
+  navigation: fromNavigation.NavigationState;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  socket: fromSocket.State;
+  socket: fromSocket.SocketState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -28,7 +28,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
-  return function(state: State, action: any): State {
+  return (state: State, action: any): State => {
     console.log('state', state);
     console.log('action', action);
 
@@ -40,13 +40,5 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   ? [] // [logger]
   : [];
 
-export const getLayoutState = createFeatureSelector<fromLayout.State>('layout');
-export const getNavigationState = createFeatureSelector<fromNavigation.State>('navigation');
-export const getSocketState = createFeatureSelector<fromSocket.State>('socket');
-
-export const getSidenavItemSelected = createSelector(getNavigationState, fromNavigation.getSidenavItemSelected);
-export const getShowSidenav = createSelector(getLayoutState, fromLayout.getShowSidenav);
-
-export const getSocketConnected = createSelector(getSocketState, fromSocket.getConnected);
 
 

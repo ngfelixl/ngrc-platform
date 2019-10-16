@@ -1,4 +1,5 @@
-import { SocketActionTypes, SocketActionsUnion } from '../actions/socket';
+import { createReducer, on, Action } from '@ngrx/store';
+import { socketConnected, socketDisconnected, addSocketListener, removeSocketListener, newSocketData } from '../actions';
 
 interface Listeners {
   [key: string]: {
@@ -7,47 +8,49 @@ interface Listeners {
   };
 }
 
-export interface State {
+export interface SocketState {
   connected: boolean;
   listeners: Listeners;
 }
 
-const initialState: State = {
+const initialState: SocketState = {
   connected: false,
   listeners: {}
 };
 
-export function reducer(state: State = initialState, action: SocketActionsUnion): State {
-  switch (action.type) {
-    case SocketActionTypes.SocketConnected:
-      return { ...state, connected: true };
+const socketReducer = createReducer(
+  initialState,
+  on(socketConnected, (state) => ({...state, connected: true})),
+  on(socketDisconnected, (state) => ({...state, connected: false})),
+  on(addSocketListener, (state, { key }) => {
+    const listener = state.listeners[key];
+    if (listener) {
+      return {...state, listeners: {...state.listeners, [key]: {count: listener.count + 1, data: null}}};
+    } else {
+      return {...state, listeners: {...state.listeners, [key]: {count: 1, data: null}}};
+    }
+  }),
+  on(removeSocketListener, (state, { key }) => {
+    const listener = state.listeners[key];
+    if (listener && listener.count > 1) {
+      return {...state, listeners: {...state.listeners, [key]: {...listener, count: listener.count - 1}}};
+    } else if (listener && listener.count === 1) {
+      const listeners = {...state.listeners};
+      delete listeners[key];
+      return {...state, listeners};
+    }
+    return state;
+  }),
+  on(newSocketData, (state, {listener, data}) => ({
+    ...state,
+    listeners: {
+      ...state.listeners,
+      [listener]: {...state.listeners[listener], data}
+    }
+  }))
+);
 
-    case SocketActionTypes.SocketDisconnected:
-      return { ...state, connected: false };
-
-    case SocketActionTypes.AddListener:
-      if (state.listeners[action.payload]) {
-        const count = state.listeners[action.payload].count + 1;
-        state.listeners[action.payload] = {count: count, data: null};
-      } else {
-        state.listeners[action.payload] = {count: 1, data: null};
-      }
-      return {...state, listeners: state.listeners };
-
-    case SocketActionTypes.OnData:
-      state.listeners[action.listener].data = action.data;
-      return {...state, listeners: state.listeners};
-
-    case SocketActionTypes.RemoveListener:
-      if (state.listeners[action.payload] && state.listeners[action.payload].count > 1) {
-        state.listeners[action.payload].count--;
-      } else if (state.listeners[action.payload] && state.listeners[action.payload].count === 1) {
-        delete state.listeners[action.payload];
-      }
-      return {...state, listeners: state.listeners};
-
-    default: return state;
-  }
+export function reducer(state: SocketState = initialState, action: Action): SocketState {
+  return socketReducer(state, action);
 }
 
-export const getConnected = (state: State) => state.connected;

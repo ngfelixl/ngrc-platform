@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction } from '@ngrx/store';
 
 export enum LayoutActionTypes {
   OpenSidenav = '[Layout] Open Sidenav',
@@ -11,19 +11,26 @@ export enum LayoutActionTypes {
   CheckOrientation = '[Layout] Check Orientation'
 }
 
-export class OpenSidenav implements Action { readonly type = LayoutActionTypes.OpenSidenav; }
-export class CloseSidenav implements Action { readonly type = LayoutActionTypes.CloseSidenav; }
-export class ToggleSidenav implements Action { readonly type = LayoutActionTypes.ToggleSidenav; }
+export const openSidenav = createAction(
+  '[Layout] Open Sidenav'
+);
 
-export class OpenMappingSelect implements Action { readonly type = LayoutActionTypes.OpenMappingSelect; }
-export class CloseMappingSelect implements Action { readonly type = LayoutActionTypes.CloseMappingSelect; }
+export const closeSidenav = createAction(
+  '[Layout] Close Sidenav'
+);
 
-export class CheckOrientation implements Action { readonly type = LayoutActionTypes.CheckOrientation; }
+export const toggleSidenav = createAction(
+  '[Layout] Toggle Sidenav'
+);
 
-export type LayoutAction =
-OpenSidenav
-| CloseSidenav
-| ToggleSidenav
-| OpenMappingSelect
-| CloseMappingSelect
-| CheckOrientation;
+export const openMappingSelect = createAction(
+  '[Layout] Open Mapping Select'
+);
+
+export const closeMappingSelect = createAction(
+  '[Layout] Close Mapping Select'
+);
+
+export const checkOrientation = createAction(
+  '[Layout] Check Orientation'
+);
