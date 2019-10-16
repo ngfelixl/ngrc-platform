@@ -9,5 +9,5 @@ export const environment = {
     baseUrl: 'ws://localhost:81',
     config: null
   },
-  api: 'http://localhost:3001'
+  api: 'http://localhost:3333/api'
 };
