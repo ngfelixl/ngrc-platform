@@ -7,8 +7,8 @@ import { distinctUntilChanged, skip, map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../+store';
-import * as fromFeature from '../../+store';
 import { addSocketListener } from '../../../../+store';
+import { stopNrfTest, startNrfTest, setNrfConfig, getNrfConfig, State, getNrfTransmitting, getNrfState } from '../../+store';
 
 @Component({
   templateUrl: './nrf24l01.component.html',
@@ -23,7 +23,7 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
 
   constructor(
     private location: Location,
-    private store: Store<fromFeature.State>,
+    private store: Store<State>,
     private fb: FormBuilder
   ) {
     this.nrfSettingsForm = this.fb.group({
@@ -43,38 +43,38 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
   get paLevel(): FormControl { return this.nrfSettingsForm.get('PALevel') as FormControl; }
 
   ngOnInit() {
-    this.store.dispatch(new fromFeature.GetNrfConfig());
-    this.subscriptions.push(this.store.select(fromFeature.getNrfState).subscribe(state => {
+    this.store.dispatch(getNrfConfig());
+    this.subscriptions.push(this.store.select(getNrfState).subscribe(state => {
       this.nrfSettingsForm.patchValue(state);
     }));
 
-    this.transmitting$ = this.store.select(fromFeature.getNrfTransmitting);
+    this.transmitting$ = this.store.select(getNrfTransmitting);
 
     this.subscriptions.push(this.channel.valueChanges.pipe(skip(1), distinctUntilChanged()).subscribe(channel => {
-      this.store.dispatch(new fromFeature.NrfSetConfig({Channel: channel}));
+      this.store.dispatch(setNrfConfig({Channel: channel}));
     }));
 
     this.subscriptions.push(this.dataRate.valueChanges.pipe(skip(1), distinctUntilChanged()).subscribe(dataRate => {
-      this.store.dispatch(new fromFeature.NrfSetConfig({DataRate: dataRate}));
+      this.store.dispatch(setNrfConfig({DataRate: dataRate}));
     }));
 
     this.subscriptions.push(this.paLevel.valueChanges.pipe(skip(1), distinctUntilChanged()).subscribe(paLevel => {
-      this.store.dispatch(new fromFeature.NrfSetConfig({PALevel: paLevel}));
+      this.store.dispatch(setNrfConfig({PALevel: paLevel}));
     }));
 
     this.subscriptions.push(this.crcLength.valueChanges.pipe(skip(1), distinctUntilChanged()).subscribe(crcLength => {
-      this.store.dispatch(new fromFeature.NrfSetConfig({CRCLength: crcLength}));
+      this.store.dispatch(setNrfConfig({ CRCLength: crcLength }));
     }));
   }
 
   startTest() {
-    this.store.dispatch(new fromFeature.NrfStartTest());
+    this.store.dispatch(startNrfTest());
     this.store.dispatch(addSocketListener({ key: '[Nrf] Transmit Data' }));
     this.data$ = this.store.select(fromRoot.getSocketListeners).pipe(map(o => o['[Nrf] Transmit Data']));
   }
 
   stopTest() {
-    this.store.dispatch(new fromFeature.NrfStopTest());
+    this.store.dispatch(stopNrfTest());
   }
 
   back() {

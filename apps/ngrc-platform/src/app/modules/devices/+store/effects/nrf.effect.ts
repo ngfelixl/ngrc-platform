@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
-import * as fromFeature from '../actions';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SocketService } from '../../../../services/socket.service';
-import { NrfState } from '../../models/nrf-state';
+import { Nrf } from '../../models';
+import { getNrfConfig, getNrfConfigSuccess, getNrfConfigFailed, setNrfConfig, setNrfConfigSuccess,
+  setNrfConfigFailed, startNrfTest, startNrfTestSuccess, startNrfTestFailed, stopNrfTest, stopNrfTestSuccess,
+  stopNrfTestFailed, nrfStartTransmission, nrfStartTransmissionSuccess, nrfStartTransmissionFailed,
+  nrfStopTransmission, nrfStopTransmissionSuccess, nrfStopTransmissionFailed } from '../actions';
 
 @Injectable()
 export class NrfEffects {
@@ -14,75 +16,51 @@ export class NrfEffects {
     private socketService: SocketService
   ) {}
 
-  @Effect()
-  getState$ = this.actions$
-    .pipe(
-      ofType(fromFeature.NrfActionTypes.GetConfig),
-      switchMap(() => {
-        return this.socketService.request('[Nrf] Get Config').pipe(
-          map((config: NrfState) => new fromFeature.GetNrfConfigSuccess(config)),
-          catchError(error => of(new fromFeature.GetNrfConfigFailed(error)))
-        );
-      })
-    );
+  getState$ = createEffect(() => this.actions$.pipe(
+    ofType(getNrfConfig),
+    switchMap(() => this.socketService.request('[Nrf] Get Config').pipe(
+      map((nrfState: Nrf) => getNrfConfigSuccess({ nrfState })),
+      catchError(error => of(getNrfConfigFailed({ error })))
+    ))
+  ));
 
-  @Effect()
-  setConfig$ = this.actions$
-    .pipe(
-      ofType(fromFeature.NrfActionTypes.SetConfig),
-      switchMap((action: fromFeature.NrfSetConfig) => {
-        return this.socketService.request('[Nrf] Set Config', action.payload).pipe(
-          map((config: NrfState) => new fromFeature.NrfSetConfigSuccess(config)),
-          catchError((error) => of(new fromFeature.NrfSetConfigFailed(error)))
-        );
-      })
-    );
+  setState$ = createEffect(() => this.actions$.pipe(
+    ofType(setNrfConfig),
+    switchMap((partialNrfState) => this.socketService.request('[Nrf] Set Config', partialNrfState).pipe(
+      map((nrfState: Nrf) => setNrfConfigSuccess({ nrfState })),
+      catchError(error => of(setNrfConfigFailed({ error })))
+    ))
+  ));
 
-  @Effect()
-  startTest$ = this.actions$
-    .pipe(
-      ofType(fromFeature.NrfActionTypes.StartTest),
-      switchMap(() => {
-        return this.socketService.request('[Nrf] Start Test').pipe(
-          map((config: NrfState) => new fromFeature.NrfStartTestSuccess(config)),
-          catchError((error) => of(new fromFeature.NrfStartTestFailed(error)))
-        );
-      })
-    );
+  startTest$ = createEffect(() => this.actions$.pipe(
+    ofType(startNrfTest),
+    switchMap(() => this.socketService.request('[Nrf] Start Test').pipe(
+      map((nrfState: Nrf) => startNrfTestSuccess({ nrfState })),
+      catchError(error => of(startNrfTestFailed({ error })))
+    ))
+  ));
 
-  @Effect()
-  stopTest$ = this.actions$
-    .pipe(
-      ofType(fromFeature.NrfActionTypes.StopTest),
-      switchMap(() => {
-        return this.socketService.request('[Nrf] Stop Test').pipe(
-          map((config: NrfState) => new fromFeature.NrfStopTestSuccess(config)),
-          catchError((error) => of(new fromFeature.NrfStopTestFailed(error)))
-        );
-      })
-    );
+  stopTest$ = createEffect(() => this.actions$.pipe(
+    ofType(stopNrfTest),
+    switchMap(() => this.socketService.request('[Nrf] Stop Test').pipe(
+      map((nrfState: Nrf) => stopNrfTestSuccess({ nrfState })),
+      catchError(error => of(stopNrfTestFailed({ error })))
+    ))
+  ));
 
-  @Effect()
-  startTransmission$ = this.actions$
-    .pipe(
-      ofType(fromFeature.NrfActionTypes.StartTransmission),
-      switchMap(() => {
-        return this.socketService.request('[Nrf] Start Transmission').pipe(
-          map((config: NrfState) => new fromFeature.NrfStartTransmissionSuccess(config)),
-          catchError((error) => of(new fromFeature.NrfStartTransmissionFailed(error)))
-        );
-      })
-    );
+  startTransmission$ = createEffect(() => this.actions$.pipe(
+    ofType(nrfStartTransmission),
+    switchMap(() => this.socketService.request('[Nrf] Start Transmission').pipe(
+      map((nrfState: Nrf) => nrfStartTransmissionSuccess({ nrfState })),
+      catchError(error => of(nrfStartTransmissionFailed({ error })))
+    ))
+  ));
 
-  @Effect()
-  stopTransmission$ = this.actions$
-    .pipe(
-      ofType(fromFeature.NrfActionTypes.StopTransmission),
-      switchMap(() => {
-        return this.socketService.request('[Nrf] Stop Transmission').pipe(
-          map((config: NrfState) => new fromFeature.NrfStopTransmissionSuccess(config)),
-          catchError((error) => of(new fromFeature.NrfStopTransmissionFailed(error)))
-        );
-      })
-    );
+  stopTransmission$ = createEffect(() => this.actions$.pipe(
+    ofType(nrfStopTransmission),
+    switchMap(() => this.socketService.request('[Nrf] Stop Transmission').pipe(
+      map((nrfState: Nrf) => nrfStopTransmissionSuccess({ nrfState })),
+      catchError(error => of(nrfStopTransmissionFailed({ error })))
+    ))
+  ));
 }

@@ -5,7 +5,7 @@ import * as fromNrf from './nrf.reducer';
 
 export interface State {
   dualshock: fromDualshock.DualshockState;
-  nrf: fromNrf.State;
+  nrf: fromNrf.NrfState;
 }
 
 export const reducers: ActionReducerMap<State> = {

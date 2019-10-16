@@ -4,12 +4,12 @@ import { Store } from '@ngrx/store';
 import { Subscription ,  Observable } from 'rxjs';
 
 import { SocketService } from '../../../../services/socket.service';
-import * as fromDevices from '../../../devices/+store';
 import { Controller } from '../../../devices/models/controller';
 import { Mapping } from '../../../configuration/models/mapping';
 import { openMappingSelect, addSocketListener, removeSocketListener, isLandscape, State } from '../../../../+store';
 import { getSelectedMapping } from '../../../configuration/+store';
 import { map, share } from 'rxjs/operators';
+import { nrfStopTransmission, nrfStartTransmission, getDsData } from '../../../devices/+store';
 
 @Component({
   templateUrl: './operating.component.html',
@@ -35,10 +35,10 @@ export class OperatingComponent implements OnDestroy {
         this.store.dispatch(openMappingSelect());
       } else {
         this.mapping = mapping;
-        this.store.dispatch(new fromDevices.NrfStartTransmission());
+        this.store.dispatch(nrfStartTransmission());
         this.store.dispatch(addSocketListener({ key: '[Nrf] Transmit Data' }));
         this.data$ = this.socketService.listen('[Nrf] Transmit Data');
-        this.dsData$ = this.store.select(fromDevices.getDsData).pipe(share());
+        this.dsData$ = this.store.select(getDsData).pipe(share());
         this.dsLeft$ = this.dsData$.pipe(map(data  => data.left));
         this.dsRight$ = this.dsData$.pipe(map(data  => data.right));
       }
@@ -47,7 +47,7 @@ export class OperatingComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.store.dispatch(new fromDevices.NrfStopTransmission());
+    this.store.dispatch(nrfStopTransmission());
     this.store.dispatch(removeSocketListener({ key: '[Nrf] Transmit Data' }));
   }
 }

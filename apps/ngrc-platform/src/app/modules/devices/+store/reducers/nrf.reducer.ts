@@ -1,35 +1,40 @@
-import { NrfActionTypes, NrfActions } from '../actions';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { getNrfConfigSuccess, setNrfConfigSuccess, startNrfTestSuccess,
+  stopNrfTestSuccess, nrfStartTransmissionSuccess, nrfStopTransmissionSuccess } from '../actions';
+import { createReducer, on, Action } from '@ngrx/store';
 
-import { NrfState } from '../../models/nrf-state';
-
-export interface State {
-  state: NrfState;
-  // transmittedValues: Array<{timestamp: Date, data: Uint8Array}>;
+export interface NrfState {
+  connected: boolean;
+  isP: boolean;
+  Channel: number;
+  PALevel: string;
+  DataRate: string;
+  CRCLength: string;
+  transmitting: boolean;
 }
 
+
 const initialState = {
-  state: {
-    connected: false,
-    isP: null,
-    Channel: null,
-    DataRate: null,
-    CRCLength: null,
-    PALevel: null,
-    transmitting: null,
-  }
+  connected: false,
+  isP: null,
+  Channel: null,
+  DataRate: null,
+  CRCLength: null,
+  PALevel: null,
+  transmitting: null
 };
 
-export function reducer(state: State = initialState, action: NrfActions): State {
-  switch (action.type) {
-    case NrfActionTypes.GetConfigSuccess:
-    case NrfActionTypes.SetConfigSuccess:
-    case NrfActionTypes.StartTestSuccess:
-    case NrfActionTypes.StopTestSuccess:
-    case NrfActionTypes.StartTransmissionSuccess:
-    case NrfActionTypes.StopTransmissionSuccess:
-      return {...state, state: action.config};
+const nrfReducer = createReducer(
+  initialState,
+  on(
+    getNrfConfigSuccess,
+    setNrfConfigSuccess,
+    startNrfTestSuccess,
+    stopNrfTestSuccess,
+    nrfStartTransmissionSuccess,
+    nrfStopTransmissionSuccess,
+    (state, { nrfState }) => ({...state, ...nrfState}))
+);
 
-    default: return state;
-  }
+export function reducer(state: NrfState, action: Action): NrfState {
+  return nrfReducer(state, action);
 }

@@ -4,22 +4,12 @@ import { State } from '../reducers';
 
 const getDevicesState = createFeatureSelector<State>('devices');
 
-const getNrfDeviceState = createSelector(
+export const getNrfState = createSelector(
   getDevicesState,
   (devices) => devices.nrf
 );
 
-export const getNrfState = createSelector(
-  getNrfDeviceState,
-  (nrf) => nrf.state
-);
-
 export const getNrfTransmitting = createSelector(
-  getNrfDeviceState,
-  (nrf) => nrf.state.transmitting
+  getNrfState,
+  (nrf) => nrf.transmitting
 );
-
-/* export const getNrfTesting = createSelector(
-  getNrfDeviceState,
-  (nrf) => nrf.state.testing
-); */

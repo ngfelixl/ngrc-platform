@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromDevices from '../../+store';
 import { Observable } from 'rxjs';
 import { Device } from '../../models/device';
-import { NrfState } from '../../models/nrf-state';
+import { Nrf } from '../../models';
 
 @Component({
   templateUrl: './devices.component.html',
@@ -12,7 +12,7 @@ import { NrfState } from '../../models/nrf-state';
 })
 export class DevicesComponent {
   dualshock$: Observable<Device>;
-  nrf$: Observable<NrfState>;
+  nrf$: Observable<Nrf>;
 
   constructor(private store: Store<fromDevices.State>) {
     this.dualshock$ = this.store.select(fromDevices.getDualshock);
