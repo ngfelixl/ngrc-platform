@@ -13,6 +13,7 @@ import * as fromDevices from '../+store';
 // import { DsBatteryChanged, DsDataLeft, DsDataRight } from '../store/actions/devices';
 // import { getSidenavItemSelected } from '../../core/store/reducers';
 import { Subscription } from 'rxjs';
+import { setDualshockBattery } from '../+store';
 
 const navItems = ['/', '/controls', '/models', '/devices'];
 
@@ -30,8 +31,8 @@ export class DualshockService {
   }
 
   dsNavigationDataSubscription(): void {
-    this.socketService.listen('[Devices] Dualshock Battery').subscribe(data => {
-      this.store.dispatch(new fromDevices.DsBatteryChanged(data));
+    this.socketService.listen('[Devices] Dualshock Battery').subscribe(battery => {
+      this.store.dispatch(setDualshockBattery({ battery }));
     });
     this.socketService.listen('[Devices] Dualshock Triangle').subscribe(() => {
       this.store.dispatch(new fromRoot.ToggleSidenav());

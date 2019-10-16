@@ -1,11 +1,6 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
 
 export enum DualshockActionTypes {
-  Changed = '[Devices] DualshockChanged',
-  Online = '[Devices] Dualshock Online',
-  Offline = '[Devices] Dualshock Offline',
-  SetConnection = '[Devices] Dualshock Set Connection',
-  DsBatteryChanged = '[Devices] Dualshock battery changed',
   DsError = '[Devices] Dualshock Error',
   DsDataUpdate = '[Devices] Dualshock Data Update',
 
@@ -14,61 +9,72 @@ export enum DualshockActionTypes {
   OnData = '[Devices] Dualshock On Data'
 }
 
-export class DualshockChanged implements Action {
-  readonly type = DualshockActionTypes.Changed;
-}
+export const dualshockChanged = createAction(
+  '[Devices] Dualshock Changed'
+);
 
-export class DualshockSetConnection implements Action {
-  readonly type = DualshockActionTypes.SetConnection;
-  constructor(public payload: boolean) {}
-}
+export const dualshockOnline = createAction(
+  '[Devices] Dualshock Online'
+);
 
-export class DsBatteryChanged implements Action {
-  readonly type = DualshockActionTypes.DsBatteryChanged;
+export const dualshockOffline = createAction(
+  '[Devices] Dualshock Offline'
+);
 
-  constructor(public payload: { battery: number }) {}
-}
+export const setDualshockConnection = createAction(
+  '[Devices] Dualshock Set Connection',
+  props<{ isConnected: boolean; }>()
+);
 
-export class DualshockOnline implements Action {
-  readonly type = DualshockActionTypes.Online;
-}
+export const setDualshockBattery = createAction(
+  '[Devices] Dualshock Set Battery',
+  props<{ battery: number }>()
+);
 
-export class DualshockOffline implements Action {
-  readonly type = DualshockActionTypes.Offline;
-}
+export const dualshockError = createAction(
+  '[Devices] Dualshock Error',
+  props<{ error: string }>()
+);
+
+export const dualshockAddListener = createAction(
+  '[Devices] Dualshock Add Listener',
+  props<{ button: string }>()
+);
+
+export const dualshockAddManyListeners = createAction(
+  '[Devices] Dualshock Add Many Listener',
+  props<{ buttons: string[] }>()
+);
+
+export const dualshockAddAllListeners = createAction(
+  '[Devices] Dualshock Add All Listeners'
+);
+
+export const dualshockRemoveListener = createAction(
+  '[Devices] Dualshock Remove Listener',
+  props<{ button: string }>()
+);
+
+export const dualshockRemoveManyListeners = createAction(
+  '[Devices] Dualshock Remove Many Listeners',
+  props<{ buttons: string[] }>()
+);
+
+export const dualshockRemoveAllListeners = createAction(
+  '[Devices] Dualshock Remove All Listeners'
+);
+
+export const setDualshockCharging = createAction(
+  '[Devices] Dualshock Charging',
+  props<{ isCharging: boolean; }>()
+);
+
+export const dualshockData = createAction(
+  '[Devices] Dualshock Data',
+  props<{ button: string, value: number }>()
+);
 
 export class DualshockDataUpdate implements Action {
   readonly type = DualshockActionTypes.DsDataUpdate;
   constructor(public payload: { type: string, value: any }) {}
 }
-
-export class DsError implements Action {
-  readonly type = DualshockActionTypes.DsError;
-
-  constructor(public payload: { error: string }) {}
-}
-
-export class DsAddListener implements Action {
-  readonly type = DualshockActionTypes.AddListener;
-  constructor(public key: string) {}
-}
-export class DsRemoveListener implements Action {
-  readonly type = DualshockActionTypes.RemoveListener;
-  constructor(public key: string) {}
-}
-export class DsOnData implements Action {
-  readonly type = DualshockActionTypes.OnData;
-  constructor(public key: string, public data: any) {}
-}
-
-export type DualshockActions =
-  DualshockChanged
-  | DualshockOnline
-  | DualshockOffline
-  | DsBatteryChanged
-  | DsError
-  | DualshockSetConnection
-  | DsAddListener
-  | DsRemoveListener
-  | DsOnData
-  ;

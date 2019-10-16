@@ -3,17 +3,10 @@ import { Store, select } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 
-import * as fromRoot from '../+store';
+import * as fromRoot from '../../+store';
 
 @Component({
-  template: `
-    <mat-card>
-      <mat-card-content>
-        <img src="assets/icon-196.png">
-        <p>Socket: {{(socket$ | async) ? 'Connected' : 'Disconnected'}}</p>
-      </mat-card-content>
-    </mat-card>
-    `,
+  templateUrl: './dashboard.component.html',
   styles: [
     `img { width: 100px; }`
   ]

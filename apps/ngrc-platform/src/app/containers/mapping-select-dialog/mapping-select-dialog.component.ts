@@ -1,27 +1,12 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
-import * as fromConfiguration from '../modules/configuration/store';
-import { Model, Mapping } from '../modules/configuration/models';
+import * as fromConfiguration from '../../modules/configuration/store';
+import { Model, Mapping } from '../../modules/configuration/models';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  template: `
-    <mat-form-field>
-      <mat-select #model placeholder="Model" [value]="(mapping$ | async)?.model_id">
-        <mat-option *ngFor="let model of models$ | async" [value]="model.id">{{model.title}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-select #mapping placeholder="Mapping" [disabled]="!model.value" [value]="(mapping$ | async)?.id">
-        <mat-option
-          *ngFor="let mapping of mappings | filterMappingsByModel:model.value"
-          [value]="mapping.id">{{mapping.title}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="select(mapping.value)">Select</button>
-    <button mat-button (click)="dialogRef.close()">Cancel</button>
-  `,
+  templateUrl: './mapping-select-dialog.component.html',
   styles: [
     `mat-form-field { width: 100%; }`
   ]

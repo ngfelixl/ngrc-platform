@@ -13,9 +13,15 @@ import { CustomRouterStateSerializer } from './router.utils';
 @NgModule({
   imports: [
     EffectsModule.forRoot(effects),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
     StoreDevtoolsModule.instrument({
-      maxAge: 10
+      maxAge: 25
     }),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',

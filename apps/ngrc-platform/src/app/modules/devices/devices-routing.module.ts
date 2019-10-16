@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DevicesComponent } from './containers/devices/devices.component';
-import { DualshockComponent } from './containers/dualshock';
+import { DualshockComponent } from './containers/dualshock/dualshock.component';
 import { Nrf24l01Component } from './containers/nrf24l01/nrf24l01.component';
-import { RaspberrypiComponent } from './containers/raspberrypi';
+import { RaspberrypiComponent } from './containers/raspberrypi/raspberrypi.component';
 
 const routes: Routes = [
   { path: 'devices', children: [

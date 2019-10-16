@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { SocketService } from '../../../services/socket.service';
 
 import * as fromDevices from '../+store';
+import { dualshockOnline, dualshockOffline } from '../+store';
 
 @Injectable()
 export class DevicesService {
@@ -12,10 +13,10 @@ export class DevicesService {
     private store: Store<fromDevices.State>
   ) {
     this.socketService.listen('[Devices] Dualshock connected').subscribe(data => {
-      this.store.dispatch(new fromDevices.DualshockOnline());
+      this.store.dispatch(dualshockOnline());
     });
     this.socketService.listen('[Devices] Dualshock disconnected').subscribe(data => {
-      this.store.dispatch(new fromDevices.DualshockOffline());
+      this.store.dispatch(dualshockOffline());
     });
   }
 }

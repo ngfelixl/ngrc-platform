@@ -1,0 +1,55 @@
+<mat-sidenav-container fullscreen (backdropClick)="closeSidenav()">
+  <mat-sidenav [opened]="showSidenav$ | async" mode="over">
+    <mat-nav-list>
+    <app-nav-item
+      (navigate)="closeSidenav()"
+      routerLink="/"
+      icon="assessment"
+      hint="State overview"
+      [selected]="(selected$ | async) === 0">
+      Dashboard
+    </app-nav-item>
+    <app-nav-item
+      (navigate)="closeSidenav()"
+      routerLink="/operating"
+      icon="games"
+      hint="Control your device"
+      [selected]="(selected$ | async) === 1">
+      Control
+    </app-nav-item>
+    <app-nav-item
+      (navigate)="closeSidenav()"
+      routerLink="/models"
+      icon="flight"
+      hint="Select a model, map input"
+      [selected]="(selected$ | async) === 2">
+      Models
+    </app-nav-item>
+    <app-nav-item
+      (navigate)="closeSidenav()"
+      routerLink="/devices"
+      icon="settings_input_hdmi"
+      hint="Check devices states"
+      [selected]="(selected$ | async) === 3">
+      Devices
+    </app-nav-item>
+    <app-nav-item
+      (navigate)="closeSidenav()"
+      routerLink="/ai"
+      icon="device_hub"
+      hint="Learn with Tensorflow"
+      [selected]="(selected$ | async) === 3">
+      Machine Learning
+    </app-nav-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <div class="main" [class.landscape]="isLandscape$ | async">
+    <app-toolbar
+      (openSidenav)="openSidenav()"
+      [isLandscape]="isLandscape$ | async"
+      [transmitting]="transmitting$ | async"
+      (openMappingSelect)="openMappingSelect()"
+      [mapping]="(mapping$ | async)?.title"></app-toolbar>
+    <div class="content"><router-outlet></router-outlet></div>
+  </div>
+</mat-sidenav-container>

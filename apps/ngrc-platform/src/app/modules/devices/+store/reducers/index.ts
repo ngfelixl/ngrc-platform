@@ -4,7 +4,7 @@ import * as fromDualshock from './dualshock.reducer';
 import * as fromNrf from './nrf.reducer';
 
 export interface State {
-  dualshock: fromDualshock.State;
+  dualshock: fromDualshock.DualshockState;
   nrf: fromNrf.State;
 }
 

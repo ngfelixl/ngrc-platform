@@ -1,0 +1,10 @@
+<mat-card>
+  <mat-card-content>
+    <!--<app-analog-stick-visualization [data]="(dsData$ | async).left" xlabel="x Axis" ylabel="y Axis"></app-analog-stick-visualization>
+    <app-analog-stick-visualization [data]="(dsData$ | async).right"></app-analog-stick-visualization>-->
+    <app-ds-visualization [data]="dsData$ | async"></app-ds-visualization>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" (click)="back()">Back</button>
+  </mat-card-actions>
+</mat-card>
