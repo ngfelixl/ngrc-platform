@@ -1,17 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-// import { Slot } from '../../models';
 
 @Entity()
 export class Mapping {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('text')
   title: string;
 
-  @Column()
+  @Column('numeric')
   modelId: number;
 
-  // @Column()
-  // slots: Slot[];
+  @Column('text')
+  slots: string;
 }

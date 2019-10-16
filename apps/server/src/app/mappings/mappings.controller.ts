@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { Mapping } from '../../models';
+import { MappingDto } from './mapping.dto';
 
 @Controller('mappings')
 export class MappingsController {
@@ -14,7 +14,7 @@ export class MappingsController {
   }
 
   @Post()
-  addOne(@Body() body: Mapping) {
+  addOne(@Body() body: MappingDto) {
     console.log(body);
   }
 }

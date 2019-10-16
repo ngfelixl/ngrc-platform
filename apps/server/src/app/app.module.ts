@@ -6,6 +6,7 @@ import { ModelsModule } from './models/models.module';
 import { MappingsModule } from './mappings/mappings.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Model } from './models/model.entity';
+import { Mapping } from './mappings/mapping.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { Model } from './models/model.entity';
       database: 'database1.db',
       synchronize: true,
       logging: false,
-      entities: [Model],
+      entities: [Model, Mapping],
     })
   ],
   providers: [
