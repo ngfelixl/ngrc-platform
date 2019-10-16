@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+
+import { WebsocketGateway } from './websocket.gateway';
+import { ModelsController } from './models.controller';
+import { MappingsController } from './mappings.controller';
 
 @Module({
   imports: [
@@ -10,7 +12,12 @@ import { AppService } from './app.service';
       rootPath: `${__dirname}/../ngrc-platform`
     })
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    ModelsController,
+    MappingsController
+  ],
+  providers: [
+    WebsocketGateway
+  ],
 })
 export class AppModule {}
