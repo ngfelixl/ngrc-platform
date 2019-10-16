@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   isLandscape$: Observable<boolean>;
   transmitting$: Observable<boolean>;
 
-  @HostListener('window:orientationchange', ['$event'])
+  @HostListener('window:orientationchange')
   onResize() {
     this.store.dispatch(checkOrientation());
   }
