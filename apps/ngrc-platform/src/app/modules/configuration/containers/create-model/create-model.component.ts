@@ -3,17 +3,12 @@ import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 
-import * as fromFeature from '../../store';
+import * as fromFeature from '../../+store';
 import { Model } from '../../models/model';
 
 @Component({
   templateUrl: './create-model.component.html',
-  styles: [`
-  .flex { display: flex; flex-wrap: wrap; }
-  .flex > * { flex: 1 1 150px; }
-  .list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); grid-gap: 12px; }
-  mat-form-field { width: 100%; }
-  `]
+  styleUrls: [ './create-model.component.css' ]
 })
 export class CreateModelComponent {
   modelForm: FormGroup;
@@ -60,7 +55,7 @@ export class CreateModelComponent {
   }
 
   onImgChange(event) {
-    const reader = new FileReader();
+    // const reader = new FileReader();
 
     if (event.target.files && event.target.files.length) {
       const file = event.target.files.item(0);

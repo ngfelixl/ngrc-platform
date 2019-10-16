@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatModule } from '../mat/mat.module';
 import { ConfigurationRoutingModule } from './configuration-routing.module';
 
-import * as fromContainers from './containers';
-import * as fromComponents from './components';
-import * as fromServices from './services';
+import { containers } from './containers';
+import { components } from './components';
+import { services } from './services';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, Actions } from '@ngrx/effects';
-import { reducers, effects } from './store';
+import { reducers, effects } from './+store';
 
 import { NameDialogComponent } from './components/name-dialog';
 import { FilterTitlePipe } from './pipes/filterTitle';
@@ -30,16 +29,16 @@ import { FilterTitlePipe } from './pipes/filterTitle';
     FormsModule
   ],
   declarations: [
-    fromComponents.components,
-    fromContainers.components,
+    components,
+    containers,
     FilterTitlePipe
   ],
   providers: [
-    fromServices.services,
+    services,
     Actions
   ],
   exports: [
-    fromContainers.components
+    components
   ],
   entryComponents: [
     NameDialogComponent

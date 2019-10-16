@@ -18,8 +18,6 @@ export class SocketEffect {
     private store: Store<SocketState>
   ) {}
 
-
-
   addListener$ = createEffect(() => this.actions$.pipe(
     ofType(addSocketListener),
     withLatestFrom(this.store.select(getSocketListeners)),

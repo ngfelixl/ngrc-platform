@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
-import * as fromConfiguration from '../../modules/configuration/store';
+import * as fromConfiguration from '../../modules/configuration/+store';
 import { Model, Mapping } from '../../modules/configuration/models';
 import { Observable, Subscription } from 'rxjs';
 

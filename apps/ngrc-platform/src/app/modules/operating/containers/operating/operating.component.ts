@@ -5,7 +5,7 @@ import { Subscription ,  Observable } from 'rxjs';
 
 import { SocketService } from '../../../../services/socket.service';
 import * as fromRoot from '../../../../+store';
-import * as fromConfiguration from '../../../configuration/store';
+import * as fromConfiguration from '../../../configuration/+store';
 import * as fromDevices from '../../../devices/+store';
 import { Controller } from '../../../devices/models/controller';
 import { Mapping } from '../../../configuration/models/mapping';

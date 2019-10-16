@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../../+store';
-import * as fromFeature from '../store';
+import * as fromFeature from '../+store';
 import { Model, Mapping } from '../models';
 import { Observable, of } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
