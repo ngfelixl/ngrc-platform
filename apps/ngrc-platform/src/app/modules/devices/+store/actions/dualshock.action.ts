@@ -1,4 +1,4 @@
-import { Action, createAction, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 export enum DualshockActionTypes {
   DsError = '[Devices] Dualshock Error',
@@ -73,8 +73,3 @@ export const dualshockData = createAction(
   '[Devices] Dualshock Data',
   props<{ button: string, value: number }>()
 );
-
-export class DualshockDataUpdate implements Action {
-  readonly type = DualshockActionTypes.DsDataUpdate;
-  constructor(public payload: { type: string, value: any }) {}
-}

@@ -2,11 +2,8 @@ import { Component, ViewChild, ElementRef, OnInit, Input, ChangeDetectionStrateg
 
 @Component({
   selector: 'app-plot-yt',
-  template: `<canvas #canvas></canvas>`,
-  styles: [`
-  :host { width: 100%; height: 100%; }
-  canvas { width: 100%; height: 100%; object-fit: contain; object-position: center cetner; }
-  `],
+  templateUrl: './plot-yt.component.html',
+  styleUrls: [ './plot-yt.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlotYtComponent implements OnInit {
@@ -24,7 +21,7 @@ export class PlotYtComponent implements OnInit {
   xMin = 0;
   xMax = 1;
   yRange = [0, 1];
-  maxT = 200; // [s]
+  cropDataPointsAfter = 200; // [s]
   dataArray = [];
   colors = ['#940', '#f00', '#0f0', '#00f', '#494'];
 
@@ -58,7 +55,7 @@ export class PlotYtComponent implements OnInit {
       const data = Object.values(this.data);
       this.ctx.clearRect(0, this.offset[1] - 2, this.size[0], this.size[1]);
       this.dataArray.push(data);
-      if (this.dataArray.length > this.maxT) {
+      if (this.dataArray.length > this.cropDataPointsAfter) {
         this.dataArray.shift();
       }
       this.drawData();

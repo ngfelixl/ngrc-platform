@@ -8,11 +8,7 @@ export interface Point {
 @Component({
   selector: 'app-analog-stick-visualization',
   template: '<canvas #canvas></canvas>',
-  styles: [
-    `
-    :host { width: 100%; height: 100%; }
-    canvas { width: 100%; height: 100%; object-fit: contain; object-position: center cetner; }`
-  ],
+  styleUrls: [ './analog-stick-visualization.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnalogStickVisualizationComponent implements AfterViewInit {

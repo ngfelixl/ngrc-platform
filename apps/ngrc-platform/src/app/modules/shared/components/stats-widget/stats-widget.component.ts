@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SocketService } from '../../../services/socket.service';
-import { Subscription, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../../../../services/socket.service';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-stats-widget',
-  template: `<app-plot-yt title="Signal quality" [data]="data$ | async" [minYRange]="[0, 100]"></app-plot-yt>`
+  templateUrl: './stats-widget.component.html'
 })
 export class StatsWidgetComponent implements OnInit {
   data$: Observable<Uint8Array>;

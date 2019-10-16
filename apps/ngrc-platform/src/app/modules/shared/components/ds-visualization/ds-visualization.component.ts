@@ -1,17 +1,12 @@
 import { Component, Input, ChangeDetectionStrategy, AfterViewInit, ElementRef, ViewChild, OnChanges      } from '@angular/core';
-import { Controller } from '../../devices/models/controller';
+import { Controller } from '../../../devices/models/controller';
 
 @Component({
   selector: 'app-ds-visualization',
   template: `
     <canvas #background></canvas>
     <canvas #canvas class="content"></canvas>`,
-  styles: [
-    `
-    :host { position: relative; width: 100%; height: 100%; max-width: 600px; }
-    canvas { width: 100%; height: 100%; object-fit: contain; object-position: center center; }
-    .content { position: absolute; top: 0; left: 0; }`
-  ],
+  styleUrls: [ './ds-visualization.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsVisualizationComponent implements AfterViewInit, OnChanges {
