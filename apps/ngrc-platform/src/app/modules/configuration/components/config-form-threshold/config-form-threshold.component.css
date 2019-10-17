@@ -1,0 +1,12 @@
+.flex {
+  display: flex;
+  flex-wrap: wrap
+}
+
+.flex > * {
+  flex: 1 1 150px;
+}
+
+mat-slider {
+  width: 100%;
+}

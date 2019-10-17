@@ -22,11 +22,11 @@ export class MappingsService {
     return this.http.post<Mapping>(`${environment.api}/mappings`, mapping);
   }
 
-  update(update: { id: string, changes: Partial<Mapping> }): Observable<Mapping> {
+  update(update: { id: number, changes: Partial<Mapping> }): Observable<Mapping> {
     return this.http.put<Mapping>(`${environment.api}/mappings/${update.id}`, update.changes);
   }
 
-  delete(id: string): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${environment.api}/mappings/${id}`);
   }
 }

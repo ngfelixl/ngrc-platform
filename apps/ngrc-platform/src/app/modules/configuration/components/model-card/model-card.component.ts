@@ -1,19 +1,9 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-model-card',
-  template: `
-    <mat-card>
-      <mat-card-header>
-        <img #img
-          mat-card-avatar
-          src="{{environment.api}}/images/{{logo}}"
-          (error)="altImage(img)">
-        <mat-card-title><ng-content></ng-content></mat-card-title>
-        <mat-card-subtitle>{{hint}}</mat-card-subtitle>
-      </mat-card-header>
-    </mat-card>`,
+  templateUrl: './model-card.component.html',
   styles: [
     `
     :host { display: flex; }

@@ -3,41 +3,20 @@ import { FormGroup, FormArray, FormControl, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
-import { Model } from '../models/model';
-import { Mapping } from '../models/mapping';
+import { Model } from '../../models/model';
+import { Mapping } from '../../models/mapping';
 
-import { NameDialogComponent } from './name-dialog';
+import { NameDialogComponent } from '../name-dialog';
 
 @Component({
   selector: 'app-config-form',
-  template: `
-  <form [formGroup]="mappingForm" (ngSubmit)="openDialog()">
-    <div formArrayName="slots">
-      <div *ngFor="let slot of slots.controls; let i = index" [formGroupName]="i">
-        <app-config-list-item [form]="slot" [model]="model" [title]="title" class="mat-elevation-z1"></app-config-list-item>
-      </div>
-    </div>
-    <div class="actions">
-      <div>
-        <button mat-button type="button" (click)="back()"><mat-icon>navigate_before</mat-icon> Back</button>
-        <button mat-button><mat-icon>save</mat-icon> Save</button>
-      </div>
-      <button
-        mat-icon-button
-        type="button"
-        color="warn"
-        (click)="delete.emit(mapping?.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-  </form>
-  `,
+  templateUrl: './config-form.component.html',
   styles: [`.actions { margin-top: 8px; display: flex; justify-content: space-between; }`],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfigFormComponent implements OnChanges {
   @Output() save = new EventEmitter<Mapping>();
-  @Output() delete = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<Mapping>();
   @Input() model: Model;
   @Input() mapping: Mapping;
 
@@ -57,6 +36,7 @@ export class ConfigFormComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.mapping) {
+      console.log(this.mapping);
       this.mappingForm.patchValue(this.mapping);
       this.mappingForm.setControl('slots', this.fb.array(
         this.mapping.slots.map(data => {

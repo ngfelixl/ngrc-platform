@@ -8,5 +8,5 @@ export const getRouterState = createFeatureSelector<fromRouter.RouterReducerStat
 
 export const getModelId = createSelector(
   getRouterState,
-  router => router && router.state && router.state.idParams.models
+  router => router && router.state && +router.state.idParams.models
 );

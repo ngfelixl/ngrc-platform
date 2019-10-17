@@ -1,0 +1,20 @@
+<form [formGroup]="mappingForm" (ngSubmit)="openDialog()">
+  <div formArrayName="slots">
+    <div *ngFor="let slot of slots.controls; let i = index" [formGroupName]="i">
+      <app-config-list-item [form]="slot" [model]="model" [title]="title" class="mat-elevation-z1"></app-config-list-item>
+    </div>
+  </div>
+  <div class="actions">
+    <div>
+      <button mat-button type="button" (click)="back()"><mat-icon>navigate_before</mat-icon> Back</button>
+      <button mat-button><mat-icon>save</mat-icon> Save</button>
+    </div>
+    <button
+      mat-icon-button
+      type="button"
+      color="warn"
+      (click)="delete.emit(mapping?.id)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</form>

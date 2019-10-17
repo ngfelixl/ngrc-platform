@@ -25,7 +25,7 @@ export class CustomRouterStateSerializer
 
     while (route.firstChild) {
       if (route.url[0] && route.url[0].path && route.firstChild.params && route.firstChild.params.id) {
-        idParams[route.url[0].path] = route.firstChild.params.id;
+        idParams[route.url[0].path] = +route.firstChild.params.id;
       }
       route = route.firstChild;
     }

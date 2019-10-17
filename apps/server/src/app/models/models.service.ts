@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getConnection } from 'typeorm';
 import { Model } from './model.entity';
 import { ModelDto } from './model.dto';
+import { Mapping } from '../mappings/mapping.entity';
 
 @Injectable()
 export class ModelsService {
@@ -27,16 +28,28 @@ export class ModelsService {
     return {...model, slots: JSON.parse(model.slots)};
   }
 
-  async add(modelDto: ModelDto): Promise<Model> {
+  async add(modelDto: ModelDto): Promise<ModelDto> {
     const model: Model = {
       ...modelDto,
       slots: JSON.stringify(modelDto.slots)
     };
-    return await this.modelRepository.save(model);
+    const databaseModel = await this.modelRepository.save(model);
+    return {...databaseModel, slots: JSON.parse(databaseModel.slots)};
   }
 
+  /**
+   * Deletes the Model and all related Mappings
+   */
   async removeOne(id: number): Promise<Model> {
-    const model = await this.modelRepository.findOne(id);
-    return await this.modelRepository.remove(model);
+    const model = await Promise.all([
+      this.modelRepository.findOne(id),
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Mapping)
+        .where('modelId = :id', { id })
+        .execute()
+    ]);
+    return await this.modelRepository.remove(model[0]);
   }
 }

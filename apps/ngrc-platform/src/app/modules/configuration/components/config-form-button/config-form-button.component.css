@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  padding: -5px;
+}
+
+.form > * {
+  flex: 1 1 150px;
+  margin: 5px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.formfields {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.formfields > * {
+  flex: 1 1 100px;
+}

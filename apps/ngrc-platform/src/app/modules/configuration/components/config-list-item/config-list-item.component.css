@@ -1,0 +1,69 @@
+:host {
+  display: block;
+  padding: 8px;
+  margin: 12px 0;
+  background-color: #fbfbfb;
+  border-radius: 2px;
+}
+
+.input-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: #f0f0f0;
+  margin: -8px;
+  padding: 8px;
+}
+
+.input-body {
+  margin-top: 8px;
+}
+
+.input-header .formfields {
+  flex: 4 4 100px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-header .description {
+  flex: 1 1 100px;
+  white-space: pre-wrap;
+}
+
+mat-form-field {
+  flex: 1 1 150px;
+  min-width: 50px;
+}
+
+.collapsed {
+  transform: rotate(-90deg);
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
+}
+
+.flex > * {
+  flex: 1 1 300px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right > mat-slider {
+  flex: 0 0 auto;
+}
+
+.right > app-range-visualization {
+  flex: 1;
+  max-width: 300px;
+}

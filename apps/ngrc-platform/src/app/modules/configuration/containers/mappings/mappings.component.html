@@ -1,0 +1,12 @@
+<app-config-form-header
+  [model]="model$ | async"
+  [mappings]="mappings$ | async"
+  [mapping]="mapping$ | async"
+  (selectMapping)="selectMapping($event)">
+</app-config-form-header>
+<app-config-form
+  [model]="model$ | async"
+  [mapping]="mapping$ | async"
+  (save)="save($event)"
+  (delete)="delete($event)">
+</app-config-form>

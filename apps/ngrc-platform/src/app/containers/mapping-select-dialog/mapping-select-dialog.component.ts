@@ -4,16 +4,14 @@ import { Store } from '@ngrx/store';
 import * as fromConfiguration from '../../modules/configuration/+store';
 import { Model, Mapping } from '../../modules/configuration/models';
 import { Observable, Subscription } from 'rxjs';
-import { loadMappings, selectMapping } from '../../modules/configuration/+store';
+import { loadMappings, selectMapping, loadModels } from '../../modules/configuration/+store';
 
 @Component({
   templateUrl: './mapping-select-dialog.component.html',
-  styles: [
-    `mat-form-field { width: 100%; }`
-  ]
+  styles: [`mat-form-field { width: 100%; }`]
 })
 export class MappingSelectDialogComponent implements OnInit, OnDestroy {
-  public title = '';
+  title = '';
   models$: Observable<Model[]>;
   mappings: Mapping[];
   mapping$: Observable<Mapping>;
@@ -26,7 +24,7 @@ export class MappingSelectDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(new fromConfiguration.LoadModels());
+    this.store.dispatch(loadModels());
     this.store.dispatch(loadMappings());
     this.models$ = this.store.select(fromConfiguration.selectAllModels);
     this.mapping$ = this.store.select(fromConfiguration.getSelectedMapping);
@@ -35,7 +33,7 @@ export class MappingSelectDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  select(mappingId: string) {
+  select(mappingId: number) {
     const mapping = this.mappings.filter(o => o.id === mappingId)[0];
     this.store.dispatch(selectMapping({ id: mapping.id }));
     this.dialogRef.close();

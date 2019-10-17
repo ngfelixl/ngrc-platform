@@ -30,7 +30,7 @@ export class ModelsService {
     return this.http.post<Model>(`${environment.api}/models/${model.id}/img`, formData);
   }
 
-  delete(id: string): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${environment.api}/models/${id}`);
   }
 }

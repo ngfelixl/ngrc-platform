@@ -1,8 +1,8 @@
 import { Slot } from './slot';
 
 export interface Mapping {
-  id?: string;
+  id?: number;
   title: string;
-  model_id: string;
+  modelId: number;
   slots: Slot[];
 }

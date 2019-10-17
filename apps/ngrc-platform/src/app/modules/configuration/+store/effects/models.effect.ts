@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
 
 import * as fromRoot from '../../../../+store';
-import * as fromFeature from '../actions';
 import { ModelsService } from '../../services/models.service';
 import { Store } from '@ngrx/store';
+import { loadModels, loadModelsSuccess, loadModelsFailed, addModel, addModelSuccess,
+  addModelFailed, deleteModel, deleteModelSuccess, deleteModelFailed } from '../actions';
 
 @Injectable()
 export class ModelsEffects {
@@ -18,47 +19,33 @@ export class ModelsEffects {
     private router: Router
   ) {}
 
-  @Effect()
-  loadModels$ = this.actions$
-    .pipe(
-      ofType(fromFeature.ModelsActionTypes.Load),
-      switchMap(() => {
-        return this.modelsService.getModels().pipe(
-          map(models => new fromFeature.LoadModelsSuccess(models)),
-          catchError(error => of(new fromFeature.LoadModelsFailed(error)))
-        );
-      })
-    );
+  loadModels$ = createEffect(() => this.actions$.pipe(
+    ofType(loadModels),
+    switchMap(() => this.modelsService.getModels().pipe(
+      map(models => loadModelsSuccess({ models })),
+      catchError(error => of(loadModelsFailed({ error })))
+    ))
+  ));
 
-  @Effect()
-  addModel$ = this.actions$
-    .pipe(
-      ofType(fromFeature.ModelsActionTypes.Add),
-      switchMap((action: fromFeature.AddModel) => {
-        return this.modelsService.add(action.payload).pipe(
-          map(model => new fromFeature.AddModelSuccess(model)),
-          catchError(error => of(new fromFeature.AddModelFailed(error)))
-        );
-      })
-    );
+  addModel$ = createEffect(() => this.actions$.pipe(
+    ofType(addModel),
+    switchMap(({ model }) => this.modelsService.add(model).pipe(
+      map((modelWithId) => addModelSuccess({ model: modelWithId })),
+      catchError(error => of(addModelFailed({ error })))
+    ))
+  ));
 
-  @Effect({ dispatch: false })
-  addModelSuccess$ = this.actions$
-    .pipe(
-      ofType(fromFeature.ModelsActionTypes.AddSuccess),
-      switchMap((action: fromFeature.AddModelSuccess) => this.router.navigate(['models', action.payload.id]))
-    );
+  addModelSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(addModelSuccess),
+    tap(({ model }) => this.router.navigate(['models', model.id]))
+  ), { dispatch: false });
 
-  @Effect()
-  deleteModel$ = this.actions$
-    .pipe(
-      ofType(fromFeature.ModelsActionTypes.Delete),
-      withLatestFrom(this.store.select(fromRoot.getModelId)),
-      switchMap(([action, id]) => {
-        return this.modelsService.delete(id).pipe(
-          map(() => { this.router.navigate(['models']); return new fromFeature.DeleteModelSuccess(id); }),
-          catchError(error => of(new fromFeature.DeleteModelFailed(error)))
-        );
-      })
-    );
+  deleteModel$ = createEffect(() => this.actions$.pipe(
+    ofType(deleteModel),
+    withLatestFrom(this.store.select(fromRoot.getModelId)),
+    switchMap(([, id]) => this.modelsService.delete(id).pipe(
+      map(() => { this.router.navigate(['models']); return deleteModelSuccess({ id }); }),
+      catchError(error => of(deleteModelFailed({ error })))
+    ))
+  ));
 }

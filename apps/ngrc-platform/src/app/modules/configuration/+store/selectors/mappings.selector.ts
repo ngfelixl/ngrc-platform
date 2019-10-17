@@ -31,6 +31,6 @@ export const getMappings = createSelector(
   selectAllMappings,
   fromRoot.getRouterState,
   (mappings, router): Mapping[] => {
-    return router.state && mappings.filter(o => o.model_id === router.state.params.id); // [router.state.params.id];
+    return router.state && mappings.filter(o => o.modelId === +router.state.params.id); // [router.state.params.id];
   }
 );
