@@ -42,7 +42,6 @@ export class MappingsService {
   }
 
   async updateOne(update: { id: number, changes: Partial<MappingDto> }) {
-    console.log(update);
     const changes = {
       ...update.changes,
       slots: update.changes.slots ? JSON.stringify(update.changes.slots) : undefined

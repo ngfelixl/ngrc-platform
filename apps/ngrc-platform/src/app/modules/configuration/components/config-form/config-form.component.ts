@@ -36,7 +36,6 @@ export class ConfigFormComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.mapping) {
-      console.log(this.mapping);
       this.mappingForm.patchValue(this.mapping);
       this.mappingForm.setControl('slots', this.fb.array(
         this.mapping.slots.map(data => {
