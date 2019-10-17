@@ -40,4 +40,13 @@ export class MappingsService {
     const mapping = await this.mappingRepository.findOne(id);
     return await this.mappingRepository.remove(mapping);
   }
+
+  async updateOne(update: { id: number, changes: Partial<MappingDto> }) {
+    console.log(update);
+    const changes = {
+      ...update.changes,
+      slots: update.changes.slots ? JSON.stringify(update.changes.slots) : undefined
+    } as Mapping;
+    await this.mappingRepository.update(update.id, changes);
+  }
 }

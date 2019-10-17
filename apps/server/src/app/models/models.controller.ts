@@ -1,5 +1,4 @@
-import { Controller, Get, Post, Body, Delete, Param } from '@nestjs/common';
-import { Model } from './model.entity';
+import { Controller, Get, Post, Body, Delete, Param, Put } from '@nestjs/common';
 import { ModelsService } from './models.service';
 import { ModelDto } from './model.dto';
 
@@ -28,4 +27,8 @@ export class ModelsController {
     return this.modelsService.removeOne(params.id);
   }
 
+  @Put(':id')
+  updateOne(@Param() params: { id: number }, @Body() update: {id: number, changes: Partial<ModelDto>}) {
+    return this.modelsService.updateOne(update);
+  }
 }

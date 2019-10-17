@@ -52,4 +52,12 @@ export class ModelsService {
     ]);
     return await this.modelRepository.remove(model[0]);
   }
+
+  async updateOne(update: { id: number, changes: Partial<ModelDto> }) {
+    const changes = {
+      ...update.changes,
+      slots: update.changes.slots ? JSON.stringify(update.changes.slots) : undefined
+    } as Model;
+    await this.modelRepository.update(update.id, changes);
+  }
 }
