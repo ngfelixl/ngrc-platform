@@ -1,0 +1,10 @@
+<div class="container mat-elevation-z1">
+  <div><img src="{{environment.api}}/images/{{model?.img}}"></div>
+  <span class="mat-title">{{model?.title}} Controls</span>
+  <mat-form-field>
+    <mat-select #mappingSelector placeholder="Select Config" [value]="mapping?.id" (selectionChange)="select(mappingSelector.value)">
+      <mat-option>New</mat-option>
+      <mat-option *ngFor="let mapping of mappings" [value]="mapping.id">{{mapping.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

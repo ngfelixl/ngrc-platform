@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import * as fromFeature from '../+store';
 
 import { Model } from '../models/model';
+import { loadModels } from '../+store';
 
 @Component({
   template: `
@@ -29,6 +30,6 @@ export class ModelsComponent implements OnInit {
 
   ngOnInit() {
     this.models$ = this.store.select(fromFeature.selectAllModels);
-    this.store.dispatch(new fromFeature.LoadModels());
+    this.store.dispatch(loadModels());
   }
 }

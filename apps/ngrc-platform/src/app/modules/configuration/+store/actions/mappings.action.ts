@@ -33,7 +33,7 @@ export const addMappingFailed = createAction(
 
 export const deleteMapping = createAction(
   '[Configuration] Delete Mapping',
-  props<{ id: string }>()
+  props<{ id: number }>()
 );
 
 export const deleteMappingSuccess = createAction(
@@ -47,7 +47,7 @@ export const deleteMappingFailed = createAction(
 
 export const selectMapping = createAction(
   '[Configuration] Select Mapping',
-  props<{ id: string }>()
+  props<{ id: number }>()
 );
 
 export const clearMapping = createAction(
@@ -56,12 +56,12 @@ export const clearMapping = createAction(
 
 export const updateMapping = createAction(
   '[Configuration] Update Mapping',
-  props<{ id: string, changes: Partial<Mapping> }>()
+  props<{ id: number, changes: Partial<Mapping> }>()
 );
 
 export const updateMappingSuccess = createAction(
   '[Configuration] Update Mapping Success',
-  props<{ id: string, changes: Partial<Mapping> }>()
+  props<{ id: number, changes: Partial<Mapping> }>()
 );
 
 export const updateMappingFailed = createAction(

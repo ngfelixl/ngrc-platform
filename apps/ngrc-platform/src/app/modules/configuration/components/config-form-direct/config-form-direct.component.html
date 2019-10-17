@@ -1,0 +1,10 @@
+<div class="form" [formGroup]="form">
+  <mat-form-field>
+    <mat-select formControlName="controller" placeholder="Analog Input">
+      <mat-option *ngFor="let option of options" [value]="option.id">{{option.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="invert-checkbox">
+    <mat-checkbox formControlName="invert">Invert</mat-checkbox>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
 
 import { MappingsService } from '../../services/mappings.service';
 import { SocketService } from '../../../../services/socket.service';
@@ -34,11 +34,9 @@ export class MappingsEffects {
   addMapping$ = createEffect(() => this.actions$.pipe(
     ofType(addMapping),
     withLatestFrom(this.store.select(fromRoot.getModelId)),
-    switchMap(([action, id]) => {
-      const temp = (action as any).payload;
-      temp.model_id = id;
-      return this.mappingsService.add(temp).pipe(
-        map(mapping => addMappingSuccess({ mapping })),
+    switchMap(([{ mapping }, id]) => {
+      return this.mappingsService.add({...mapping, modelId: id}).pipe(
+        map(mappingResult => addMappingSuccess({ mapping: mappingResult })),
         catchError(error => of(addMappingFailed(error)))
       );
     })
@@ -76,9 +74,8 @@ export class MappingsEffects {
 
   selectMapping$ = createEffect(() => this.actions$.pipe(
     ofType(selectMapping),
-    switchMap(({ id }) => {
+    tap(({ id }) => {
       this.socketService.emit('[Mapper] Set Mapping', id);
-      return of();
     })
   ), { dispatch: false });
 }

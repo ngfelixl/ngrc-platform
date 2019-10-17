@@ -1,5 +1,5 @@
 <mat-form-field>
-  <mat-select #model placeholder="Model" [value]="(mapping$ | async)?.model_id">
+  <mat-select #model placeholder="Model" [value]="(mapping$ | async)?.modelId">
     <mat-option *ngFor="let model of models$ | async" [value]="model.id">{{model.title}}</mat-option>
   </mat-select>
 </mat-form-field>

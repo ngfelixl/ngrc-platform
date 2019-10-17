@@ -1,0 +1,30 @@
+<div class="form" [formGroup]="form">
+  <div formGroupName="decrease">
+    <b>Decrease</b>
+    <div class="formfields">
+      <mat-form-field>
+        <mat-select formControlName="controller" placeholder="Button">
+          <mat-option *ngFor="let button of buttons" [value]="button.id">{{button.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="variation" placeholder="Variation">
+        <span matSuffix>[1/s]</span>
+      </mat-form-field>
+    </div>
+  </div>
+  <div formGroupName="increase">
+    <b>Increase</b>
+    <div class="formfields">
+      <mat-form-field>
+        <mat-select formControlName="controller" placeholder="Button">
+          <mat-option *ngFor="let button of buttons" [value]="button.id">{{button.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="variation" placeholder="Variation">
+        <span matSuffix>[1/s]</span>
+      </mat-form-field>
+      </div>
+  </div>
+</div>

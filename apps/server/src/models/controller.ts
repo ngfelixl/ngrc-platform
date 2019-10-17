@@ -10,17 +10,17 @@ export interface Controller {
     circle?: boolean;
     x?: boolean;
     square?: boolean;
-  }
+  };
   sticks: {
     leftx?: number;
     lefty?: number;
     rightx?: number;
     righty?: number;
-  }
+  };
   triggers: {
     r2?: number;
     l2?: number;
-  }
+  };
 }
 
 export const initialControllerValue = {
@@ -46,4 +46,4 @@ export const initialControllerValue = {
     r2: 0,
     l2: 0,
   }
-}
+};
