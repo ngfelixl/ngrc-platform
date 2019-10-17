@@ -1,5 +1,7 @@
 # NgrcPlatform
 
+Customizable open source remote control using Web-Technologies
+
 ## Build with
 
 <img src="./apps/docs/src/assets/img/tech-stack/angular.png" height="100" /><img src="./apps/docs/src/assets/img/tech-stack/ngrx.png" height="100" /><img src="./apps/docs/src/assets/img/tech-stack/nestjs.png" height="100" /><img src="./apps/docs/src/assets/img/tech-stack/nodejs.png" height="100" /><img src="./apps/docs/src/assets/img/tech-stack/nrwl.png" height="100" /><img src="./apps/docs/src/assets/img/tech-stack/raspberrypi.png" height="100" /><img src="./apps/docs/src/assets/img/tech-stack/arduino.png" height="100" />
