@@ -13,6 +13,9 @@ import { Mapping } from './mapping.entity';
   ],
   providers: [
     MappingsService
+  ],
+  exports: [
+    MappingsService
   ]
 })
 export class MappingsModule {}

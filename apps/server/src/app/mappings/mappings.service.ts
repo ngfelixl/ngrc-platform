@@ -8,17 +8,17 @@ import { MappingDto } from './mapping.dto';
 export class MappingsService {
   constructor(
     @InjectRepository(Mapping)
-    private readonly MappingRepository: Repository<Mapping>
+    private readonly mappingRepository: Repository<Mapping>
   ) {}
 
   async findAll(): Promise<MappingDto[]> {
-    const Mappings = await this.MappingRepository.find();
-    const MappingsDto = Mappings.map(mapping => ({...mapping, slots: JSON.parse(mapping.slots)}) as MappingDto);
-    return MappingsDto;
+    const mappings = await this.mappingRepository.find();
+    const mappingsDto = mappings.map(mapping => ({...mapping, slots: JSON.parse(mapping.slots)}) as MappingDto);
+    return mappingsDto;
   }
 
   async findById(id: number): Promise<MappingDto> {
-    const mappings = await this.MappingRepository.find({ id });
+    const mappings = await this.mappingRepository.find({ id });
     if (!mappings || !mappings[0]) {
       return null;
     }
@@ -27,16 +27,17 @@ export class MappingsService {
     return {...mapping, slots: JSON.parse(mapping.slots)};
   }
 
-  async add(mappingDto: MappingDto): Promise<Mapping> {
+  async add(mappingDto: MappingDto): Promise<MappingDto> {
     const mapping: Mapping = {
       ...mappingDto,
       slots: JSON.stringify(mappingDto.slots)
     };
-    return await this.MappingRepository.save(mapping);
+    const databaseMapping = await this.mappingRepository.save(mapping);
+    return {...databaseMapping, slots: JSON.parse(databaseMapping.slots)};
   }
 
   async removeOne(id: number): Promise<Mapping> {
-    const mapping = await this.MappingRepository.findOne(id);
-    return await this.MappingRepository.remove(mapping);
+    const mapping = await this.mappingRepository.findOne(id);
+    return await this.mappingRepository.remove(mapping);
   }
 }

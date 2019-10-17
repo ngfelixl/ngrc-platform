@@ -17,9 +17,9 @@ import { Mapping } from './mappings/mapping.entity';
     MappingsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database1.db',
+      database: 'database.db',
       synchronize: true,
-      logging: false,
+      logging: true,
       entities: [Model, Mapping],
     })
   ],
