@@ -3,11 +3,15 @@ node_js:
  - 12.13.0
 addons:
   chrome: stable
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
 install:
  - npm install
 script:
  - npm run lint
  - npm run test -- --watch=false
+ - npm run e2e && npm run e2e:docs
  - npm run build:all
 
 # Send coverage data to Coveralls
