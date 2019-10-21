@@ -41,15 +41,17 @@
 
     <div>
       <h3>Test</h3>
-      <button *ngIf="(transmitting$ | async) === (false | null | undefined)" mat-raised-button color="accent" (click)="startTest()">
-        <mat-icon>play_arrow</mat-icon> Start
-      </button>
-      <button *ngIf="(transmitting$ | async)" mat-raised-button color="accent" (click)="stopTest()">
+      <button *ngIf="transmitting$ | async else startButton" mat-raised-button color="accent" (click)="stopTest()">
         <mat-icon>stop</mat-icon> Stop
       </button>
+      <ng-template #startButton>
+        <button mat-raised-button color="accent" (click)="startTest()">
+          <mat-icon>play_arrow</mat-icon> Start
+        </button>
+      </ng-template>
       <div class="plots">
-        <app-plot-yt [data]="(data$ | async)?.data"></app-plot-yt>
-        <app-stats-widget></app-stats-widget>
+        <ngrc-plot-yt [data]="(data$ | async)?.data"></ngrc-plot-yt>
+        <ngrc-stats-widget></ngrc-stats-widget>
       </div>
     </div>
   </mat-card-content>

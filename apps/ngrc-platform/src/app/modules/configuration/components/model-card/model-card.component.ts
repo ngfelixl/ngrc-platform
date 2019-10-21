@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
-  selector: 'app-model-card',
+  selector: 'ngrc-model-card',
   templateUrl: './model-card.component.html',
   styles: [
     `

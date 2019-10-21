@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-battery',
+  selector: 'ngrc-battery',
   template: '{{state}}'
 })
 export class BatteryComponent {

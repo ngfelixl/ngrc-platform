@@ -5,13 +5,13 @@
   </mat-card-content>
 </mat-card>
 <div class="grid" [class.isLandscape]="isLandscape$ | async" *ngIf="mapping" >
-  <div class="mat-elevation-z1"><app-plot-yt [data]="data$ | async"></app-plot-yt></div>
-  <div class="mat-elevation-z1"><app-stats-widget></app-stats-widget></div>
-  <div class="mat-elevation-z1"><app-ds-visualization></app-ds-visualization></div>
+  <div class="mat-elevation-z1"><ngrc-plot-yt [data]="data$ | async"></ngrc-plot-yt></div>
+  <div class="mat-elevation-z1"><ngrc-stats-widget></ngrc-stats-widget></div>
+  <div class="mat-elevation-z1"><ngrc-ds-visualization></ngrc-ds-visualization></div>
   <div class="mat-elevation-z1">
-    <app-analog-stick-visualization [data]="dsLeft$ | async" xlabel="x Axis" ylabel="Aileron Left"></app-analog-stick-visualization>
+    <ngrc-analog-stick-visualization [data]="dsLeft$ | async" xlabel="x Axis" ylabel="Aileron Left"></ngrc-analog-stick-visualization>
   </div>
   <div class="mat-elevation-z1">
-    <app-analog-stick-visualization [data]="dsRight$ | async" xlabel="Aileron Left" ylabel="Elevator"></app-analog-stick-visualization>
+    <ngrc-analog-stick-visualization [data]="dsRight$ | async" xlabel="Aileron Left" ylabel="Elevator"></ngrc-analog-stick-visualization>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Model } from '../../models/model';
 
 @Component({
-  selector: 'app-config-list-item',
+  selector: 'ngrc-config-list-item',
   templateUrl: './config-list-item.component.html',
   styleUrls: [ './config-list-item.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush

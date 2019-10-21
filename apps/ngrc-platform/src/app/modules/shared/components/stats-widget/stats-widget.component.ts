@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-stats-widget',
+  selector: 'ngrc-stats-widget',
   templateUrl: './stats-widget.component.html'
 })
 export class StatsWidgetComponent implements OnInit {

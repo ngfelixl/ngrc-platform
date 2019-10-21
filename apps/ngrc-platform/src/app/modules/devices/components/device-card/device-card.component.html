@@ -5,8 +5,8 @@
   <div class="text">
     <mat-card-title><ng-content></ng-content></mat-card-title>
     <mat-card-content *ngIf="device || device === false">
-      <app-dualshock-details *ngIf="identifier === 'dualshock'" [device]="device"></app-dualshock-details>
-      <app-nrf24l01-details *ngIf="identifier === 'nrf24l01'" [device]="device"></app-nrf24l01-details>
+      <ngrc-dualshock-details *ngIf="identifier === 'dualshock'" [device]="device"></ngrc-dualshock-details>
+      <ngrc-nrf24l01-details *ngIf="identifier === 'nrf24l01'" [device]="device"></ngrc-nrf24l01-details>
     </mat-card-content>
   </div>
 </mat-card>

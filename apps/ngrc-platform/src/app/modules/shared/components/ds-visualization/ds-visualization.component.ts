@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectionStrategy, AfterViewInit, ElementRef, V
 import { Controller } from '../../../devices/models/controller';
 
 @Component({
-  selector: 'app-ds-visualization',
+  selector: 'ngrc-ds-visualization',
   template: `
     <canvas #background></canvas>
     <canvas #canvas class="content"></canvas>`,

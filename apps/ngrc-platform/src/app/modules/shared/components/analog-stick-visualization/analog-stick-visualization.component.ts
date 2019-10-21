@@ -6,7 +6,7 @@ export interface Point {
 }
 
 @Component({
-  selector: 'app-analog-stick-visualization',
+  selector: 'ngrc-analog-stick-visualization',
   template: '<canvas #canvas></canvas>',
   styleUrls: [ './analog-stick-visualization.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush

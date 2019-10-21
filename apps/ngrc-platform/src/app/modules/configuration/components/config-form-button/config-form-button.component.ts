@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-config-form-button',
+  selector: 'ngrc-config-form-button',
   templateUrl: './config-form-button.component.html',
   styleUrls: [ './config-form-button.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush

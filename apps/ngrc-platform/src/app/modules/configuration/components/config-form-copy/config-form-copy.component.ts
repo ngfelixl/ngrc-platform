@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-config-form-copy',
+  selector: 'ngrc-config-form-copy',
   templateUrl: './config-form-copy.component.html',
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -6,7 +6,7 @@ import { Mapping } from '../../models/mapping';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-config-form-header',
+  selector: 'ngrc-config-form-header',
   templateUrl: './config-form-header.component.html',
   styleUrls: [ './config-form-header.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush

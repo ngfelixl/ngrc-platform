@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
-  selector: 'app-analog-value',
+  selector: 'ngrc-analog-value',
   template: '<canvas #canvas></canvas>',
   styles: ['canvas { width: 100%; max-width: 256px; }']
 })

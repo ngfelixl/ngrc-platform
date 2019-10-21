@@ -13,7 +13,7 @@ import { dualshockRemoveAllListeners, dualshockAddAllListeners } from '../../+st
   styles: [
     `
     mat-card-content { display: flex; justify-content: space-between; }
-    app-analog-stick-visualization { flex: 1; padding: 8px; max-width: 196px; }`
+    ngrc-analog-stick-visualization { flex: 1; padding: 8px; max-width: 196px; }`
   ]
 })
 export class DualshockComponent implements OnInit, OnDestroy {

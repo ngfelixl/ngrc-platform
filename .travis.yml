@@ -1,11 +1,13 @@
 language: node_js
 node_js:
  - 12.13.0
+addons:
+  chrome: stable
 install:
  - npm install
 script:
  - npm run lint
- - npm run test
+ - npm run test -- --watch=false
  - npm run build:all
 
 # Send coverage data to Coveralls

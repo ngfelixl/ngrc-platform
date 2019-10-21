@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-toolbar',
+  selector: 'ngrc-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: [ `./toolbar.component.scss` ],
   changeDetection: ChangeDetectionStrategy.OnPush

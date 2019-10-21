@@ -80,20 +80,11 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "apps/ngrc-platform/src/test.ts",
-            "polyfills": "apps/ngrc-platform/src/polyfills.ts",
+            "jestConfig": "apps/ngrc-platform/jest.config.js",
             "tsConfig": "apps/ngrc-platform/tsconfig.spec.json",
-            "karmaConfig": "apps/ngrc-platform/karma.conf.js",
-            "assets": [
-              "apps/ngrc-platform/src/favicon.ico",
-              "apps/ngrc-platform/src/assets"
-            ],
-            "styles": [
-              "apps/ngrc-platform/src/styles.css"
-            ],
-            "scripts": []
+            "setupFile": "apps/ngrc-platform/src/test-setup.ts"
           }
         },
         "lint": {
@@ -112,12 +103,14 @@
     },
     "ngrc-platform-e2e": {
       "projectType": "application",
+      "sourceRoot": "apps/ngrc-platform-e2e/src",
       "root": "apps/ngrc-platform-e2e",
       "architect": {
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@nrwl/cypress:cypress",
           "options": {
-            "protractorConfig": "apps/ngrc-platform-e2e/protractor.conf.js",
+            "cypressConfig": "apps/ngrc-platform-e2e/cypress.json",
+            "tsConfig": "apps/ngrc-platform-e2e/tsconfig.e2e.json",
             "devServerTarget": "ngrc-platform:serve"
           },
           "configurations": {

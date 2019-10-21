@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Device } from '../models/device';
 
 @Component({
-  selector: 'app-dualshock-details',
+  selector: 'ngrc-dualshock-details',
   template: `
     <p>
       Connection: {{device.online ? 'Connected' : 'Disconnected'}}

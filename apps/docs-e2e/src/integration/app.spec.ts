@@ -1,9 +1,7 @@
-import { getGreeting } from '../support/app.po';
-
 describe('docs', () => {
-  beforeEach(() => cy.visit('/'));
+  beforeEach(() => cy.visit('http://localhost:4200/'));
 
-  it('should display welcome message', () => {
-    getGreeting().contains('Welcome to docs!');
+  it('should display the title', () => {
+    cy.contains('NgRC Docs');
   });
 });

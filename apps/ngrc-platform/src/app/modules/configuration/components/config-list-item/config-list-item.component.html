@@ -25,15 +25,15 @@
   <div *ngIf="expanded" class="input-body">
     <div class="flex">
       <ng-container [ngSwitch]="type">
-        <app-config-form-direct *ngSwitchCase="'direct'" [form]="direct"></app-config-form-direct>
-        <app-config-form-relative *ngSwitchCase="'relative'" [form]="relative"></app-config-form-relative>
-        <app-config-form-button *ngSwitchCase="'button'" [form]="button"></app-config-form-button>
-        <app-config-form-threshold *ngSwitchCase="'threshold'" [form]="threshold"></app-config-form-threshold>
-        <app-config-form-copy *ngSwitchCase="'copy'" [form]="copy"></app-config-form-copy>
+        <ngrc-config-form-direct *ngSwitchCase="'direct'" [form]="direct"></ngrc-config-form-direct>
+        <ngrc-config-form-relative *ngSwitchCase="'relative'" [form]="relative"></ngrc-config-form-relative>
+        <ngrc-config-form-button *ngSwitchCase="'button'" [form]="button"></ngrc-config-form-button>
+        <ngrc-config-form-threshold *ngSwitchCase="'threshold'" [form]="threshold"></ngrc-config-form-threshold>
+        <ngrc-config-form-copy *ngSwitchCase="'copy'" [form]="copy"></ngrc-config-form-copy>
       </ng-container>
       <div class="right" formGroupName="range">
         <mat-slider #min formControlName="min" vertical thumbLabel min="0" [max]="180 - max.value" [value]="0"></mat-slider>
-        <app-range-visualization [min]="min.value" [max]="max.value"></app-range-visualization>
+        <ngrc-range-visualization [min]="min.value" [max]="max.value"></ngrc-range-visualization>
         <mat-slider #max formControlName="max" vertical thumbLabel min="0" [max]="180 - min.value" [value]="0"></mat-slider>
       </div>
     </div>
