@@ -63,7 +63,7 @@ mat-form-field {
   flex: 0 0 auto;
 }
 
-.right > app-range-visualization {
+.right > ngrc-range-visualization {
   flex: 1;
   max-width: 300px;
 }

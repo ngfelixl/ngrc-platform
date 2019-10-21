@@ -9,7 +9,7 @@ import { Mapping } from '../../models/mapping';
 import { NameDialogComponent } from '../name-dialog';
 
 @Component({
-  selector: 'app-config-form',
+  selector: 'ngrc-config-form',
   templateUrl: './config-form.component.html',
   styles: [`.actions { margin-top: 8px; display: flex; justify-content: space-between; }`],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ViewChild, ElementRef, Input, AfterViewInit, OnChanges } from '@angular/core';
 
 @Component({
-  selector: 'app-range-visualization',
+  selector: 'ngrc-range-visualization',
   template: '<canvas #canvas></canvas>',
   styles: [`:host, canvas { width: 100%; }`],
   changeDetection: ChangeDetectionStrategy.OnPush

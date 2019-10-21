@@ -12,13 +12,13 @@ import { loadModels } from '../+store';
     <button mat-raised-button color="accent" routerLink="new"><mat-icon>add</mat-icon> Add Model</button>
 
     <div class="models">
-      <app-model-card
+      <ngrc-model-card
         *ngFor="let model of models$ | async"
         [logo]="model.img"
         [routerLink]="[model.id]"
         [hint]="model.slots?.length + ' Channels'">
         {{model.title}}
-      </app-model-card>
+      </ngrc-model-card>
     </div>
   `,
   styles: [`.models { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); grid-gap: 12px; margin: 12px 0; }`]

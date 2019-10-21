@@ -1,7 +1,7 @@
 <form [formGroup]="mappingForm" (ngSubmit)="openDialog()">
   <div formArrayName="slots">
     <div *ngFor="let slot of slots.controls; let i = index" [formGroupName]="i">
-      <app-config-list-item [form]="slot" [model]="model" [title]="title" class="mat-elevation-z1"></app-config-list-item>
+      <ngrc-config-list-item [form]="slot" [model]="model" [title]="title" class="mat-elevation-z1"></ngrc-config-list-item>
     </div>
   </div>
   <div class="actions">

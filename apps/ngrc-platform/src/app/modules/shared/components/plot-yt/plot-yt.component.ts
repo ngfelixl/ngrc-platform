@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-plot-yt',
+  selector: 'ngrc-plot-yt',
   templateUrl: './plot-yt.component.html',
   styleUrls: [ './plot-yt.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush

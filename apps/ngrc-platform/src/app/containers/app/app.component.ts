@@ -15,7 +15,7 @@ import { setDualshockConnection, getNrfConfig } from '../../modules/devices/+sto
 import { closeMappingSelect, closeSidenav, openSidenav, openMappingSelect, checkOrientation } from '../../+store';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ngrc-root',
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.css' ]
 })

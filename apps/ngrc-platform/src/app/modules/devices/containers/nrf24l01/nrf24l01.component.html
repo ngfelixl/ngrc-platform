@@ -50,8 +50,8 @@
         </button>
       </ng-template>
       <div class="plots">
-        <app-plot-yt [data]="(data$ | async)?.data"></app-plot-yt>
-        <app-stats-widget></app-stats-widget>
+        <ngrc-plot-yt [data]="(data$ | async)?.data"></ngrc-plot-yt>
+        <ngrc-stats-widget></ngrc-stats-widget>
       </div>
     </div>
   </mat-card-content>

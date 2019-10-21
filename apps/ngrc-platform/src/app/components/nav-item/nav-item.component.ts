@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-nav-item',
+  selector: 'ngrc-nav-item',
   templateUrl: './nav-item.component.html',
   styles: [
     `.secondary { color: rgba(0, 0, 0, 0.54); }

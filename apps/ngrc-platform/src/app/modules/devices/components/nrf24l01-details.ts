@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Device } from '../models/device';
 
 @Component({
-  selector: 'app-nrf24l01-details',
+  selector: 'ngrc-nrf24l01-details',
   template: `
     <p>
       Connection: {{device ? 'Connected' : 'Disconnected'}}
