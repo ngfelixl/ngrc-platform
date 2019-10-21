@@ -8,6 +8,7 @@ install:
 script:
  - npm run lint
  - npm run test -- --watch=false
+ - npm run e2e && npm run e2e:docs
  - npm run build:all
 
 # Send coverage data to Coveralls
