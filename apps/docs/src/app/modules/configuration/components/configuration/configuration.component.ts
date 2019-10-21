@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-configuration',
+  selector: 'ngrc-configuration',
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.css']
 })

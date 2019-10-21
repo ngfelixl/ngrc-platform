@@ -41,7 +41,7 @@
 
     <div>
       <h3>Test</h3>
-      <button *ngIf="!(transmitting$ | async)" mat-raised-button color="accent" (click)="startTest()">
+      <button *ngIf="(transmitting$ | async) === (false | null | undefined)" mat-raised-button color="accent" (click)="startTest()">
         <mat-icon>play_arrow</mat-icon> Start
       </button>
       <button *ngIf="(transmitting$ | async)" mat-raised-button color="accent" (click)="stopTest()">
