@@ -1,0 +1,10 @@
+:host {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto 1fr;
+}
+
+.brand {
+  margin: 0 24px;
+  font-size: 20px;
+}

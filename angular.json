@@ -142,7 +142,7 @@
       "schematics": {},
       "root": "apps/docs",
       "sourceRoot": "apps/docs/src",
-      "prefix": "ngrc-platform",
+      "prefix": "ngrc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -158,6 +158,7 @@
               "apps/docs/src/assets"
             ],
             "styles": [
+              "apps/ngrc-platform/src/custom-theme.scss",
               "apps/docs/src/styles.css"
             ],
             "scripts": []
