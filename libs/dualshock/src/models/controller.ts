@@ -10,6 +10,8 @@ export interface Controller {
     circle?: boolean;
     x?: boolean;
     square?: boolean;
+    options?: boolean;
+    share?: boolean;
   };
   sticks: {
     leftx?: number;
@@ -20,5 +22,15 @@ export interface Controller {
   triggers: {
     r2?: number;
     l2?: number;
+  };
+  gyro: {
+    x?: number;
+    y?: number;
+    z?: number;
+  };
+  acceleration: {
+    x?: number;
+    y?: number;
+    z?: number;
   };
 }
