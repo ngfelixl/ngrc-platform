@@ -14,6 +14,7 @@ import { DualshockState } from '../models';
  * @param data HID data array buffer
  *
  * @see https://www.psdevwiki.com/ps4/DS4-BT
+ * @see https://eleccelerator.com/wiki/index.php?title=DualShock_4
  */
 // tslint:disable:no-bitwise
 export function dualshockMapping(data: Buffer): Partial<DualshockState> {
