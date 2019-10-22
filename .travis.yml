@@ -7,18 +7,24 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
 install:
- - npm install
+  - npm install
 
-jobs:
-  include:
-    - stage: lint
-      script: npm run lint
-    - stage: unit-test
-      script: npm run test -- --watch=false
-    - stage: e2e-test
-      script: npm run e2e && npm run e2e:docs
-    - stage: build
-      script: npm run build:all
+scripts:
+  - npm run lint
+  - npm run test -- --watch=false
+  - npm run e2e && npm run e2e:docs
+  - npm run build:all
+
+# jobs:
+#   include:
+#     - stage: lint
+#       script: npm run lint
+#     - stage: unit-test
+#       script: npm run test -- --watch=false
+#     - stage: e2e-test
+#       script: npm run e2e && npm run e2e:docs
+#     - stage: build
+#       script: npm run build:all
 
 # Send coverage data to Coveralls
 # after_script: npm run coverage
