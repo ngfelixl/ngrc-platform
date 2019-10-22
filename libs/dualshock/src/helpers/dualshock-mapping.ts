@@ -25,10 +25,14 @@ export function dualshockMapping(data: Buffer): Partial<DualshockState> {
     battery: data.readUInt8(12),
     controller: {
       sticks: {
-        leftx: data.readUInt8(1),
-        lefty: data.readUInt8(2),
-        rightx: data.readUInt8(3),
-        righty: data.readUInt8(4)
+        left: {
+          x: data.readUInt8(1),
+          y: data.readUInt8(2)
+        },
+        right: {
+          x: data.readUInt8(3),
+          y: data.readUInt8(4)
+        }
       },
       buttons: {
         x: buttonByte & 32 ? true : false,

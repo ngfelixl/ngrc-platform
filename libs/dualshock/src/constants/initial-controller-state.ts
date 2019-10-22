@@ -5,10 +5,14 @@ export const initialControllerState: DualshockState = {
   battery: 0,
   controller: {
     sticks: {
-      leftx: 128,
-      lefty: 128,
-      rightx: 128,
-      righty: 128
+      left: {
+        x: 128,
+        y: 128
+      },
+      right: {
+        x: 128,
+        y: 128
+      }
     },
     buttons: {
       x: false,

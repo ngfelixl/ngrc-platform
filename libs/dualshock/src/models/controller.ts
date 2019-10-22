@@ -14,10 +14,14 @@ export interface Controller {
     share?: boolean;
   };
   sticks: {
-    leftx?: number;
-    lefty?: number;
-    rightx?: number;
-    righty?: number;
+    right: {
+      x: number;
+      y: number;
+    };
+    left: {
+      x: number;
+      y: number;
+    };
   };
   triggers: {
     r2?: number;
