@@ -1,0 +1,1 @@
+cmd_Release/nrf24.node := c++ -bundle -undefined dynamic_lookup -Wl,-no_pie -Wl,-search_paths_first -mmacosx-version-min=10.7 -arch x86_64 -L./Release -stdlib=libc++  -o Release/nrf24.node Release/obj.target/nrf24/src/c++/nrf24.o 

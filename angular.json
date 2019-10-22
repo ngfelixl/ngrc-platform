@@ -94,9 +94,7 @@
               "apps/ngrc-platform/tsconfig.app.json",
               "apps/ngrc-platform/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -123,9 +121,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/ngrc-platform-e2e/tsconfig.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -146,10 +142,7 @@
             "polyfills": "apps/docs/src/polyfills.ts",
             "tsConfig": "apps/docs/tsconfig.app.json",
             "aot": false,
-            "assets": [
-              "apps/docs/src/favicon.ico",
-              "apps/docs/src/assets"
-            ],
+            "assets": ["apps/docs/src/favicon.ico", "apps/docs/src/assets"],
             "styles": [
               "apps/ngrc-platform/src/custom-theme.scss",
               "apps/docs/src/styles.css"
@@ -212,10 +205,7 @@
               "apps/docs/tsconfig.app.json",
               "apps/docs/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/docs/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/docs/**"]
           }
         },
         "test": {
@@ -249,13 +239,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/docs-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/docs-e2e/**"
-            ]
+            "tsConfig": ["apps/docs-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/docs-e2e/**"]
           }
         }
       }
@@ -273,9 +258,7 @@
             "outputPath": "dist/apps/server",
             "main": "apps/server/src/main.ts",
             "tsConfig": "apps/server/tsconfig.app.json",
-            "assets": [
-              "apps/server/src/assets"
-            ]
+            "assets": ["apps/server/src/assets"]
           },
           "configurations": {
             "production": {
@@ -304,10 +287,7 @@
               "apps/server/tsconfig.app.json",
               "apps/server/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/server/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/server/**"]
           }
         },
         "test": {
@@ -315,6 +295,56 @@
           "options": {
             "jestConfig": "apps/server/jest.config.js",
             "tsConfig": "apps/server/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "nrf24": {
+      "root": "libs/nrf24",
+      "sourceRoot": "libs/nrf24/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/nrf24/tsconfig.lib.json",
+              "libs/nrf24/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/nrf24/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/nrf24/jest.config.js",
+            "tsConfig": "libs/nrf24/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "dualshock": {
+      "root": "libs/dualshock",
+      "sourceRoot": "libs/dualshock/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/dualshock/tsconfig.lib.json",
+              "libs/dualshock/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/dualshock/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/dualshock/jest.config.js",
+            "tsConfig": "libs/dualshock/tsconfig.spec.json"
           }
         }
       }

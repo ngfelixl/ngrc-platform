@@ -1,4 +1,4 @@
-export interface NrfState {
+export interface Nrf24State {
   connected: boolean;
   isP: boolean;
   Channel: number;
