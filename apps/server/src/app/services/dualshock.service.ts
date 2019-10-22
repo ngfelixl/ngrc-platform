@@ -1,6 +1,6 @@
 import { WebSocketGateway, SubscribeMessage } from '@nestjs/websockets';
-import { initialControllerValue } from '../../models';
-import { Controller } from '@ngrc/dualshock';
+import { Dualshock } from '@ngrc/dualshock';
+import { pluck, distinctUntilChanged, tap } from 'rxjs/operators';
 
 const eventCount = {
   buttons: {
@@ -16,20 +16,26 @@ const eventCount = {
     l1: 0
   },
   sticks: { left: 0, right: 0 },
-  triggers: { r2: 0, l2: 0 }
+  triggers: { r2: 0, l2: 0 },
+  gyro: { x: 0, y: 0, z: 0 },
+  acceleration: { x: 0, y: 0, z: 0}
 };
 
 @WebSocketGateway(81, { transports: ['polling'] })
 export class DualshockService {
-  ds: any;
-  controller: Controller = initialControllerValue;
-  connected = false;
+  dualshock: Dualshock;
 
-  constructor() {}
+  constructor() {
+    this.dualshock = new Dualshock();
+  }
 
   @SubscribeMessage('[Dualshock] Get Connection')
   getConnection() {
-    return this.connected;
+    return this.dualshock.state$.pipe(
+      pluck('connected'),
+      distinctUntilChanged(),
+      tap(console.log)
+    );
   }
 
   @SubscribeMessage('[Dualshock] Add Listener')
