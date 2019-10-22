@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MappingsService } from '../mappings/mappings.service';
-import { NrfState } from '../../models';
+import { Nrf24State } from '@ngrc/nrf24';
 
 @Injectable()
 export class Nrf24l01Service {
@@ -13,7 +13,7 @@ export class Nrf24l01Service {
   transmitInterval: any;
   statsInterval: any;
   frequency: 20;
-  state: NrfState = {
+  state: Nrf24State = {
     connected: false,
     isP: null,
     Channel: 90,

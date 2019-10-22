@@ -1,5 +1,6 @@
 import { WebSocketGateway, SubscribeMessage } from '@nestjs/websockets';
-import { Controller, initialControllerValue } from '../../models';
+import { initialControllerValue } from '../../models';
+import { Controller } from '@ngrc/dualshock';
 
 const eventCount = {
   buttons: {

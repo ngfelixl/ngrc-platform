@@ -22,6 +22,12 @@
     },
     "server": {
       "tags": []
+    },
+    "nrf24": {
+      "tags": []
+    },
+    "dualshock": {
+      "tags": []
     }
   }
 }
