@@ -59,6 +59,7 @@
     "@nrwl/angular": "8.6.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
+    "node-hid": "^0.7.9",
     "reflect-metadata": "^0.1.12",
     "rxjs": "~6.4.0",
     "socket.io": "^2.3.0",
