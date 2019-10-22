@@ -84,6 +84,7 @@
     "@nrwl/workspace": "8.6.0",
     "@types/jest": "24.0.9",
     "@types/node": "~8.9.4",
+    "@types/node-hid": "^0.7.3",
     "@types/socket.io": "^2.1.4",
     "codelyzer": "^5.0.0",
     "cypress": "3.4.1",
