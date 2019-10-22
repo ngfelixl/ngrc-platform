@@ -7,6 +7,7 @@ import { MappingsModule } from './mappings/mappings.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Model } from './models/model.entity';
 import { Mapping } from './mappings/mapping.entity';
+import { services } from './services';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { Mapping } from './mappings/mapping.entity';
     })
   ],
   providers: [
-    WebsocketGateway
+    WebsocketGateway,
+    ...services
   ],
 })
 export class AppModule {}
