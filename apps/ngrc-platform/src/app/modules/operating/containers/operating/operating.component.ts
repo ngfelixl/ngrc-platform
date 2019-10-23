@@ -8,7 +8,7 @@ import { Controller } from '@ngrc/dualshock-shared';
 import { Mapping } from '../../../configuration/models/mapping';
 import { openMappingSelect, addSocketListener, removeSocketListener, isLandscape, State } from '../../../../+store';
 import { getSelectedMapping } from '../../../configuration/+store';
-import { map, share } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { nrfStopTransmission, nrfStartTransmission, getDualshockData } from '../../../devices/+store';
 
 @Component({
@@ -38,7 +38,7 @@ export class OperatingComponent implements OnDestroy {
         this.store.dispatch(nrfStartTransmission());
         this.store.dispatch(addSocketListener({ key: '[Nrf] Transmit Data' }));
         this.data$ = this.socketService.listen('[Nrf] Transmit Data');
-        this.dsData$ = this.store.select(getDualshockData).pipe(share());
+        this.dsData$ = this.store.select(getDualshockData).pipe(shareReplay(1));
         this.dsLeft$ = this.dsData$.pipe(map(data  => data.sticks.left));
         this.dsRight$ = this.dsData$.pipe(map(data  => data.sticks.right));
       }
