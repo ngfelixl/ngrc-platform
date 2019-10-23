@@ -1,24 +1,25 @@
-import { Component, Input, ChangeDetectionStrategy, AfterViewInit, ElementRef, ViewChild, OnChanges      } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, AfterViewInit,
+  ElementRef, ViewChild, OnChanges, HostBinding } from '@angular/core';
 import { Controller } from '@ngrc/dualshock-shared';
 
 @Component({
   selector: 'ngrc-ds-visualization',
   template: `
-    <canvas #background></canvas>
-    <canvas #canvas class="content"></canvas>`,
+    <canvas #canvas></canvas>
+    `,
   styleUrls: [ './ds-visualization.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsVisualizationComponent implements AfterViewInit, OnChanges {
   @ViewChild('canvas', {static: true}) canvasRef: ElementRef;
-  @ViewChild('background', {static: true}) backgroundRef: ElementRef;
+  @HostBinding('class.disconnected')
+  @Input() disconnected = false;
   @Input() data: Controller;
 
-  ctx: CanvasRenderingContext2D;
-  size: number[] = [0, 0];
-  ar: number[];
-  img: HTMLImageElement;
-  stickImg: HTMLImageElement;
+  private ctx: CanvasRenderingContext2D;
+  private size: number[] = [0, 0];
+  private img: HTMLImageElement;
+  private stickImg: HTMLImageElement;
 
   constructor() { }
 
@@ -26,32 +27,28 @@ export class DsVisualizationComponent implements AfterViewInit, OnChanges {
     const canvas = this.canvasRef.nativeElement;
     canvas.width = 2 * canvas.width;
     canvas.height = canvas.width / 3.1 * 2;
-    this.createBackground(canvas.width, canvas.height);
     this.size = [canvas.width, canvas.height];
     this.ctx = canvas.getContext('2d');
     this.stickImg = new Image();
     this.stickImg.src = './assets/stick.png';
     this.stickImg.onload = this.paintLoop.bind(this);
-
-  }
-
-  createBackground(width: number, height: number) {
-    const background = this.backgroundRef.nativeElement;
-    background.width = width;
-    background.height = height;
-    const backgroundCtx = background.getContext('2d');
     this.img = new Image();
     this.img.src = './assets/dualshock.png';
-    this.img.onload = () => backgroundCtx.drawImage(this.img, 0, 0, this.size[0], this.size[1]);
+    this.img.onload = this.paintLoop.bind(this);
   }
 
   ngOnChanges(): void {
     this.paintLoop();
   }
 
+  drawBackground() {
+    this.ctx.drawImage(this.img, 0, 0, this.size[0], this.size[1]);
+  }
+
   paintLoop(): void {
     if (this.data && this.ctx) {
       this.ctx.clearRect(0, 0, this.size[0], this.size[1]);
+      this.drawBackground();
       this.drawSticks();
       this.drawButtons();
       this.drawTriggers();
