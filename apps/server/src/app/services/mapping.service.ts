@@ -1,7 +1,8 @@
 import { Mapping } from '../../models/mapping';
 import { Subject } from 'rxjs';
 import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets';
-import { Slot, Controller, DirectControl, RelativeControl } from '../../models';
+import { Slot, DirectControl, RelativeControl } from '../../models';
+import { Controller } from '@ngrc/dualshock';
 
 @WebSocketGateway(81, { transports: ['polling'] })
 export class MappingService {

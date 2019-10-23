@@ -20,7 +20,7 @@ import { services } from './services';
       type: 'sqlite',
       database: 'database.db',
       synchronize: true,
-      logging: true,
+      logging: false,
       entities: [Model, Mapping],
     })
   ],
