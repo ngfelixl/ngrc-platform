@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as fromDevices from '../../+store';
+import { State, getDualshockState, getNrfState } from '../../+store';
 import { Observable } from 'rxjs';
 import { Device } from '../../models/device';
 import { Nrf } from '../../models';
@@ -14,8 +14,8 @@ export class DevicesComponent {
   dualshock$: Observable<Device>;
   nrf$: Observable<Nrf>;
 
-  constructor(private store: Store<fromDevices.State>) {
-    this.dualshock$ = this.store.select(fromDevices.getDualshockState);
-    this.nrf$ = this.store.select(fromDevices.getNrfState);
+  constructor(private store: Store<State>) {
+    this.dualshock$ = this.store.select(getDualshockState);
+    this.nrf$ = this.store.select(getNrfState);
   }
 }

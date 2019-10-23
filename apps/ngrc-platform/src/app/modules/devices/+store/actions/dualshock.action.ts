@@ -1,12 +1,12 @@
 import { createAction, props } from '@ngrx/store';
 import { DualshockState } from '@ngrc/dualshock-shared';
 
-export const dualshockListen = createAction(
-  '[Devices] Dualshock Listen'
+export const dualshockConnect = createAction(
+  '[Devices] Dualshock Connect'
 );
 
-export const dualshockUnlisten = createAction(
-  '[Devices] Dualshock Unlisten'
+export const dualshockDisconnect = createAction(
+  '[Devices] Dualshock Disconnect'
 );
 
 export const dualshockStateChanged = createAction(
