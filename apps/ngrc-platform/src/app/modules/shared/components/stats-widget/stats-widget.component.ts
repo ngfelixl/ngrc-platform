@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SocketService } from '../../../../services/socket.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Nrf24Stats } from '@ngrc/nrf24';
 
 @Component({
   selector: 'ngrc-stats-widget',
@@ -13,7 +14,7 @@ export class StatsWidgetComponent implements OnInit {
   constructor(private socketService: SocketService) {}
 
   ngOnInit() {
-    this.data$ = this.socketService.listen('[Nrf] Stats Data').pipe(
+    this.data$ = this.socketService.listen<Nrf24Stats>('[Nrf] Stats Data').pipe(
       map(data => {
         const success: number = data.TotalTx_Ok;
         const total: number = data.TotalTx_Err + data.TotalTx_Ok;

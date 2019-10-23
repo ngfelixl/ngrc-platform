@@ -9,7 +9,6 @@ import { MatModule } from '../mat/mat.module';
 import { SharedModule } from '../shared/shared.module';
 import { DevicesRoutingModule } from './devices-routing.module';
 
-import { DevicesService } from './services/devices.service';
 import { DualshockService } from './services/dualshock.service';
 
 import { containers } from './containers';
@@ -33,7 +32,6 @@ import { reducers, effects } from './+store';
     containers
   ],
   providers: [
-    DevicesService,
     DualshockService
   ]
 })

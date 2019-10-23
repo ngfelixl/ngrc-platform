@@ -1,4 +1,4 @@
-import { DualshockState } from '../models';
+import { DualshockState } from '@ngrc/dualshock-shared';
 
 /**
  * ### Dualshock Mapping

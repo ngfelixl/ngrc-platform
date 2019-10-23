@@ -1,61 +1,59 @@
-import { DualshockActionTypes, dualshockOnline,
-  dualshockOffline, setDualshockConnection, setDualshockBattery,
-  dualshockAddListener, dualshockRemoveListener, dualshockError, dualshockData, dualshockRemoveAllListeners } from '../actions';
-import { Controller, controllerInitialValue } from '../../models/controller';
+import { dualshockError, dualshockStateChanged } from '../actions';
 import { createReducer, on, Action } from '@ngrx/store';
+import { DualshockState, initialControllerState } from '@ngrc/dualshock-shared';
 
-interface Listeners {
-  [key: string]: {
-    count: number;
-    data: any;
-  };
-}
 
-export interface DualshockState {
-  online: boolean;
-  battery: number;
-  charging: boolean;
-  controller: Controller;
-  listeners: Listeners;
-  error: any;
-}
-
-const initialState = {
-  online: false,
+const initialState: DualshockState = {
+  connected: false,
   battery: 0,
-  charging: false,
-  controller: controllerInitialValue,
-  listeners: {},
-  error: null
+  controller: {
+    sticks: {
+      left: {
+        x: 128,
+        y: 128
+      },
+      right: {
+        x: 128,
+        y: 128
+      }
+    },
+    buttons: {
+      x: false,
+      square: false,
+      triangle: false,
+      circle: false,
+      dpadup: false,
+      dpadright: false,
+      dpaddown: false,
+      dpadleft: false,
+      r1: false,
+      l1: false,
+      options: false,
+      share: false
+    },
+    triggers: {
+      r2: 0,
+      l2: 0
+    },
+    gyro: {
+      x: 0,
+      y: 0,
+      z: 0
+    },
+    acceleration: {
+      x: 0,
+      y: 0,
+      z: 0
+    }
+  }
 };
 
 export const dualshockReducer = createReducer(
-  initialState,
-  on(dualshockOnline, (state) => ({...state, online: true})),
-  on(dualshockOffline, (state) => ({...state, online: false})),
-  on(setDualshockConnection, (state, { isConnected }) => ({...state, online: isConnected})),
-  on(setDualshockBattery, (state, { battery }) => ({...state, battery})),
-  on(dualshockAddListener, addListenerReducer),
-  // on(dualshockRemoveListener, (state, { key }) => ),
+  initialControllerState,
+  on(dualshockStateChanged, (_, { dualshockState }) => dualshockState),
   on(dualshockError, (state, { error }) => ({...state, error})),
-  on(dualshockData, (state, { button, value }) => ({...state, controller: {...state.controller, [button]: value}}))
 );
 
 export function reducer(state: DualshockState, action: Action) {
   return dualshockReducer(state, action);
 }
-
-function addListenerReducer(state: DualshockState, payload: { button: string }): DualshockState {
-  let data: {count: number; data: any};
-  const button = payload.button;
-  const listener = state.listeners[button];
-
-  if (listener) {
-    data = { count: listener.count + 1, data: listener.data };
-  } else {
-    data = { count: 1, data: null };
-  }
-
-  return {...state, listeners: {...state.listeners, [button]: data }};
-}
-

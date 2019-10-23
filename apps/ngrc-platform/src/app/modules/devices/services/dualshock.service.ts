@@ -12,8 +12,7 @@ import * as fromRoot from '../../../+store';
 // import { DsBatteryChanged, DsDataLeft, DsDataRight } from '../store/actions/devices';
 // import { getSidenavItemSelected } from '../../core/store/reducers';
 import { Subscription } from 'rxjs';
-import { setDualshockBattery } from '../+store';
-import { toggleSidenav, closeSidenav, navigateDown, navigateUp } from '../../../+store';
+import { closeSidenav } from '../../../+store';
 
 const navItems = ['/', '/controls', '/models', '/devices'];
 
@@ -31,21 +30,6 @@ export class DualshockService {
   }
 
   dsNavigationDataSubscription(): void {
-    this.socketService.listen('[Devices] Dualshock Battery').subscribe(battery => {
-      this.store.dispatch(setDualshockBattery({ battery }));
-    });
-    this.socketService.listen('[Devices] Dualshock Triangle').subscribe(() => {
-      this.store.dispatch(toggleSidenav());
-    });
-    this.socketService.listen('[Devices] Dualshock Circle').subscribe(() => {
-      this.location.back();
-    });
-    this.socketService.listen('[Devices] Dualshock Up').subscribe(() => {
-      this.store.dispatch(navigateUp());
-    });
-    this.socketService.listen('[Devices] Dualshock Down').subscribe(() => {
-      this.store.dispatch(navigateDown());
-    });
     this.store.select(fromRoot.getSidenavItemSelected).subscribe(item => {
       if (this.subscription) {
         this.subscription.unsubscribe();

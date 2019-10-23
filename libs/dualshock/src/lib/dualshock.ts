@@ -1,10 +1,9 @@
-import { DualshockState } from '../models';
+import { DualshockState, initialControllerState } from '@ngrc/dualshock-shared';
 import { Observable, fromEvent, timer, of, Subject, merge, combineLatest } from 'rxjs';
 import { HID, devices } from 'node-hid';
 import { mapTo, map, switchMap, retryWhen, tap, shareReplay,
   delayWhen, startWith, distinctUntilChanged, scan } from 'rxjs/operators';
 import { dualshockMapping } from '../helpers';
-import { initialControllerState } from '../constants';
 
 export class Dualshock {
   private ds4$: Observable<HID>;
