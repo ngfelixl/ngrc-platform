@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatModule } from './modules/mat/mat.module';
 import { FilterMappingsByModelPipe } from './pipes/filter-mappings-by-model.pipe';
 import { ReduxModule } from './+store/redux.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ReduxModule } from './+store/redux.module';
     ReduxModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MatModule
+    MatModule,
+    ReactiveFormsModule
   ],
   providers: [SocketService],
   bootstrap: [AppComponent],
