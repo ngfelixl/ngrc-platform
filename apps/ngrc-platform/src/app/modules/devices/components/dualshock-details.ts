@@ -5,7 +5,7 @@ import { Device } from '../models/device';
   selector: 'ngrc-dualshock-details',
   template: `
     <p>
-      Connection: {{device.online ? 'Connected' : 'Disconnected'}}
+      Connection: {{device.connected ? 'Connected' : 'Disconnected'}}
     </p>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
