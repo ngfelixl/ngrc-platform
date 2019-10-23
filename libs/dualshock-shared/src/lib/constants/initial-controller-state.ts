@@ -2,7 +2,7 @@ import { DualshockState } from '../models';
 
 export const initialControllerState: DualshockState = {
   connected: false,
-  battery: 0,
+  battery: null,
   controller: {
     sticks: {
       left: {
