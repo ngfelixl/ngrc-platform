@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -9,20 +9,21 @@ import { MatDialog } from '@angular/material';
 
 import { MappingSelectDialogComponent } from '../mapping-select-dialog/mapping-select-dialog.component';
 import { Mapping } from '../../modules/configuration/models';
-import { getNrfConfig } from '../../modules/devices/+store';
+import { getNrfConfig, dualshockConnect, dualshockDisconnect, getDualshockBattery } from '../../modules/devices/+store';
 import { closeMappingSelect, closeSidenav, openSidenav, openMappingSelect, checkOrientation } from '../../+store';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'ngrc-root',
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.css' ]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   isLandscape: boolean;
   showSidenav$: Observable<boolean>;
   selected$: Observable<number>;
   battery: number;
-  batteryIcon: string;
+  batteryIcon$: Observable<string>;
   mapping$: Observable<Mapping>;
   isLandscape$: Observable<boolean>;
   transmitting$: Observable<boolean>;
@@ -45,7 +46,11 @@ export class AppComponent implements OnInit {
     this.mapping$ = this.store.select(fromConfiguration.getSelectedMapping);
     this.transmitting$ = this.store.select(fromDevices.getNrfTransmitting);
 
+    this.batteryIcon$ = this.store.select(getDualshockBattery).pipe(
+      map(battery => this.getBatteryIcon(battery))
+    );
     this.store.dispatch(getNrfConfig());
+    this.store.dispatch(dualshockConnect());
 
     this.store.select(fromFeature.getMappingSelectDialog).subscribe(showDialog => {
       if (showDialog) {
@@ -72,23 +77,29 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getBatteryIcon(battery) {
-    if (battery < 20) {
-      this.batteryIcon = 'battery_alert';
+  getBatteryIcon(battery: number) {
+    if (!battery) {
+      return 'battery_unknown';
+    } else if (battery < 20) {
+      return 'battery_alert';
     } else if (battery < 30) {
-      this.batteryIcon = 'battery_20';
+      return 'battery_20';
     } else if (battery < 50) {
-      this.batteryIcon = 'battery_30';
+      return 'battery_30';
     } else if (battery < 60) {
-      this.batteryIcon = 'battery_50';
+      return 'battery_50';
     } else if (battery < 80) {
-      this.batteryIcon = 'battery_60';
+      return 'battery_60';
     } else if (battery < 90) {
-      this.batteryIcon = 'battery_80';
+      return 'battery_80';
     } else if (battery < 100) {
-      this.batteryIcon = 'battery_90';
+      return 'battery_90';
     } else if (battery === 100) {
-      this.batteryIcon = 'battery_full';
+      return 'battery_full';
     }
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(dualshockDisconnect());
   }
 }

@@ -49,6 +49,7 @@
       [isLandscape]="isLandscape$ | async"
       [transmitting]="transmitting$ | async"
       (openMappingSelect)="openMappingSelect()"
+      [batteryIcon]="batteryIcon$ | async"
       [mapping]="(mapping$ | async)?.title"></ngrc-toolbar>
     <div class="content"><router-outlet></router-outlet></div>
   </div>
