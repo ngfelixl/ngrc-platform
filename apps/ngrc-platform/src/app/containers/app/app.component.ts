@@ -69,7 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(MappingSelectDialogComponent, {
-      width: '250px'
+      width: '300px'
     });
 
     dialogRef.afterClosed().subscribe(() => {

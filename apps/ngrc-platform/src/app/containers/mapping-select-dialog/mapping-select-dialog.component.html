@@ -1,22 +1,41 @@
 <ng-container *ngIf="showSelection$ | async; else noModels">
-  <mat-form-field>
-    <mat-select #model placeholder="Model" [value]="(mapping$ | async)?.modelId">
-      <mat-option *ngFor="let model of models$ | async" [value]="model.id">{{model.title}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select #mapping placeholder="Mapping" [disabled]="!model.value" [value]="(mapping$ | async)?.id">
-      <mat-option
-        *ngFor="let mapping of (mappings$ | async) | filterMappingsByModel:model.value"
-        [value]="mapping.id">{{mapping.title}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="select(mapping.value)">Select</button>
-  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <h3>Select a Mapping</h3>
+  <form [formGroup]="mappingSelectForm" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-select #model formControlName="modelId" placeholder="Model">
+        <mat-option *ngFor="let model of models$ | async" [value]="model.id">{{model.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field [class.hide]="hideMappingsSelection$ | async">
+      <mat-select formControlName="id" placeholder="Mapping">
+        <mat-option
+          *ngFor="let mapping of mappings$ | async"
+          [value]="mapping.id">
+          {{mapping.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <ng-container *ngIf="hideMappingsSelection$ | async else showSubmit">
+      <h3>No Mappings!</h3>
+      <p>There are no mappings for this model. Do you like to create one?</p>
+      <div class="button-group">
+        <button mat-flat-button color="primary" type="button" [routerLink]="['/models', model.value]" (click)="dialogRef.close()">Create Mapping</button>
+        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+      </div>
+    </ng-container>
+    <ng-template #showSubmit>
+      <div class="button-group">
+        <button mat-raised-button color="primary" [disabled]="mappingSelectForm.invalid">Select</button>
+        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+      </div>
+    </ng-template>
+  </form>
 </ng-container>
 <ng-template #noModels>
   <h3>No Models!</h3>
   <p>There are no models. Do you like to create one?</p>
-  <button mat-flat-button color="primary" routerLink="/models/new" (click)="dialogRef.close()">Create Model</button>
-  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <div class="button-group">
+    <button mat-flat-button type="button" color="primary" routerLink="/models/new" (click)="dialogRef.close()">Create Model</button>
+    <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+  </div>
 </ng-template>
