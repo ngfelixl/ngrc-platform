@@ -2,7 +2,7 @@ import { DualshockState, initialControllerState } from '@ngrc/dualshock-shared';
 import { Observable, fromEvent, timer, of, Subject, merge, combineLatest } from 'rxjs';
 import { HID, devices } from 'node-hid';
 import { mapTo, map, switchMap, retryWhen, tap, shareReplay,
-  delayWhen, startWith, distinctUntilChanged, scan } from 'rxjs/operators';
+  delayWhen, startWith, distinctUntilChanged, scan, sampleTime } from 'rxjs/operators';
 import { dualshockMapping } from '../helpers';
 
 export class Dualshock {
@@ -41,6 +41,7 @@ export class Dualshock {
   private createDs4DataStream(): Observable<Partial<DualshockState>> {
     return this.ds4$.pipe(
       switchMap((ds4) =>  fromEvent(ds4, 'data')),
+      sampleTime(16.7),
       map(dualshockMapping)
     );
   }
