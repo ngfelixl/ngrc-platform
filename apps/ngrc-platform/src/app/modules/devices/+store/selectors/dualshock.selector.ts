@@ -1,27 +1,24 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { State } from '../reducers';
-import { DualshockState } from '../reducers/dualshock.reducer';
 
 const getDevicesState = createFeatureSelector<State>('devices');
-const getDsState = createSelector(
-  getDevicesState,
-  (devices) => devices.dualshock
-);
 
-export const getDualshock = createSelector(
+export const getDualshockState = createSelector(
   getDevicesState,
   (state: State) => state.dualshock
 );
 
-export const getDsListeners = createSelector(
-  getDsState,
-  (state: DualshockState) => state.listeners
+export const getDualshockConnection = createSelector(
+  getDualshockState,
+  (state) => state.connected
 );
 
-export const getDsData = createSelector(
-  getDualshock, (state) => state.controller
+export const getDualshockBattery = createSelector(
+  getDualshockState,
+  (state) => state.battery
 );
 
-export const getDsLeft = createSelector(
-  getDualshock, (state) => state.controller.left
+export const getDualshockData = createSelector(
+  getDualshockState,
+  (state) => state.controller
 );

@@ -1,10 +1,11 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 
+import { DualshockState } from '@ngrc/dualshock-shared';
 import * as fromDualshock from './dualshock.reducer';
 import * as fromNrf from './nrf.reducer';
 
 export interface State {
-  dualshock: fromDualshock.DualshockState;
+  dualshock: DualshockState;
   nrf: fromNrf.NrfState;
 }
 

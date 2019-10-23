@@ -3,10 +3,9 @@ import { Location } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 
-import * as fromFeature from '../../+store';
 import { Observable } from 'rxjs';
-import { Controller } from '../../models/controller';
-import { dualshockRemoveAllListeners, dualshockAddAllListeners } from '../../+store';
+import { Controller } from '@ngrc/dualshock-shared';
+import { dualshockUnlisten, dualshockListen, getDualshockData, State } from '../../+store';
 
 @Component({
   templateUrl: './dualshock.component.html',
@@ -21,16 +20,16 @@ export class DualshockComponent implements OnInit, OnDestroy {
 
   constructor(
     private location: Location,
-    private store: Store<fromFeature.State>
+    private store: Store<State>
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(dualshockAddAllListeners());
-    this.dsData$ = this.store.select(fromFeature.getDsData);
+    this.store.dispatch(dualshockListen());
+    this.dsData$ = this.store.select(getDualshockData);
   }
 
   ngOnDestroy() {
-    this.store.dispatch(dualshockRemoveAllListeners());
+    this.store.dispatch(dualshockUnlisten());
   }
 
   back() { this.location.back(); }

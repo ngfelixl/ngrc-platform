@@ -2,8 +2,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { SocketService } from '../../services/socket.service';
-
 import * as fromFeature from '../../+store';
 import * as fromConfiguration from '../../modules/configuration/+store';
 import * as fromDevices from '../../modules/devices/+store';
@@ -11,7 +9,7 @@ import { MatDialog } from '@angular/material';
 
 import { MappingSelectDialogComponent } from '../mapping-select-dialog/mapping-select-dialog.component';
 import { Mapping } from '../../modules/configuration/models';
-import { setDualshockConnection, getNrfConfig } from '../../modules/devices/+store';
+import { getNrfConfig } from '../../modules/devices/+store';
 import { closeMappingSelect, closeSidenav, openSidenav, openMappingSelect, checkOrientation } from '../../+store';
 
 @Component({
@@ -35,7 +33,6 @@ export class AppComponent implements OnInit {
   }
 
   constructor(
-    private socketService: SocketService,
     private store: Store<fromFeature.State>,
     private dialog: MatDialog
   ) {}
@@ -48,17 +45,7 @@ export class AppComponent implements OnInit {
     this.mapping$ = this.store.select(fromConfiguration.getSelectedMapping);
     this.transmitting$ = this.store.select(fromDevices.getNrfTransmitting);
 
-    this.socketService.listen('[Dualshock] Connection Changed').subscribe(isConnected => {
-      console.log(isConnected);
-      this.store.dispatch(setDualshockConnection({ isConnected }));
-    });
     this.store.dispatch(getNrfConfig());
-
-
-    this.socketService.request('[Dualshock] Get Connection Success').subscribe(isConnected => {
-      this.store.dispatch(setDualshockConnection({ isConnected }));
-    });
-    this.socketService.emit('[Dualshock] Get Connection');
 
     this.store.select(fromFeature.getMappingSelectDialog).subscribe(showDialog => {
       if (showDialog) {

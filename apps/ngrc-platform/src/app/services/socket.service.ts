@@ -54,9 +54,9 @@ export class SocketService {
     return this.socket.hasListeners(listener);
   }
 
-  listen(event: string): Observable<any> {
+  listen<T = unknown>(event: string): Observable<T> {
     return new Observable(observer => {
-      this.socket.on(event, data => {
+      this.socket.on(event, (data: T) => {
         observer.next(data);
       });
 

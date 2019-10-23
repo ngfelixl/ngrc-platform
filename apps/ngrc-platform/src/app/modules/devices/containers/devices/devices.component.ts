@@ -15,7 +15,7 @@ export class DevicesComponent {
   nrf$: Observable<Nrf>;
 
   constructor(private store: Store<fromDevices.State>) {
-    this.dualshock$ = this.store.select(fromDevices.getDualshock);
+    this.dualshock$ = this.store.select(fromDevices.getDualshockState);
     this.nrf$ = this.store.select(fromDevices.getNrfState);
   }
 }

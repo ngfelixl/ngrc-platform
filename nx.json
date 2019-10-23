@@ -9,7 +9,7 @@
   },
   "projects": {
     "ngrc-platform": {
-      "tags": ["frontend"]
+      "tags": ["frontend", "dualshock"]
     },
     "ngrc-platform-e2e": {
       "tags": ["frontend"]
@@ -21,13 +21,16 @@
       "tags": ["docs"]
     },
     "server": {
-      "tags": []
+      "tags": ["dualshock"]
     },
     "nrf24": {
       "tags": []
     },
     "dualshock": {
-      "tags": []
+      "tags": ["dualshock"]
+    },
+    "dualshock-shared": {
+      "tags": ["dualshock"]
     }
   }
 }

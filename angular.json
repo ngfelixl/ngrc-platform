@@ -348,6 +348,31 @@
           }
         }
       }
+    },
+    "dualshock-shared": {
+      "root": "libs/dualshock-shared",
+      "sourceRoot": "libs/dualshock-shared/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/dualshock-shared/tsconfig.lib.json",
+              "libs/dualshock-shared/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/dualshock-shared/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/dualshock-shared/jest.config.js",
+            "tsConfig": "libs/dualshock-shared/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngrc-platform",
