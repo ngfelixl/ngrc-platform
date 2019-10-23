@@ -1,14 +1,22 @@
-<mat-form-field>
-  <mat-select #model placeholder="Model" [value]="(mapping$ | async)?.modelId">
-    <mat-option *ngFor="let model of models$ | async" [value]="model.id">{{model.title}}</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field>
-  <mat-select #mapping placeholder="Mapping" [disabled]="!model.value" [value]="(mapping$ | async)?.id">
-    <mat-option
-      *ngFor="let mapping of mappings | filterMappingsByModel:model.value"
-      [value]="mapping.id">{{mapping.title}}</mat-option>
-  </mat-select>
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="select(mapping.value)">Select</button>
-<button mat-button (click)="dialogRef.close()">Cancel</button>
+<ng-container *ngIf="showSelection$ | async; else noModels">
+  <mat-form-field>
+    <mat-select #model placeholder="Model" [value]="(mapping$ | async)?.modelId">
+      <mat-option *ngFor="let model of models$ | async" [value]="model.id">{{model.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select #mapping placeholder="Mapping" [disabled]="!model.value" [value]="(mapping$ | async)?.id">
+      <mat-option
+        *ngFor="let mapping of (mappings$ | async) | filterMappingsByModel:model.value"
+        [value]="mapping.id">{{mapping.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="select(mapping.value)">Select</button>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+</ng-container>
+<ng-template #noModels>
+  <h3>No Models!</h3>
+  <p>There are no models. Do you like to create one?</p>
+  <button mat-flat-button color="primary" routerLink="/models/new" (click)="dialogRef.close()">Create Model</button>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+</ng-template>
