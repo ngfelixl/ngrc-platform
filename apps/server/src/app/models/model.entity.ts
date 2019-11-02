@@ -11,6 +11,6 @@ export class Model {
   @Column('text')
   slots: string;
 
-  @Column('text', { default: null })
-  img: string | any;
+  @Column('text')
+  img: string;
 }

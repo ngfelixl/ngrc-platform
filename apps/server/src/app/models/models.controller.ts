@@ -1,6 +1,11 @@
-import { Controller, Get, Post, Body, Delete, Param, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Param, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ModelsService } from './models.service';
 import { ModelDto } from './model.dto';
+import { Model } from './model.entity';
+import { diskStorage } from 'multer';
+import { editFileName } from '../helpers';
+import { join } from 'path';
 
 @Controller('models')
 export class ModelsController {
@@ -18,8 +23,12 @@ export class ModelsController {
   }
 
   @Post()
-  addOne(@Body() model: ModelDto) {
-    return this.modelsService.add(model);
+  @UseInterceptors(FileInterceptor('img', { storage: diskStorage({
+    destination: join(__dirname, 'images'),
+    filename: editFileName
+  }) }))
+  addOne(@Body() model: Model, @UploadedFile() file) {
+    return this.modelsService.add({...model, img: file.filename});
   }
 
   @Delete(':id')
