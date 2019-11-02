@@ -28,11 +28,7 @@ export class ModelsService {
     return {...model, slots: JSON.parse(model.slots)};
   }
 
-  async add(modelDto: ModelDto): Promise<ModelDto> {
-    const model: Model = {
-      ...modelDto,
-      slots: JSON.stringify(modelDto.slots)
-    };
+  async add(model: Model): Promise<ModelDto> {
     const databaseModel = await this.modelRepository.save(model);
     return {...databaseModel, slots: JSON.parse(databaseModel.slots)};
   }

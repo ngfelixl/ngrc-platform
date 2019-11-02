@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MappingsComponent } from './containers/mappings/mappings.component';
-import { ModelsComponent } from './containers/models';
+import { ModelsComponent } from './containers/models/models.component';
 import { CreateModelComponent } from './containers/create-model/create-model.component';
 
 const routes: Routes = [

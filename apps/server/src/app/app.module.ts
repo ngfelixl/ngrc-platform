@@ -8,12 +8,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Model } from './models/model.entity';
 import { Mapping } from './mappings/mapping.entity';
 import { services } from './services';
+import { MulterModule } from '@nestjs/platform-express';
+import { imageFileFilter } from './helpers';
+import { join } from 'path';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: `${__dirname}/../ngrc-platform`
-    }),
+    /* ServeStaticModule.forRoot({
+      rootPath: `${__dirname}/../ngrc-platform`,
+    }), */
     ModelsModule,
     MappingsModule,
     TypeOrmModule.forRoot({
@@ -22,6 +25,11 @@ import { services } from './services';
       synchronize: true,
       logging: false,
       entities: [Model, Mapping],
+    }),
+    MulterModule.register({
+      dest: join(__dirname, 'images'),
+      limits: { files: 1 },
+      fileFilter: imageFileFilter
     })
   ],
   providers: [

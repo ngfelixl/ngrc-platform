@@ -67,7 +67,7 @@ export class Dualshock {
       }),
       retryWhen((error) => error.pipe(
         delayWhen(() => timer(500)),
-        tap(() => console.log('Retry to connect to dualshock...'))
+        // tap(() => console.log('Retry to connect to dualshock...'))
       )),
       shareReplay(1)
     );

@@ -16,12 +16,11 @@ export class ModelsService {
   }
 
   add(model: Model): Observable<Model> {
-    const img = model.img;
-    return this.http.post<Model>(`${environment.api}/models`, model).pipe(
-      switchMap(modelObj => {
-        return this.appendImg({...modelObj, img});
-      })
-    );
+    const formData = new FormData();
+    formData.append('img', model.img, (model.img as File).name);
+    formData.append('title', model.title);
+    formData.append('slots', JSON.stringify(model.slots));
+    return this.http.post<Model>(`${environment.api}/models`, formData);
   }
 
   appendImg(model: Model): Observable<Model> {
