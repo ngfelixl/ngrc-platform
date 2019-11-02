@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { WebsocketGateway } from './websocket.gateway';
 import { ModelsModule } from './models/models.module';
@@ -14,14 +13,11 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    /* ServeStaticModule.forRoot({
-      rootPath: `${__dirname}/../ngrc-platform`,
-    }), */
     ModelsModule,
     MappingsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database.db',
+      database: join(__dirname, 'database.db'),
       synchronize: true,
       logging: false,
       entities: [Model, Mapping],
