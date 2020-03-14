@@ -6,7 +6,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { effects, reducers, metaReducers } from './';
 import {
   StoreRouterConnectingModule,
-  RouterStateSerializer,
+  RouterStateSerializer, DefaultRouterStateSerializer,
 } from '@ngrx/router-store';
 import { CustomRouterStateSerializer } from './router.utils';
 
@@ -23,7 +23,7 @@ import { CustomRouterStateSerializer } from './router.utils';
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
-    StoreRouterConnectingModule.forRoot({
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer,
       stateKey: 'router',
     })
   ],
