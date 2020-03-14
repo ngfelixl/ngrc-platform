@@ -18,7 +18,7 @@ const initialState = adapter.getInitialState({
 
 const mappingsReducer = createReducer(
   initialState,
-  on(loadMappingsSuccess, (state, { mappings }) => adapter.addAll(mappings, state)),
+  on(loadMappingsSuccess, (state, { mappings }) => adapter.setAll(mappings, state)),
   on(addMappingSuccess, (state, { mapping }) => adapter.addOne(mapping, state)),
   on(updateMappingSuccess, (state, changes) => adapter.updateOne(changes, state)),
   on(selectMapping, (state, { id }) => ({...state, selectedMapping: id })),

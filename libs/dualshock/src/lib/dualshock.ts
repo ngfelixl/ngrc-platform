@@ -31,7 +31,7 @@ export class Dualshock {
   }
 
   private createDs4State(): Observable<DualshockState> {
-    return combineLatest(this.ds4Data$, this.ds4Connected$).pipe(
+    return combineLatest([this.ds4Data$, this.ds4Connected$]).pipe(
       scan((state: DualshockState, [ds4data, connected]: [Partial<DualshockState>, boolean]) => {
         return {...state, ...ds4data, connected};
       }, initialControllerState)
