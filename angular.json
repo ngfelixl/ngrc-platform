@@ -18,7 +18,7 @@
             "main": "apps/ngrc-platform/src/main.ts",
             "polyfills": "apps/ngrc-platform/src/polyfills.ts",
             "tsConfig": "apps/ngrc-platform/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/ngrc-platform/src/favicon.ico",
               "apps/ngrc-platform/src/assets"
@@ -42,7 +42,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -84,7 +83,8 @@
           "options": {
             "jestConfig": "apps/ngrc-platform/jest.config.js",
             "tsConfig": "apps/ngrc-platform/tsconfig.spec.json",
-            "setupFile": "apps/ngrc-platform/src/test-setup.ts"
+            "setupFile": "apps/ngrc-platform/src/test-setup.ts",
+            "passWithNoTests": true
           }
         },
         "lint": {
@@ -141,7 +141,7 @@
             "main": "apps/docs/src/main.ts",
             "polyfills": "apps/docs/src/polyfills.ts",
             "tsConfig": "apps/docs/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": ["apps/docs/src/favicon.ico", "apps/docs/src/assets"],
             "styles": [
               "apps/ngrc-platform/src/custom-theme.scss",
@@ -162,7 +162,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -213,7 +212,8 @@
           "options": {
             "jestConfig": "apps/docs/jest.config.js",
             "tsConfig": "apps/docs/tsconfig.spec.json",
-            "setupFile": "apps/docs/src/test-setup.ts"
+            "setupFile": "apps/docs/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -294,7 +294,8 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/server/jest.config.js",
-            "tsConfig": "apps/server/tsconfig.spec.json"
+            "tsConfig": "apps/server/tsconfig.spec.json",
+            "passWithNoTests": true
           }
         }
       }
@@ -319,7 +320,8 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/nrf24/jest.config.js",
-            "tsConfig": "libs/nrf24/tsconfig.spec.json"
+            "tsConfig": "libs/nrf24/tsconfig.spec.json",
+            "passWithNoTests": true
           }
         }
       }
@@ -344,7 +346,8 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/dualshock/jest.config.js",
-            "tsConfig": "libs/dualshock/tsconfig.spec.json"
+            "tsConfig": "libs/dualshock/tsconfig.spec.json",
+            "passWithNoTests": true
           }
         }
       }
@@ -369,7 +372,8 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/dualshock-shared/jest.config.js",
-            "tsConfig": "libs/dualshock-shared/tsconfig.spec.json"
+            "tsConfig": "libs/dualshock-shared/tsconfig.spec.json",
+            "passWithNoTests": true
           }
         }
       }

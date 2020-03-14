@@ -1,5 +1,5 @@
 {
-  "npmScope": "ngrc-platform",
+  "npmScope": "ngrc",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",
@@ -12,10 +12,12 @@
       "tags": ["frontend", "dualshock"]
     },
     "ngrc-platform-e2e": {
-      "tags": ["frontend"]
+      "tags": ["frontend"],
+      "implicitDependencies": ["ngrc-platform"]
     },
     "docs-e2e": {
-      "tags": ["docs"]
+      "tags": ["docs"],
+      "implicitDependencies": ["docs"]
     },
     "docs": {
       "tags": ["docs"]

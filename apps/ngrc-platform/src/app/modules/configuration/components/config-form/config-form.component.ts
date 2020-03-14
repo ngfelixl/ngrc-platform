@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, OnChanges, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormArray, FormControl, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Model } from '../../models/model';
 import { Mapping } from '../../models/mapping';
