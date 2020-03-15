@@ -1,0 +1,27 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened #sidenav class="mat-elevation-z6">
+    <mat-nav-list>
+      <ng-container *ngFor="let node of navigationNodes">
+        <mat-nav-list *ngIf="node.children">
+          <mat-list-item (click)="node.hide = !node.hide" class="nav-header">
+            <mat-icon *ngIf="!node.hide">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="node.hide">keyboard_arrow_up</mat-icon>
+            {{node.label}}
+          </mat-list-item>
+          <ng-container *ngIf="!node.hide">
+            <mat-list-item *ngFor="let childNode of node.children" [routerLink]="childNode.path" routerLinkActive="active">{{childNode.label}}</mat-list-item>
+          </ng-container>
+        </mat-nav-list>
+        <mat-list-item *ngIf="!node.children" [routerLink]="node.path" routerLinkActive="active">
+          {{node.label}}
+        </mat-list-item>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+    <ngrc-footer></ngrc-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

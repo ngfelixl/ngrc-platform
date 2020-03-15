@@ -1,13 +1,9 @@
-<mat-toolbar color="primary"><button mat-icon-button (click)="sidenav.open()">
-  <mat-icon>menu</mat-icon></button>
-  <button mat-flat-button color="primary"  routerLink="/" class="brand"><mat-icon>gear</mat-icon>NgRC Docs</button>
+<mat-toolbar color="primary" class="mat-elevation-z8">
+  <button mat-flat-button color="primary"  routerLink="/" class="brand"><img src="assets/icon-48.png" width="32"> NgRC Docs</button>
   <button mat-flat-button color="primary" routerLink="setup">Setup</button>
   <button mat-flat-button color="primary" routerLink="configuration">Configuration</button>
   <button mat-flat-button color="primary" routerLink="development">Development</button>
 </mat-toolbar>
-<mat-sidenav-container>
-  <mat-sidenav mode="over" opened #sidenav>
-    Sidenav Content
-  </mat-sidenav>
+<main>
   <router-outlet></router-outlet>
-</mat-sidenav-container>
+</main>

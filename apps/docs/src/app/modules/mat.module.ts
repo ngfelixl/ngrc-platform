@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatSidenavModule,
     MatToolbarModule
-  ]
+  ],
+  declarations: []
 })
 export class MatModule {}

@@ -1,0 +1,46 @@
+:host {
+  flex: 1;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  height: 100%;
+}
+
+mat-sidenav {
+  user-select: none;
+}
+
+mat-sidenav-container {
+  flex: 1;
+  height: 100%;
+} 
+
+mat-sidenav-content {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: stretch;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+mat-list-item {
+  padding: 12px;
+  min-width: 200px;
+}
+
+.nav-header {
+  background-color: #eee;
+  height: 30px !important;
+}
+
+.active {
+  background-color: #ddd !important;
+}
+
+.content {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}

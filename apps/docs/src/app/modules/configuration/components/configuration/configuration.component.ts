@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./configuration.component.css']
 })
 export class ConfigurationComponent implements OnInit {
+  navigationNodes = [
+    { path: 'devices', label: 'Devices' },
+    { path: 'model', label: 'Model' }
+  ];
 
   constructor() { }
 

@@ -1,0 +1,115 @@
+<h1>Raspberry Pi Setup</h1>
+
+<h2>Headless Raspbian SD Card</h2>
+
+<p>
+  Set up Raspberry Pi for headless configuration (Wifi+SSH). More detailed description here.
+  Place the following <b>wpa_supplicant.conf</b> and an empty ssh file in the boot partition of the
+  with Etcher created Raspbian (Stretch).
+</p>
+
+<pre class="code">
+coutry=DE
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network=&#123;
+  ssid="wlan-bezeichnung"
+  psk="passwort"
+  key_mgmt=WPA-PSK
+&#125;
+</pre>
+
+<h2>Installation</h2>
+
+<p>
+  Insert the SD Card and wait for your Pi to be connected with your Wifi. Access it via SSH. Afterward
+  do the installation step by step in the correct order:
+</p>
+
+<pre class="code">
+sudo apt-get update
+sudo apt-get upgrade
+sudo raspi-config # => enable spi interface
+sudo apt-get install git libudev-dev libusb-1.0-0 libusb-1.0-0-dev build-essential
+
+# Install nvm/node
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+nvm install v8.11.2
+npm i -g npm
+npm i -g node-gyp node-pre-gyp
+
+# Install project and node-nrf24/node-hid dependency
+git clone https://github.com/ngfelixl/ngrc
+cd ngrc/server
+npm install
+npm i node-nrf24@git://github.com/ludiazv/node-nrf24
+npm i node-hid --driver=hidraw --build-from-source
+sudo cp ./assets/61-dualshock.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules
+
+# Setup ngrc service
+sudo cp ./assets/ngrc.service /etc/systemd/system/
+sudo chmod u+rwx /etc/systemd/system/ngrc.service
+sudo systemctl enable ngrc
+</pre>
+
+<h2>Setup Raspberry Pi as Standalone Wifi</h2>
+
+<p>Follow the instructions here</p>
+
+<pre class="code">
+cd ~/ngrc/server
+sudo apt-get install hostapd
+sudo cp ./assets/hostapd.conf /etc/hostapd/
+</pre>
+
+<p>
+  Make sure to comment out the previously created wpa_supplicant.conf
+  configuration in /etc/wpa_supplicant/.
+</p>
+
+<h2>Make NodeJS root</h2>
+
+<p>
+  This step is not required for using node-nrf24 on top of SPIDEV driver.
+  Maybe this will be relevant in future when using nrf with bcm driver.
+</p>
+
+<pre class="code">
+sudo ln -s /home/pi/.nvm/versions/node/vX.X.X/bin/node /usr/bin/node
+</pre>
+
+<h2>Setup NgRC as a service for autostart</h2>
+
+<p>
+  Find out the path to your node distribution. Then create the following
+  file named ngrc.service in /etc/systemd/system/.
+</p>
+
+<pre class="code">
+WorkingDirectory=/home/pi/ngrc/server
+ExecStart=/home/pi/.nvm/versions/node/v8.11.2/bin/node ./dist
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ngrc
+User=root
+Group=root
+Environment=NODE_ENV=production
+[Install]
+WantedBy=multi-user.target
+</pre>
+
+<p>
+  Copy the file to the following path and make the script executable. With systemctl
+  one is able to enable, disable, start and stop the script
+</p>
+
+<pre class="code">
+sudo cp ngrc.service /etc/systemd/system/ngrc.service
+sudo chmod u+rwx /etc/systemd/system/ngrc.service
+sudo systemctl enable ngrc
+sudo systemctl start ngrc
+sudo systemctl stop ngrc
+sudo systemctl disable ngrc
+</pre>
