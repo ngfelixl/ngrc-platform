@@ -1,8 +1,13 @@
 <mat-toolbar color="primary" class="mat-elevation-z8">
-  <button mat-flat-button color="primary"  routerLink="/" class="brand"><img src="assets/icon-48.png" width="32"> NgRC Docs</button>
-  <button mat-flat-button color="primary" routerLink="setup">Setup</button>
-  <button mat-flat-button color="primary" routerLink="configuration">Configuration</button>
-  <button mat-flat-button color="primary" routerLink="development">Development</button>
+  <div class="left">
+    <button mat-flat-button color="primary"  routerLink="/" class="brand"><img src="assets/icon-48.png" width="32"> NgRC Docs</button>
+    <button mat-flat-button color="primary" routerLink="setup">Setup</button>
+    <button mat-flat-button color="primary" routerLink="configuration">Configuration</button>
+    <button mat-flat-button color="primary" routerLink="development">Development</button>
+  </div>
+  <div class="right">
+    <a href="https://github.com/ngfelixl/ngrc-platform"><button mat-icon-button><img src="assets/img/github.png" width="28px"></button></a>
+  </div>
 </mat-toolbar>
 <main>
   <router-outlet></router-outlet>

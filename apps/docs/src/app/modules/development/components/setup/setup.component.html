@@ -31,14 +31,20 @@ sudo apt-get update
 sudo apt-get upgrade
 sudo raspi-config # => enable spi interface
 sudo apt-get install git libudev-dev libusb-1.0-0 libusb-1.0-0-dev build-essential
+</pre>
 
-# Install nvm/node
+<h3>Install nvm/node</h3>
+
+<pre class="code">
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 nvm install v8.11.2
 npm i -g npm
 npm i -g node-gyp node-pre-gyp
+</pre>
 
-# Install project and node-nrf24/node-hid dependency
+<h3>Install project and node-nrf24/node-hid dependency</h3>
+
+<pre class="code">
 git clone https://github.com/ngfelixl/ngrc
 cd ngrc/server
 npm install
@@ -46,8 +52,11 @@ npm i node-nrf24@git://github.com/ludiazv/node-nrf24
 npm i node-hid --driver=hidraw --build-from-source
 sudo cp ./assets/61-dualshock.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules
+</pre>
 
-# Setup ngrc service
+<h3>Setup ngrc service</h3>
+
+<pre class="code">
 sudo cp ./assets/ngrc.service /etc/systemd/system/
 sudo chmod u+rwx /etc/systemd/system/ngrc.service
 sudo systemctl enable ngrc

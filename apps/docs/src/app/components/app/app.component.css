@@ -15,6 +15,11 @@ main {
   min-height: 0;
 }
 
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
 main > router-outlet ~ ::ng-deep * {
   flex: 1;
   width: 100%;

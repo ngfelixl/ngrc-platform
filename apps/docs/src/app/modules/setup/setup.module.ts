@@ -4,8 +4,6 @@ import { components } from './components';
 import { SetupRoutingModule } from './setup-routing.module';
 import { ComponentsModule } from '../components/components.module';
 
-
-
 @NgModule({
   declarations: [components],
   imports: [

@@ -16,7 +16,7 @@
 */
 
 #include <SPI.h>
-#include "RF24.h"
+#include <RF24.h>
 #include "printf.h"
 #include <Servo.h>
 #include <stdlib.h>

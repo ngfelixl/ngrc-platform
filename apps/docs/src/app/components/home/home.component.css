@@ -14,6 +14,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
   color: white;
+  overflow: hidden;
 }
 
 .actions > div:hover {
@@ -21,13 +22,31 @@
   transform: scale(1.05);
 }
 
-.description {
-  background-color: rgb(43, 41, 41);
+.actions img {
+  width: calc(100% + 2 * 48px);
+  margin-top: -48px;
+  margin-left: -48px;
+  margin-right: -48px;
+  margin-bottom: 32px;
   height: 200px;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.description {
+  background-color: #3d67b4;
+  height: 300px;
+  clip-path: polygon(0 0, 100% 30%, 100% 100%, 0 100%);
 }
 
 .jumbo {
-  margin: auto;
-  padding: 48px 12px;
+  margin: 64px auto 36px auto;
+  padding: 64px;
   max-width: 1280px;
+  font-size: 43px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  color: rgb(110, 108, 108);
 }
+

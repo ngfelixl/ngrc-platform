@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SetupComponent implements OnInit {
   navigationNodes = [
-    { path: 'electronics', label: 'Electronics' }
+    { label: 'Electronics', children: [
+      { label: 'Raspberry Pi', path: 'raspberrypi' },
+      { label: 'Arduino', path: 'arduino' }
+    ]}
   ]
 
   constructor() { }

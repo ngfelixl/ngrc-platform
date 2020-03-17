@@ -1,20 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'ngrc-development',
   templateUrl: './development.component.html',
   styleUrls: ['./development.component.css']
 })
-export class DevelopmentComponent implements OnInit {
+export class DevelopmentComponent {
   navigationNodes = [
     { label: 'Setup', children: [
       { path: 'devices', label: 'Devices' },
-      { path: 'setup', label: 'Raspberry Pi' }
+      { path: 'setup', label: 'Raspberry Pi' },
+      { path: 'arduino', label: 'Arduino' },
+      { path: 'software', label: 'Software' }
     ] }
   ];
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }
