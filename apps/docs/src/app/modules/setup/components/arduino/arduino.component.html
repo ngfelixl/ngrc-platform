@@ -1,31 +1,62 @@
-<h1>Arduino Electronics</h1>
+<h1>Arduino Nano Electronics</h1>
+
+<figure>
+  <img src="assets/pinout/arduino-pinout.png" class="arduino-pinout">
+  <figcaption>Image from: https://diyi0t.com/arduino-nano-tutorial/ [2020/03/19]</figcaption>
+</figure>
 
 <h2>RF24L01+ Wiring</h2>
 
-<table>
-  <thead>
-    <tr><th>Arduino</th><th>RF24</th></tr>
-  </thead>
-  <tbody>
-    <tr><th>7</th><th>CE</th></tr>
-    <tr><th>8</th><th>CSN</th></tr>
-    <tr><th>11</th><th>MOSI</th></tr>
-    <tr><th>12</th><th>MISO</th></tr>
-    <tr><th>13</th><th>SCK</th></tr>
-    <tr><th>GND</th><th>GND</th></tr>
-    <tr><th>3.3V</th><th>VCC</th></tr>
-  </tbody>
-</table>
+<p>
+  In the following image you can see the pinout for the NRF24L01 radio module. This pinout also fits for 
+  the NRF24L01+ module. In the table you can see how to connect each of these pins to the Arduino Nano. 
+  The pin number refer to the digital pins.
+</p>
+
+<div class="grid">
+  <figure>
+    <img class="small" src="assets/pinout/nrf24l01-pinout.jpeg">
+    <figcaption>Image from: https://diyi0t.com/arduino-nano-tutorial/ [2020/03/19]</figcaption>
+  </figure>
+
+  <table>
+    <thead>
+      <tr><th>Arduino</th><th>RF24</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>7</th><th>CE</th></tr>
+      <tr><th>8</th><th>CSN</th></tr>
+      <tr><th>11</th><th>MOSI</th></tr>
+      <tr><th>12</th><th>MISO</th></tr>
+      <tr><th>13</th><th>SCK</th></tr>
+      <tr><th>GND</th><th>GND</th></tr>
+      <tr><th>3.3V</th><th>VCC</th></tr>
+    </tbody>
+  </table>
+</div>
 
 <h2>Servo Wiring</h2>
 
-<table>
-  <thead>
-    <tr><th>Arduino</th><th>Servo</th></tr>
-  </thead>
-  <tbody>
-    <tr><th>5V</th><th>VCC</th></tr>
-    <tr><th>GND</th><th>GND</th></tr>
-    <tr><th>2,3,4,5,6</th><th>CTRL</th></tr>
-  </tbody>
-</table>
+<p>
+  Servo motors have got exactly three connections. One at a potential of +5V, one at 0V (GND) and one for setting the servos position. 
+  A servo has a range of 180 degree and the Arduino <b>Servo</b> library lets you control the servos by numbers between 0 and 180. 
+  If you want to control a motor with the servo layout, 180 is full speed and 0 is off in most cases. Some motor controllers also
+  require the values to be in a range of 20 to 160.
+</p>
+<div class="grid">
+  <figure>
+    <img class="small" src="assets/pinout/servo-pinout.jpeg">
+    <figcaption>Image from: https://www.pinterest.es/pin/124271270951652037/ [2020/03/19]</figcaption>
+  </figure>
+
+  <table>
+    <thead>
+      <tr><th>Arduino</th><th>Servo</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>5V</th><th>VCC</th></tr>
+      <tr><th>GND</th><th>GND</th></tr>
+      <tr><th>2,3,4,5,6</th><th>CTRL</th></tr>
+    </tbody>
+  </table>
+</div>

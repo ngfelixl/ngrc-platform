@@ -9,7 +9,7 @@ export class SetupComponent implements OnInit {
   navigationNodes = [
     { label: 'Electronics', children: [
       { label: 'Raspberry Pi', path: 'raspberrypi' },
-      { label: 'Arduino', path: 'arduino' }
+      { label: 'Arduino Nano', path: 'arduino' }
     ]}
   ]
 

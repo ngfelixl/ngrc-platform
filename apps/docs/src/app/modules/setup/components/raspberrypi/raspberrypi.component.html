@@ -1,1 +1,37 @@
 <h1>Raspberry Pi Setup</h1>
+
+<p>
+  The following Raspberry PI GPIO pins are valid for any Raspberry PI version 2 or greater and also for the Raspberry PI Zero W. 
+  For the Non-development setup you should definitely consider to use the Raspberry PI Zero W.
+</p>
+
+<figure>
+  <img src="assets/pinout/raspberrypi-pinout.png">
+  <figcaption>Accessed on: https://www.raspberrypi.org/documentation/usage/gpio/ [2020/03/19]</figcaption>
+</figure>
+<h2>Nrf24l01+ Wiring</h2>
+
+<p>The connection for the Nrf24l01 module and the Nrf24l01+ module
+are identical.</p>
+
+<div class="grid">
+  <figure>
+    <img class="small" src="assets/pinout/nrf24l01-pinout.jpeg">
+    <figcaption>Image from: https://diyi0t.com/arduino-nano-tutorial/ [2020/03/19]</figcaption>
+  </figure>
+
+  <table>
+    <thead>
+      <tr><th>Raspberry Pi</th><th>RF24</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>GPIO 22</th><th>CE</th></tr>
+      <tr><th>GPIO 8</th><th>CSN</th></tr>
+      <tr><th>MOSI</th><th>MOSI</th></tr>
+      <tr><th>MISO</th><th>MISO</th></tr>
+      <tr><th>SCKL</th><th>SCK</th></tr>
+      <tr><th>GND</th><th>GND</th></tr>
+      <tr><th>3.3V</th><th>VCC</th></tr>
+    </tbody>
+  </table>
+</div>

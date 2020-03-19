@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-arduino',
+  selector: 'ngrc-arduino',
   templateUrl: './arduino.component.html',
   styleUrls: ['./arduino.component.css']
 })

@@ -7,7 +7,8 @@ import { RaspberrypiComponent } from './components/raspberrypi/raspberrypi.compo
 const routes: Route[] = [
   { path: '', component: SetupComponent, children: [
     { path: 'raspberrypi', component: RaspberrypiComponent },
-    { path: 'arduino', component: ArduinoComponent }
+    { path: 'arduino', component: ArduinoComponent },
+    { path: '**', redirectTo: 'arduino' }
   ] }
 ];
 

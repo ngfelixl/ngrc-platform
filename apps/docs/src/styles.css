@@ -39,3 +39,54 @@ a {
   color: #999;
   text-decoration: none;
 }
+
+.doc p {
+  line-height: 1.5;
+}
+
+.doc figure {
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.doc figcaption {
+  font-size: 0.8em;
+  color: #888;
+}
+
+.doc figure .small {
+  width: 30%;
+  min-width: 300px;
+}
+
+.doc table {
+  border: 1px solid rgb(179, 176, 176);
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 1px 4px -1px rgb(150, 149, 149);
+  background-color: rgb(240, 240, 240);
+}
+
+.doc table thead tr {
+  border-bottom: 1px solid rgb(179, 176, 176);
+  background-color: rgb(61, 61, 61);
+  color: white;
+}
+
+.doc table tbody td {
+  font-weight: lighter;
+}
+
+.doc th, .doc td {
+  padding: 4px;
+}
+
+.doc .grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.doc .grid > * {
+  flex: 1 1 0;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-raspberrypi',
+  selector: 'ngrc-raspberrypi',
   templateUrl: './raspberrypi.component.html',
   styleUrls: ['./raspberrypi.component.css']
 })
