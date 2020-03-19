@@ -6,8 +6,8 @@
 export const environment = {
   production: false,
   socket: {
-    baseUrl: 'ws://localhost:81',
+    baseUrl: 'ws://192.168.178.51:81',
     config: null
   },
-  api: 'http://localhost:3333/api'
+  api: 'http://192.168.178.51:3333/api'
 };

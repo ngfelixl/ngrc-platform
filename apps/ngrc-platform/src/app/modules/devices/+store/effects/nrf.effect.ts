@@ -8,6 +8,7 @@ import { getNrfConfig, getNrfConfigSuccess, getNrfConfigFailed, setNrfConfig, se
   setNrfConfigFailed, startNrfTest, startNrfTestSuccess, startNrfTestFailed, stopNrfTest, stopNrfTestSuccess,
   stopNrfTestFailed, nrfStartTransmission, nrfStartTransmissionSuccess, nrfStartTransmissionFailed,
   nrfStopTransmission, nrfStopTransmissionSuccess, nrfStopTransmissionFailed } from '../actions';
+import { NrfWebsocket } from '@ngrc/dualshock-shared';
 
 @Injectable()
 export class NrfEffects {
@@ -18,7 +19,7 @@ export class NrfEffects {
 
   getState$ = createEffect(() => this.actions$.pipe(
     ofType(getNrfConfig),
-    switchMap(() => this.socketService.request('[Nrf] Get Config').pipe(
+    switchMap(() => this.socketService.request(NrfWebsocket.getConfig).pipe(
       map((nrfState: Nrf) => getNrfConfigSuccess({ nrfState })),
       catchError(error => of(getNrfConfigFailed({ error })))
     ))
@@ -26,7 +27,7 @@ export class NrfEffects {
 
   setState$ = createEffect(() => this.actions$.pipe(
     ofType(setNrfConfig),
-    switchMap((partialNrfState) => this.socketService.request('[Nrf] Set Config', partialNrfState).pipe(
+    switchMap((partialNrfState) => this.socketService.request(NrfWebsocket.setConfig, partialNrfState).pipe(
       map((nrfState: Nrf) => setNrfConfigSuccess({ nrfState })),
       catchError(error => of(setNrfConfigFailed({ error })))
     ))
@@ -50,7 +51,7 @@ export class NrfEffects {
 
   startTransmission$ = createEffect(() => this.actions$.pipe(
     ofType(nrfStartTransmission),
-    switchMap(() => this.socketService.request('[Nrf] Start Transmission').pipe(
+    switchMap(() => this.socketService.request(NrfWebsocket.startTransmission).pipe(
       map((nrfState: Nrf) => nrfStartTransmissionSuccess({ nrfState })),
       catchError(error => of(nrfStartTransmissionFailed({ error })))
     ))
@@ -58,7 +59,7 @@ export class NrfEffects {
 
   stopTransmission$ = createEffect(() => this.actions$.pipe(
     ofType(nrfStopTransmission),
-    switchMap(() => this.socketService.request('[Nrf] Stop Transmission').pipe(
+    switchMap(() => this.socketService.request(NrfWebsocket.stopTransmission).pipe(
       map((nrfState: Nrf) => nrfStopTransmissionSuccess({ nrfState })),
       catchError(error => of(nrfStopTransmissionFailed({ error })))
     ))

@@ -3,12 +3,15 @@ import { Subject } from 'rxjs';
 import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets';
 import { Slot, DirectControl, RelativeControl } from '../../models';
 import { Controller } from '@ngrc/dualshock-shared';
+import { DualshockService } from './dualshock.service';
 
 @WebSocketGateway(81, { transports: ['polling'] })
 export class MappingService {
   mapping: Mapping;
   frequency = 100;
   output$ = new Subject<Uint8Array>();
+
+  constructor(private dualshockService: DualshockService) {}
 
   @SubscribeMessage('[Mapper] Set Mapping')
   setMapping(@MessageBody() mapping: Mapping): void {
@@ -22,6 +25,37 @@ export class MappingService {
 
   set setFrequency(frequency: number) {
     this.frequency = frequency;
+  }
+
+  public map(state: Uint8Array, input: Controller): Uint8Array {
+    const output = state; // new Uint8Array(5).fill(0);
+    try {
+      const usualSlots = this.mapping.slots.filter(o => o.type !== 'copy');
+      const copySlots = this.mapping.slots.filter(o => o.type === 'copy');
+      for (let slot of usualSlots) {
+        switch (slot.type) {
+          case 'direct':
+            output[slot.port] = this.direct(slot, input);
+            break;
+
+          case 'relative':
+            output[slot.port] = this.relative(state[slot.port], slot, input);
+            break;
+
+          case 'button':
+            output[slot.port] = this.button(state[slot.port], slot, input);
+            break;
+        }
+      }
+
+      for (let slot of copySlots) {
+        const res = slot.copy.invert ? (-1) * output[slot.copy.port] + 180 : output[slot.copy.port];
+        output[slot.port] = res;
+      }
+    } catch(e) {
+      console.log(`[Mapper] Can't map: `, e);
+    }
+    return output;
   }
 
   private direct(slot: Slot, input: Controller): number {
