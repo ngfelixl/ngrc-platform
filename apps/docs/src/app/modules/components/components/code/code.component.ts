@@ -13,10 +13,6 @@ export class CodeComponent implements AfterViewInit {
 
   constructor(private elementRef: ElementRef) { }
 
-  get languageClass() {
-    return `language-${this.language}`;
-  }
-
   ngAfterViewInit() {
     const html = this.elementRef.nativeElement.innerHTML as string;
     const removedFirstLine = html.substr(1, html.length - 1);
