@@ -145,7 +145,8 @@
             "assets": ["apps/docs/src/favicon.ico", "apps/docs/src/assets"],
             "styles": [
               "apps/ngrc-platform/src/custom-theme.scss",
-              "apps/docs/src/styles.css"
+              "apps/docs/src/styles.css",
+              "node_modules/prismjs/themes/prism-tomorrow.css"
             ],
             "scripts": []
           },

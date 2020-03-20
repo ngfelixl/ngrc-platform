@@ -8,7 +8,7 @@
   with Etcher created Raspbian (Stretch).
 </p>
 
-<pre class="code">
+<ngrc-code>
 coutry=DE
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -17,7 +17,7 @@ network=&#123;
   psk="passwort"
   key_mgmt=WPA-PSK
 &#125;
-</pre>
+</ngrc-code>
 
 <h2>Installation</h2>
 
@@ -26,78 +26,93 @@ network=&#123;
   do the installation step by step in the correct order:
 </p>
 
-<pre class="code">
+<ngrc-code language="bash">
 sudo apt-get update
 sudo apt-get upgrade
 sudo raspi-config # => enable spi interface
 sudo apt-get install git libudev-dev libusb-1.0-0 libusb-1.0-0-dev build-essential
-</pre>
+</ngrc-code>
 
 <h3>Install nvm/node</h3>
 
-<pre class="code">
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-nvm install v8.11.2
-npm i -g npm
-npm i -g node-gyp node-pre-gyp
-</pre>
+The currently supported version of NodeJS is 10.19.0. Node 12.x and Node 13.x are currently not supported
+because of the <a href="https://github.com/ludiazv/node-nrf24">node-nrf24</a> native c++ module.
+
+<ngrc-code language="bash">
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+nvm install 10.19.0
+nvm use 10.19.0
+</ngrc-code>
 
 <h3>Install project and node-nrf24/node-hid dependency</h3>
 
-<pre class="code">
-git clone https://github.com/ngfelixl/ngrc
-cd ngrc/server
+<ngrc-code language="bash">
+git clone https://github.com/ngfelixl/ngrc-platform
+cd ngrc-platform
 npm install
-npm i node-nrf24@git://github.com/ludiazv/node-nrf24
-npm i node-hid --driver=hidraw --build-from-source
-sudo cp ./assets/61-dualshock.rules /etc/udev/rules.d/
+npm install node-nrf24@0.1.4-beta
+npm install node-hid --driver=hidraw --build-from-source
+npm install sqlite3
+</ngrc-code>
+
+<h3>Support the Dualshock 4 Controller</h3>
+
+<ngrc-code language="bash">
+sudo cp ./apps/server/src/assets/61-dualshock.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules
-</pre>
+</ngrc-code>
 
-<h3>Setup ngrc service</h3>
-
-<pre class="code">
-sudo cp ./assets/ngrc.service /etc/systemd/system/
-sudo chmod u+rwx /etc/systemd/system/ngrc.service
-sudo systemctl enable ngrc
-</pre>
 
 <h2>Setup Raspberry Pi as Standalone Wifi</h2>
 
 <p>Follow the instructions here</p>
 
-<pre class="code">
+<ngrc-code language="bash">
 cd ~/ngrc/server
 sudo apt-get install hostapd
 sudo cp ./assets/hostapd.conf /etc/hostapd/
-</pre>
+</ngrc-code>
 
 <p>
   Make sure to comment out the previously created wpa_supplicant.conf
   configuration in /etc/wpa_supplicant/.
 </p>
 
-<h2>Make NodeJS root</h2>
+<h2>Make NodeJS root on Raspberry Pi</h2>
 
 <p>
-  This step is not required for using node-nrf24 on top of SPIDEV driver.
-  Maybe this will be relevant in future when using nrf with bcm driver.
+  To run the server application on the Raspberry Pi it is required to
+  run it as the <i>root</i>. You can make the currently selected NodeJS
+  version available for root with the following commands
 </p>
 
-<pre class="code">
-sudo ln -s /home/pi/.nvm/versions/node/vX.X.X/bin/node /usr/bin/node
-</pre>
+<ngrc-code language="bash">
+sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"
+sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+</ngrc-code>
 
-<h2>Setup NgRC as a service for autostart</h2>
+If the links already exist, you'll have to delete them with
 
-<p>
-  Find out the path to your node distribution. Then create the following
-  file named ngrc.service in /etc/systemd/system/.
-</p>
+<ngrc-code language="bash">
+sudo rm /usr/local/bin/node
+sudo rm /usr/local/bin/npm
+</ngrc-code>
 
-<pre class="code">
+<h2>NgRC as a service</h2>
+
+<ngrc-code language="bash">
+sudo cp ./apps/server/src/assets/ngrc.service /etc/systemd/system/
+sudo chmod u+rwx /etc/systemd/system/ngrc.service
+sudo systemctl enable ngrc
+</ngrc-code>
+
+The NgRC file contains the following structure. Keep in mind that it requires the 
+actually used Node version. Please adjust it in the <b>ngrc.service</b> file according 
+to your setup.
+
+<ngrc-code>
 WorkingDirectory=/home/pi/ngrc/server
-ExecStart=/home/pi/.nvm/versions/node/v8.11.2/bin/node ./dist
+ExecStart=/home/pi/.nvm/versions/node/v10.19.0/bin/node ./dist
 Restart=always
 StandardOutput=syslog
 StandardError=syslog
@@ -107,18 +122,15 @@ Group=root
 Environment=NODE_ENV=production
 [Install]
 WantedBy=multi-user.target
-</pre>
+</ngrc-code>
 
 <p>
-  Copy the file to the following path and make the script executable. With systemctl
-  one is able to enable, disable, start and stop the script
+  With <b>systemctl</b> one can control the service with the enable, disable, start and stop commands
 </p>
 
-<pre class="code">
-sudo cp ngrc.service /etc/systemd/system/ngrc.service
-sudo chmod u+rwx /etc/systemd/system/ngrc.service
+<ngrc-code language="bash">
 sudo systemctl enable ngrc
 sudo systemctl start ngrc
 sudo systemctl stop ngrc
 sudo systemctl disable ngrc
-</pre>
+</ngrc-code>

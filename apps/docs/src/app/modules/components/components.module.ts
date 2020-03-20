@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { CodeComponent } from './components/code/code.component';
 
 @NgModule({
   imports: [
@@ -17,11 +18,13 @@ import { RouterModule } from '@angular/router';
   ],
   declarations: [
     FooterComponent,
-    NavigationComponent
+    NavigationComponent,
+    CodeComponent
   ],
   exports: [
     FooterComponent,
-    NavigationComponent
+    NavigationComponent,
+    CodeComponent
   ]
 })
 export class ComponentsModule {}
