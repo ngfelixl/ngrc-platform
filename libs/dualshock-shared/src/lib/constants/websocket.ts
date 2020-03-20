@@ -7,6 +7,7 @@ export enum DsWebsocket {
 export enum NrfWebsocket {
   getConfig = '[Nrf] Get Config',
   setConfig = '[Nrf] Set Config',
+  readStats = '[Nrf] Read Transmission Stats',
   startTransmission = '[Nrf] Start Transmission',
   stopTransmission = '[Nrf] Stop Transmission',
   getDebugInformation = '[Nrf] Get Debug Information',

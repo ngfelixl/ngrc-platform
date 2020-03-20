@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Nrf } from '../../models';
+import { Nrf24State, Nrf24Stats } from '@ngrc/nrf24';
 
 export const getNrfConfig = createAction(
   '[Devices] Get Nrf Config'
@@ -83,5 +84,20 @@ export const nrfStopTransmissionSuccess = createAction(
 
 export const nrfStopTransmissionFailed = createAction(
   '[Devices] Nrf Stop Transmission Failed',
+  props<{ error: any }>()
+);
+
+export const nrfStatsChanged = createAction(
+  '[Devices] Nrf Stats Changed',
+  props<{ nrfStats: Nrf24Stats }>()
+);
+
+export const nrfStateChanged = createAction(
+  '[Devices] Nrf State Changed',
+  props<{ nrfState: Nrf24State }>()
+);
+
+export const nrfError = createAction(
+  '[Devices] Nrf Error',
   props<{ error: any }>()
 );

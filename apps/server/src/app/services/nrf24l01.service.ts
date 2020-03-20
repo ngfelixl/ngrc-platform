@@ -4,10 +4,9 @@ import { Nrf24State } from '@ngrc/nrf24';
 import { WebSocketGateway, SubscribeMessage } from '@nestjs/websockets';
 import { NrfWebsocket } from '@ngrc/dualshock-shared';
 import { interval, Subject } from 'rxjs';
-import { map, tap, sampleTime } from 'rxjs/operators';
+import { map, tap, sampleTime, takeUntil, mapTo, scan } from 'rxjs/operators';
 import { DualshockService } from './dualshock.service';
 import * as nrf24 from 'nrf24';
-
 
 // @Injectable()
 @WebSocketGateway(81, { transports: ['polling'] })
@@ -31,6 +30,7 @@ export class Nrf24l01Service {
     transmitting: false
   };
   transmitting$ = new Subject<boolean>();
+  stopEmission$ = new Subject();
 
   constructor(
     private mappingService: MappingService,
@@ -60,9 +60,6 @@ export class Nrf24l01Service {
         PayloadSize: 5,
         retriesCount: 0
       });
-
-      // this.nrfSocketInterface();
-
     } catch (e) {
       console.log('Radio error', e);
     }
@@ -85,7 +82,12 @@ export class Nrf24l01Service {
 
   @SubscribeMessage(NrfWebsocket.stopTransmission)
   wsStopTransmission() {
-    this.stopTransmission();
+    try {
+      this.radio.powerDown();
+    } catch(e) {
+      console.log(`Couldn't power down Nrf`, e);
+    }
+    this.stopEmission$.next();
   }
 
   @SubscribeMessage(NrfWebsocket.getDebugInformation)
@@ -93,14 +95,28 @@ export class Nrf24l01Service {
     return this.radio.printDetails();
   }
 
+  @SubscribeMessage(NrfWebsocket.readStats)
+  wsGetStats() {
+    const stats$ = interval(100).pipe(
+      takeUntil(this.stopEmission$),
+      mapTo(this.radio.getStats()),
+      scan((acc, cur) => {
+        return {
+          TotalTx_Ok: acc.TotalTx_Ok - cur.TotalTx_Ok,
+          TotalTx_Err: acc.TotalTx_Err - cur.TotalTx_Err,
+          TotalRx: acc.TotalRx - cur.TotalRx,
+          PipesRx: acc.PipesRx.map((pipe, index) => pipe - cur.PipesRx[index])
+        };
+      }, {
+        TotalRx: 0,
+        TotalTx_Err: 0,
+        TotalTx_Ok: 0,
+        PipesRx: [0, 0, 0, 0, 0]
+      })
+    );
 
-  // nrfSocketInterface() {
-    // const routes = {
-    //   '[Nrf] Start Test': () => this.startTest(),
-    //   '[Nrf] Stop Test': () => this.stopTest()
-    // }
-    // this.socket.addRoutes(routes);
-  // }
+    return stats$;
+  }
 
   setConfig(config) {
     const setConfig = {...config};
@@ -119,64 +135,15 @@ export class Nrf24l01Service {
     this.radio.useWritePipe(this.txPipe);
     this.radio.addReadPipe(this.rxPipe);
     this.radio.powerUp();
-    // this.mappingService.setup();
     let state = new Uint8Array(5).fill(0);
     if (!this.state.transmitting) {
-      // this.createStats();
 
       return this.dualshockService.dualshock.state$.pipe(
         sampleTime(1000 / this.frequency),
         map((dsState) => this.mappingService.map(state, dsState.controller)),
-        tap((state: Uint8Array) => this.radio.write(state, success => true))
-      )
-
-      // return interval(1000 / this.frequency).pipe(
-      //   map(() => this.mappingService.map(state, this.dualshock.controller)),
-      //   tap((state: Uint8Array) => this.radio.write(state, success => true))
-      // );
-
-      // this.transmitInterval = setInterval(() => {
-      //   state = this.mappingService.map(state, this.dualshock.controller);
-      //   this.socket.io.sockets.emit('[Nrf] Transmit Data', state);
-      //   // this.radio.write(state, success => console.log(`Write success ${success}`, state));
-      //   this.radio.write(state, success => true);
-      // }, 1000 / this.frequency);
+        tap((state: Uint8Array) => this.radio.write(state, success => true)),
+        takeUntil(this.dualshockService.stopEmission$)
+      );
     }
-    // return this.state;
-  }
-
-  // createStats() {
-  //   let oldstats: Nrf24Stats = {
-  //     TotalRx: 0,
-  //     TotalTx_Err: 0,
-  //     TotalTx_Ok: 0,
-  //     PipesRx: [0, 0, 0, 0, 0]
-  //   };
-  //   this.statsInterval = setInterval(() => {
-  //     const newstats = this.radio.getStats();
-// 
-  //     const stats: Nrf24Stats = {
-  //       TotalTx_Ok: newstats.TotalTx_Ok - oldstats.TotalTx_Ok,
-  //       TotalTx_Err: newstats.TotalTx_Err - oldstats.TotalTx_Err,
-  //       TotalRx: newstats.TotalRx - oldstats.TotalRx,
-  //       PipesRx: newstats.PipesRx.map((pipe, index) => pipe - oldstats.PipesRx[index])
-  //     }
-// 
-  //     oldstats = newstats;
-  //     this.socket.io.sockets.emit('[Nrf] Stats Data', stats);
-  //   }, 100);
-  // }
-
-  stopTransmission() {
-    try {
-      this.radio.powerDown();
-    } catch(e) {
-      console.log(`Couldn't power down Nrf`, e);
-    }
-    clearInterval(this.transmitInterval);
-    clearInterval(this.statsInterval);
-    this.state.transmitting = false;
-    this.dualshockService.stopEmission$.next();
-    return this.state;
   }
 }

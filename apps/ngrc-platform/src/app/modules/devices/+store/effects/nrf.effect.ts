@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SocketService } from '../../../../services/socket.service';
 import { Nrf } from '../../models';
 import { getNrfConfig, getNrfConfigSuccess, getNrfConfigFailed, setNrfConfig, setNrfConfigSuccess,
   setNrfConfigFailed, startNrfTest, startNrfTestSuccess, startNrfTestFailed, stopNrfTest, stopNrfTestSuccess,
   stopNrfTestFailed, nrfStartTransmission, nrfStartTransmissionSuccess, nrfStartTransmissionFailed,
-  nrfStopTransmission, nrfStopTransmissionSuccess, nrfStopTransmissionFailed } from '../actions';
+  nrfStopTransmission, nrfStopTransmissionSuccess, nrfStopTransmissionFailed, nrfStatsChanged, nrfError } from '../actions';
 import { NrfWebsocket } from '@ngrc/dualshock-shared';
+import { Nrf24Stats } from '@ngrc/nrf24';
 
 @Injectable()
 export class NrfEffects {
@@ -54,6 +55,15 @@ export class NrfEffects {
     switchMap(() => this.socketService.request(NrfWebsocket.startTransmission).pipe(
       map((nrfState: Nrf) => nrfStartTransmissionSuccess({ nrfState })),
       catchError(error => of(nrfStartTransmissionFailed({ error })))
+    ))
+  ));
+
+  listenToNrf = createEffect(() => this.actions$.pipe(
+    ofType(nrfStartTransmission),
+    switchMap(() => this.socketService.listen<Nrf24Stats>(NrfWebsocket.readStats).pipe(
+      takeUntil(this.actions$.pipe(ofType(nrfStopTransmission))),
+      map(nrfStats => nrfStatsChanged({ nrfStats })),
+      catchError(error => of(nrfError({ error })))
     ))
   ));
 
