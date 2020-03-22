@@ -1,8 +1,8 @@
-import { createFeatureSelector, createSelector, createReducer, on, Action } from '@ngrx/store';
-import { createEntityAdapter, EntityState, EntityAdapter } from '@ngrx/entity';
+import { Mapping } from '@ngrc/interfaces/models';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Action, createReducer, on } from '@ngrx/store';
+import { addMappingSuccess, clearMapping, deleteMapping, loadMappingsSuccess, selectMapping, updateMappingSuccess } from '../actions';
 
-import { Mapping } from '../../models/mapping';
-import { loadMappingsSuccess, addMappingSuccess, updateMappingSuccess, selectMapping, clearMapping, deleteMapping } from '../actions';
 
 export const adapter: EntityAdapter<Mapping> = createEntityAdapter<Mapping>({
   selectId: mapping => mapping.id,

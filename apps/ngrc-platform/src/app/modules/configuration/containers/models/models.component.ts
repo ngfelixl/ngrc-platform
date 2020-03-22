@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Model } from '@ngrc/interfaces/models';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
 import * as fromFeature from '../../+store';
-
-import { Model } from '../../models/model';
 import { loadModels } from '../../+store';
+
+
 
 @Component({
   selector: 'ngrc-models',

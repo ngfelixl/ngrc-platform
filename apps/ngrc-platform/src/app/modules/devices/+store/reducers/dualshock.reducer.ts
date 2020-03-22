@@ -1,11 +1,26 @@
-import { dualshockError, dualshockStateChanged } from '../actions';
+import { dualshockError, dualshockStateChanged, dualshockValuesChanged } from '../actions';
 import { createReducer, on, Action } from '@ngrx/store';
-import { DualshockState, initialControllerState } from '@ngrc/dualshock-shared';
+import { initialControllerState, Controller } from '@ngrc/interfaces/dualshock';
+
+export interface DualshockState {
+  battery: number;
+  connected: boolean;
+  controller: Controller;
+  error: any;
+}
+
+const initialState: DualshockState = {
+  battery: null,
+  connected: false,
+  controller: initialControllerState,
+  error: null
+}
 
 export const dualshockReducer = createReducer(
-  initialControllerState,
-  on(dualshockStateChanged, (_, { dualshockState }) => dualshockState.connected ? dualshockState : initialControllerState),
-  on(dualshockError, (state, { error }) => ({...state, error})),
+  initialState,
+  on(dualshockStateChanged, (state, { dualshockState }) => ({...state, ...dualshockState})),
+  on(dualshockValuesChanged, (state, { controller }) => (({...state, controller }))),
+  on(dualshockError, (state, { error }) => ({...state, connected: false, controller: initialControllerState, error})),
 );
 
 export function reducer(state: DualshockState, action: Action) {

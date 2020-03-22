@@ -25,14 +25,11 @@
     "server": {
       "tags": ["dualshock"]
     },
-    "nrf24": {
-      "tags": []
-    },
     "dualshock": {
       "tags": ["dualshock"]
     },
-    "dualshock-shared": {
-      "tags": ["dualshock"]
+    "interfaces": {
+      "tags": []
     }
   }
 }

@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
+import { Mapping } from '@ngrc/interfaces/models';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-
-import { Mapping } from '../models/mapping';
 
 @Injectable()
 export class MappingsService {

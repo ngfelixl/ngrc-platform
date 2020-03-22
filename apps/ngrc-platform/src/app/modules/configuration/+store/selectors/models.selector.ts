@@ -4,7 +4,7 @@ import * as fromRoot from '../../../../+store';
 import * as fromFeature from '../reducers';
 import * as fromModels from '../reducers/models.reducer';
 
-import { Model } from '../../models/model';
+import { Model } from '@ngrc/interfaces/models';
 
 export const getModelsState = createSelector(
   fromFeature.getConfigurationState,

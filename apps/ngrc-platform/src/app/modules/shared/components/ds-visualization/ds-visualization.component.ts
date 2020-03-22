@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, AfterViewInit,
   ElementRef, ViewChild, OnChanges, HostBinding } from '@angular/core';
-import { Controller } from '@ngrc/dualshock-shared';
+import { Controller } from '@ngrc/interfaces/dualshock';
 
 @Component({
   selector: 'ngrc-ds-visualization',

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Mapping, Model } from '@ngrc/interfaces/models';
 import { Store } from '@ngrx/store';
-
-import { Model, Mapping } from '../../models';
 import { Observable } from 'rxjs';
-import { withLatestFrom, map } from 'rxjs/operators';
-import { loadMappings, selectMapping, updateMapping, addMapping, clearMapping,
-  deleteMapping, getMappings, getSelectedModel, getSelectedMapping, loadModels, deleteModel, State } from '../../+store';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { addMapping, clearMapping, deleteMapping, deleteModel, getMappings, getSelectedMapping, getSelectedModel, loadMappings, loadModels, selectMapping, State, updateMapping } from '../../+store';
 import { getModelId } from '../../../../+store';
+
 
 @Component({
   templateUrl: './mappings.component.html',

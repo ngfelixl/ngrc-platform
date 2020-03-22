@@ -1,21 +1,16 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
-
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
+import { Controller } from '@ngrc/interfaces/dualshock';
 import { Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-import { Controller } from '@ngrc/dualshock-shared';
-import { getDualshockData, State } from '../../+store';
+import { getDualshockData, listenToDualshock, State, unlistenToDualshock } from '../../+store';
 
 @Component({
   templateUrl: './dualshock.component.html',
-  styles: [`
-    mat-card-content { display: flex; justify-content: space-between; }
-    ngrc-analog-stick-visualization { flex: 1; padding: 8px; max-width: 196px; }`
-  ],
+  styleUrls: [ './dualshock.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DualshockComponent implements OnInit {
+export class DualshockComponent implements OnInit, OnDestroy {
   dsData$: Observable<Controller>;
 
   constructor(
@@ -25,6 +20,11 @@ export class DualshockComponent implements OnInit {
 
   ngOnInit() {
     this.dsData$ = this.store.select(getDualshockData);
+    this.store.dispatch(listenToDualshock());
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(unlistenToDualshock())
   }
 
   back() { this.location.back(); }

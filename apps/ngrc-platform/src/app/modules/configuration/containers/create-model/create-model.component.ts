@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import * as fromFeature from '../../+store';
-import { Model } from '../../models/model';
+import { Model } from '@ngrc/interfaces/models';
 import { clearMapping, addModel } from '../../+store';
 
 @Component({

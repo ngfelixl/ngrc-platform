@@ -4,12 +4,12 @@ import { Store } from '@ngrx/store';
 import { Subscription ,  Observable } from 'rxjs';
 
 import { SocketService } from '../../../../services/socket.service';
-import { Controller } from '@ngrc/dualshock-shared';
-import { Mapping } from '../../../configuration/models/mapping';
+import { Controller } from '@ngrc/interfaces/dualshock';
+import { Mapping } from '@ngrc/interfaces/models';
 import { openMappingSelect, addSocketListener, removeSocketListener, isLandscape, State } from '../../../../+store';
 import { getSelectedMapping } from '../../../configuration/+store';
 import { map, shareReplay } from 'rxjs/operators';
-import { nrfStopTransmission, nrfStartTransmission, getDualshockData } from '../../../devices/+store';
+import { nrfStopTransmission, nrfStartTransmission, getDualshockData, listenToDualshock, unlistenToDualshock } from '../../../devices/+store';
 
 @Component({
   templateUrl: './operating.component.html',
@@ -43,11 +43,14 @@ export class OperatingComponent implements OnDestroy {
         this.dsRight$ = this.dsData$.pipe(map(data  => data.sticks.right));
       }
     });
+
+    this.store.dispatch(listenToDualshock());
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.store.dispatch(nrfStopTransmission());
     this.store.dispatch(removeSocketListener({ key: '[Nrf] Transmit Data' }));
+    this.store.dispatch(unlistenToDualshock());
   }
 }

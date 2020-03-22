@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Store } from '@ngrx/store';
-import * as socketIo from 'socket.io-client';
+import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { first, distinctUntilChanged } from 'rxjs/operators';
-
 import { socketConnected, socketDisconnected } from '../+store/actions';
 import { State } from '../+store/reducers';
 
-
-
 @Injectable()
 export class SocketService {
-  private socket: socketIo.Socket;
+  private socket: SocketIOClient.Socket;
 
   constructor(private store: Store<State>) {
-    this.socket = socketIo(environment.socket.baseUrl, environment.socket.config);
+    this.socket = io(environment.socket.baseUrl, environment.socket.config);
     this.socket.on('connect', () => {
       this.store.dispatch(socketConnected());
     });
@@ -25,21 +22,21 @@ export class SocketService {
   }
 
   public initSocket(): void {
-    this.socket = socketIo(environment.socket.baseUrl);
+    this.socket = io(environment.socket.baseUrl);
   }
 
   disconnect() {
     this.socket.disconnect();
   }
 
-  request(event: string, data?: any): Observable<any> {
-    if (data) {
-      this.socket.emit(event, data);
-    } else {
-      this.socket.emit(event);
-    }
-    const observable = this.listen(`${event} Success`);
-    return observable.pipe(first(), distinctUntilChanged());
+  request<T = unknown>(event: string, data?: any): Observable<T> {
+    return new Observable(observer => {
+      const socket = this.socket.emit(event, data, (ack: T) => observer.next(ack));
+
+      return () => {
+        socket.off(event);
+      }
+    });
   }
 
   emit(event: string, data?: any) {

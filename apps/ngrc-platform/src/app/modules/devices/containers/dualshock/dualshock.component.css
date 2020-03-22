@@ -1,0 +1,10 @@
+mat-card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+ngrc-analog-stick-visualization {
+  flex: 1;
+  padding: 8px;
+  max-width: 196px;
+}

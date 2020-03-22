@@ -8,7 +8,7 @@ import { Component, ViewChild, ElementRef, OnInit, Input, ChangeDetectionStrateg
 })
 export class PlotYtComponent implements OnInit {
   @ViewChild('canvas', {static: true}) canvasRef: ElementRef;
-  @Input() data: {};
+  @Input() data = [0, 0, 0, 0, 0];
   @Input() title = 'Sending values';
   @Input() xLabel = '';
   @Input() yLabel = '';
@@ -52,9 +52,8 @@ export class PlotYtComponent implements OnInit {
 
   private paintLoop() {
     if (this.data) {
-      const data = Object.values(this.data);
       this.ctx.clearRect(0, this.offset[1] - 2, this.size[0], this.size[1]);
-      this.dataArray.push(data);
+      this.dataArray.push(this.data);
       if (this.dataArray.length > this.cropDataPointsAfter) {
         this.dataArray.shift();
       }
@@ -65,7 +64,7 @@ export class PlotYtComponent implements OnInit {
   }
 
   private drawData() {
-    const flat = this.dataArray.reduce((a, b) => a.concat(b));
+    const flat = this.dataArray.reduce((a, b) => a.concat(b), []);
     this.yRange = [
       Math.min(...flat, this.minYRange[0]),
       Math.max(...flat, this.minYRange[1])
@@ -91,7 +90,6 @@ export class PlotYtComponent implements OnInit {
     const range = this.yRange[1] - this.yRange[0];
     return [
       index * this.plotSize[0] / this.dataArray.length + this.offset[0],
-      // this.offset[1] + this.plotSize[1]
       this.offset[1] + this.plotSize[1] - value * (this.plotSize[1] / range)
     ];
   }
@@ -101,8 +99,8 @@ export class PlotYtComponent implements OnInit {
     this.ctx.strokeStyle = '#000';
     this.ctx.lineWidth = 2;
     this.ctx.moveTo(this.offset[0], this.offset[1]);
-    this.ctx.lineTo(this.offset[0], this.offset[1] + this.plotSize[1]);
-    this.ctx.lineTo(this.offset[0] + this.plotSize[0], this.offset[1] + this.plotSize[1]);
+    this.ctx.lineTo(this.offset[0], this.offset[1] + this.plotSize[1] + 2);
+    this.ctx.lineTo(this.offset[0] + this.plotSize[0], this.offset[1] + this.plotSize[1] + 2);
     this.ctx.stroke();
   }
 }

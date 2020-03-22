@@ -2,7 +2,7 @@ import { Mapping } from '../../models/mapping';
 import { Subject } from 'rxjs';
 import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets';
 import { Slot, DirectControl, RelativeControl } from '../../models';
-import { Controller } from '@ngrc/dualshock-shared';
+import { Controller } from '@ngrc/interfaces/dualshock';
 import { DualshockService } from './dualshock.service';
 
 @WebSocketGateway(81, { transports: ['polling'] })
@@ -11,9 +11,9 @@ export class MappingService {
   frequency = 100;
   output$ = new Subject<Uint8Array>();
 
-  constructor(private dualshockService: DualshockService) {}
+  constructor() {}
 
-  @SubscribeMessage('[Mapper] Set Mapping')
+  /* @SubscribeMessage('[Mapper] Set Mapping')
   setMapping(@MessageBody() mapping: Mapping): void {
     this.mapping = mapping;
   }
@@ -21,13 +21,17 @@ export class MappingService {
   @SubscribeMessage('[Mapper] Get Mapping')
   getMapping() {
     return this.mapping;
-  }
+  } */
 
   set setFrequency(frequency: number) {
     this.frequency = frequency;
   }
 
   public map(state: Uint8Array, input: Controller): Uint8Array {
+    if (!this.mapping || !this.mapping.slots) {
+      return state;
+    }
+
     const output = state; // new Uint8Array(5).fill(0);
     try {
       const usualSlots = this.mapping.slots.filter(o => o.type !== 'copy');

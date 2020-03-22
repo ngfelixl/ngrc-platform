@@ -1,4 +1,4 @@
-import { DualshockState } from '@ngrc/dualshock-shared';
+import { Controller } from '@ngrc/interfaces/dualshock';
 
 /**
  * ### Dualshock Mapping
@@ -17,7 +17,7 @@ import { DualshockState } from '@ngrc/dualshock-shared';
  * @see https://eleccelerator.com/wiki/index.php?title=DualShock_4
  */
 // tslint:disable:no-bitwise
-export function dualshockMapping(data: Buffer): Partial<DualshockState> {
+export function dualshockMapping(data: Buffer): { battery: number, controller: Controller } {
   const specialButtonsByte = data.readUInt8(6);
   const buttonByte = data.readUInt8(5);
   const dpadBits = buttonByte & 15;

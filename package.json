@@ -89,6 +89,7 @@
     "@types/node-hid": "^1.2.0",
     "@types/prismjs": "^1.16.0",
     "@types/socket.io": "^2.1.4",
+    "@types/socket.io-client": "^1.4.32",
     "codelyzer": "^5.1.2",
     "cypress": "4.1.0",
     "fs-extra": "^8.1.0",

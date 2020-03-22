@@ -40,9 +40,7 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
 
   paintBackground(): void {
     const ctx = this.ctx;
-    const size = this.size;
     const ar = this.ar;
-    const offset = this.offset;
     ctx.beginPath();
     ctx.font = '24px sans-serif';
     ctx.textAlign = 'center';
@@ -63,7 +61,6 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
   paintLoop(): void {
     const ctx = this.ctx;
     const dist = this.data ? 2 * Math.round(Math.sqrt(Math.pow(this.data.x - 128, 2) + Math.pow(this.data.y - 128, 2))) : 0;
-    const size = this.size;
     const ar = this.ar;
     const offset = this.offset;
     const x = this.x.bind(this);

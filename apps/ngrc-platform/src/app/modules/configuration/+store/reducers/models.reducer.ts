@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import { Model } from '../../models/model';
+import { Model } from '@ngrc/interfaces/models';
 import { addModelSuccess, deleteModelSuccess, loadModelsSuccess } from '../actions';
 
 

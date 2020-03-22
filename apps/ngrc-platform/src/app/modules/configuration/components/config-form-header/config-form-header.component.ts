@@ -1,9 +1,6 @@
-import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Mapping, Model } from '@ngrc/interfaces/models';
 import { environment } from '../../../../../environments/environment';
-
-import { Model } from '../../models/model';
-import { Mapping } from '../../models/mapping';
-import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'ngrc-config-form-header',

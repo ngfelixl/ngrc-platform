@@ -1,11 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
+import { Model } from '@ngrc/interfaces/models';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-
-import { Model } from '../models/model';
 
 @Injectable()
 export class ModelsService {
