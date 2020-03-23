@@ -47,15 +47,15 @@ uint8_t motorWithoutSignal = 0;
 unsigned long durationWithoutSignal = 1000; // [ms]
 
 // Function that printf and related will use to print
-/* int serial_putchar(char c, FILE* f) {
+int serial_putchar(char c, FILE* f) {
    return Serial.write(c) == 1? 0 : 1;
 }
-FILE serial_stdout; */
+FILE serial_stdout;
 
 void setup() {
-	// Serial.begin(115200);
-  // fdev_setup_stream(&serial_stdout, serial_putchar, NULL, _FDEV_SETUP_WRITE);
-  // stdout = &serial_stdout;
+	Serial.begin(115200);
+  fdev_setup_stream(&serial_stdout, serial_putchar, NULL, _FDEV_SETUP_WRITE);
+  stdout = &serial_stdout;
 	
   radio.begin();
 	delay(100);
@@ -69,7 +69,7 @@ void setup() {
 	radio.openWritingPipe(txPipe);
 	radio.startListening();
 	delay(100);
-  // radio.printDetails();
+  radio.printDetails();
  
 	servo[0].attach(MOTOR);
 	servo[1].attach(CHANNEL_1);
