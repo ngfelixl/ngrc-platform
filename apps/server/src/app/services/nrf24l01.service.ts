@@ -174,13 +174,13 @@ export class Nrf24l01Service implements OnGatewayInit {
     this.radio.powerUp();
 
     return interval(24).pipe(
-      map(() => new Date().getTime() / 1000),
+      map(() => new Date().getTime() / 300),
       map(time => ([
         ((Math.sin(time + 0) + 1) * 90),
-        ((Math.sin(time * 1.08 + 1) + 1) * 90),
-        ((Math.sin(time + 2) + 1) * 90),
-        ((Math.sin(time + 3) + 1) * 90),
-        ((Math.sin(time + 4) + 1) * 90)
+        ((Math.sin(time * 1.01 + 1) + 1) * 90),
+        ((Math.sin(time * 0.04 + 2) + 1) * 90),
+        ((Math.sin(time * 0.8 + 3) + 1) * 90),
+        ((Math.sin(time * 0.95 + 4) + 1) * 90)
       ])),
       map((numberArray) => Uint8Array.from(numberArray)),
       tap((buffer) => {
