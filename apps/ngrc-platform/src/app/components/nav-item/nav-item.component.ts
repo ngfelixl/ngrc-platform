@@ -3,10 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'ngrc-nav-item',
   templateUrl: './nav-item.component.html',
-  styles: [
-    `.secondary { color: rgba(0, 0, 0, 0.54); }
-    .selected { background-color: rgba(0, 0, 0, 0.1); }`,
-  ],
+  styleUrls: [ './nav-item.component.css' ],
 })
 export class NavItemComponent {
   @Input() icon = '';
