@@ -1,5 +1,5 @@
 // import { Injectable } from '@nestjs/common';
-import { OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer, MessageBody } from '@nestjs/websockets';
 import { Nrf24State, Nrf24Stats } from '@ngrc/interfaces/nrf24';
 import { NrfWebsocket } from '@ngrc/interfaces/websockets';
 import * as nrf24 from 'nrf24';
@@ -133,7 +133,7 @@ export class Nrf24l01Service implements OnGatewayInit {
   }
 
   @SubscribeMessage(NrfWebsocket.setConfig)
-  setConfig(config: Nrf24State) {
+  setConfig(@MessageBody() config: Nrf24State) {
     const setConfig = {...config};
     if (setConfig.PALevel) { setConfig.PALevel = nrf24[setConfig.PALevel]; }
     if (setConfig.DataRate) { setConfig.DataRate = nrf24[setConfig.DataRate]; }
@@ -143,6 +143,7 @@ export class Nrf24l01Service implements OnGatewayInit {
       ...this.state$.getValue(),
       ...config
     });
+    return;
   }
 
   @SubscribeMessage(NrfWebsocket.startTransmission)
