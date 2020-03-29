@@ -143,7 +143,6 @@ export class Nrf24l01Service implements OnGatewayInit {
       ...this.state$.getValue(),
       ...config
     });
-    return;
   }
 
   @SubscribeMessage(NrfWebsocket.startTransmission)
