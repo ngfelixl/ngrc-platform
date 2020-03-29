@@ -1,11 +1,11 @@
-import { Mapping } from '../../models/mapping';
-import { Subject } from 'rxjs';
-import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets';
-import { Slot, DirectControl, RelativeControl } from '../../models';
+import { WebSocketGateway } from '@nestjs/websockets';
 import { Controller } from '@ngrc/interfaces/dualshock';
-import { DualshockService } from './dualshock.service';
+import { Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { DirectControl, RelativeControl, Slot } from '../../models';
+import { Mapping } from '../../models/mapping';
 
-@WebSocketGateway(81, { transports: ['polling'] })
+@WebSocketGateway(environment.port, { transports: ['polling'] })
 export class MappingService {
   mapping: Mapping;
   frequency = 100;

@@ -3,13 +3,14 @@ import { OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } fr
 import { Nrf24State, Nrf24Stats } from '@ngrc/interfaces/nrf24';
 import { NrfWebsocket } from '@ngrc/interfaces/websockets';
 import * as nrf24 from 'nrf24';
-import { BehaviorSubject, interval, Observable, NEVER, Subject } from 'rxjs';
-import { map, mapTo, pluck, scan, switchMap, tap, withLatestFrom, distinctUntilChanged, shareReplay, timestamp, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, interval, NEVER, Subject } from 'rxjs';
+import { distinctUntilChanged, map, mapTo, pluck, scan, shareReplay, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Server } from 'socket.io';
+import { environment } from '../../environments/environment';
 import { DualshockService } from './dualshock.service';
 import { MappingService } from './mapping.service';
 
-@WebSocketGateway(81, { transports: ['polling'] })
+@WebSocketGateway(environment.port, { transports: ['polling'] })
 export class Nrf24l01Service implements OnGatewayInit {
   @WebSocketServer() server: Server;
   spiDev = 0; // spideva.b === a*10+b
@@ -99,7 +100,7 @@ export class Nrf24l01Service implements OnGatewayInit {
             TotalRx: 0,
             TotalTx_Err: 0,
             TotalTx_Ok: 0,
-            PipesRx: [0, 0, 0, 0, 0]
+            PipesRx: [0, 0, 0, 0, 0, 0]
           }),
           tap((stats) => this.server.emit(NrfWebsocket.stats, stats))
         );

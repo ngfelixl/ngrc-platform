@@ -3,8 +3,9 @@ import { Dualshock } from '@ngrc/dualshock';
 import { DsWebsocket } from '@ngrc/interfaces/websockets';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
-@WebSocketGateway(81, { transports: ['polling'] })
+@WebSocketGateway(environment.port, { transports: ['polling'] })
 export class DualshockService {
   dualshock: Dualshock;
   unlisten$ = new Subject();

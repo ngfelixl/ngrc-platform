@@ -1,6 +1,7 @@
 import { WebSocketGateway, SubscribeMessage, MessageBody, OnGatewayInit } from '@nestjs/websockets';
+import { environment } from '../environments/environment';
 
-@WebSocketGateway(81, { transports: ['polling'] })
+@WebSocketGateway(environment.port, { transports: ['polling'] })
 export class WebsocketGateway implements OnGatewayInit {
   @SubscribeMessage('events')
   handleEvent(@MessageBody() data: string): string {
