@@ -4,8 +4,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Nrf24Stats } from '@ngrc/interfaces/nrf24';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, skip, tap } from 'rxjs/operators';
-import { getNrfState, getNrfStats, getNrfTransmitting, nrfStopTransmission, setNrfConfig, State, nrfStartTest, getNrfTesting, nrfStopTest, getNrfBuffer } from '../../+store';
+import { distinctUntilChanged, skip } from 'rxjs/operators';
+import { getNrfBuffer, getNrfState, getNrfStats, getNrfTesting, nrfStartTest, nrfStopTest, nrfStopTransmission, setNrfConfig, State } from '../../+store';
 
 @Component({
   templateUrl: './nrf24l01.component.html',

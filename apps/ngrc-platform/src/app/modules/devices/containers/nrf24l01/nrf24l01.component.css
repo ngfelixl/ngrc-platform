@@ -1,10 +1,13 @@
 .flex {
-  display: flex
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 48px;
+  align-items: center;
 }
 
 .logo {
-  flex: 1;
-  padding: 0 8px 0 0;
+  display: flex;
+  place-content: center;
 }
 
 .text {
@@ -13,12 +16,9 @@
 
 img {
   width: 100%;
-}
-
-form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-gap: 12px;
+  max-width: 300px;
+  object-fit: contain;
+  object-position: center;
 }
 
 mat-form-field {
