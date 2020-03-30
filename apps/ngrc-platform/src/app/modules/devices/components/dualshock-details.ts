@@ -3,11 +3,7 @@ import { Device } from '../models/device';
 
 @Component({
   selector: 'ngrc-dualshock-details',
-  template: `
-    <p>
-      Connection: {{device.connected ? 'Connected' : 'Disconnected'}}
-    </p>
-  `,
+  template: `Connection: {{device.connected ? 'Connected' : 'Disconnected'}}`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DualshockDetailsComponent {

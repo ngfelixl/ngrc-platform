@@ -4,8 +4,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Nrf24Stats } from '@ngrc/interfaces/nrf24';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, skip } from 'rxjs/operators';
-import { getNrfBuffer, getNrfState, getNrfStats, getNrfTesting, nrfStartTest, nrfStopTest, nrfStopTransmission, setNrfConfig, State } from '../../+store';
+import { distinctUntilChanged, skip, map } from 'rxjs/operators';
+import { getNrfBuffer, getNrfState, getNrfStats, getNrfTesting, nrfStartTest, nrfStopTest,
+  nrfStopTransmission, setNrfConfig, State, getIsPVariant } from '../../+store';
 
 @Component({
   templateUrl: './nrf24l01.component.html',
@@ -18,6 +19,7 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
   testing$: Observable<boolean>;
   stats$: Observable<Nrf24Stats>;
   buffer$: Observable<number[]>;
+  isPImage$: Observable<string>;
 
   constructor(
     private location: Location,
@@ -43,6 +45,9 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
     this.stats$ = this.store.select(getNrfStats);
     this.testing$ = this.store.select(getNrfTesting);
     this.buffer$ = this.store.select(getNrfBuffer);
+    this.isPImage$ = this.store.select(getIsPVariant).pipe(
+      map((isP) => isP ? 'assets/nrf24l01p.png' : 'assets/nrf24l01.png')
+    );
 
     this.subscriptions.push(this.store.select(getNrfState).subscribe(state => {
       this.nrfSettingsForm.patchValue(state);

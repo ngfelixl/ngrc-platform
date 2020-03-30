@@ -1,6 +1,6 @@
-<mat-card>
+<mat-card class="mat-elevation-z2">
   <div class="logo">
-    <img [src]="'assets/' + identifier + '.jpg'">
+    <img [src]="'assets/' + identifier + (isP ? 'p' : '') + '.png'">
   </div>
   <div class="text">
     <mat-card-title><ng-content></ng-content></mat-card-title>

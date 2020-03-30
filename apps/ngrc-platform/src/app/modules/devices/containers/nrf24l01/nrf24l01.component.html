@@ -3,7 +3,7 @@
   <mat-card-content>
     <div class="flex">
       <div class="logo">
-        <img [src]="'assets/nrf24l01.jpg'">
+        <img [src]="isPImage$ | async">
       </div>
 
       <form [formGroup]="nrfSettingsForm">
@@ -52,6 +52,6 @@
 
   </mat-card-content>
   <mat-card-actions>
-    <button mat-flat-button color="accent" (click)="back()">Back</button>
+    <button mat-stroked-button color="accent" (click)="back()">Back</button>
   </mat-card-actions>
 </mat-card>

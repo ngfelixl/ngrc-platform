@@ -10,4 +10,5 @@ import { Device } from '../../models/device';
 export class DeviceCardComponent {
   @Input() device: Device | boolean;
   @Input() identifier = '';
+  @Input() isP = false;
 }

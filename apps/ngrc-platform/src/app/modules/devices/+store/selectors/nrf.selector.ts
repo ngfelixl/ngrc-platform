@@ -23,6 +23,11 @@ export const getNrfConnected = createSelector(
   (state) => state.connected
 );
 
+export const getIsPVariant = createSelector(
+  getNrfState,
+  (state) => state.isP
+);
+
 export const getNrfStats = createSelector(
   getNrfDeviceState,
   state => state.nrfStats

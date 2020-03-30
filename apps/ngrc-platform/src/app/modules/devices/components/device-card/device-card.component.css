@@ -1,12 +1,23 @@
 :host {
   display: flex;
   align-items: stretch;
+  outline: none;
 }
 
 mat-card {
   flex: 1;
   display: flex;
   cursor: pointer;
+  background-color: #eeeaea;
+  transition:
+    background-color 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+  align-items: center;
+}
+
+mat-card:hover {
+  background-color: #dfdbdb;
+  transform: scale(1.05);
 }
 
 .logo {
