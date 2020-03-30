@@ -4,7 +4,7 @@ import * as fromRoot from '../../../../+store';
 import * as fromFeature from '../reducers';
 import * as fromMappings from '../reducers/mappings.reducer';
 
-import { Mapping } from '../../models/mapping';
+import { Mapping } from '@ngrc/interfaces/models';
 
 export const getMappingsState = createSelector(
   fromFeature.getConfigurationState,

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Model } from '../../models/model';
+import { Model } from '@ngrc/interfaces/models';
 
 @Component({
   selector: 'ngrc-config-list-item',

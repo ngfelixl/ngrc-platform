@@ -1,26 +1,36 @@
-import { DualshockState, initialControllerState } from '@ngrc/dualshock-shared';
-import { Observable, fromEvent, timer, of, Subject, merge, combineLatest } from 'rxjs';
-import { HID, devices } from 'node-hid';
-import { mapTo, map, switchMap, retryWhen, tap, shareReplay,
-  delayWhen, startWith, distinctUntilChanged, scan, sampleTime } from 'rxjs/operators';
+import { Controller, DualshockState } from '@ngrc/interfaces/dualshock';
+import { devices, HID } from 'node-hid';
+import { combineLatest, fromEvent, merge, Observable, of, Subject, timer } from 'rxjs';
+import { delayWhen, distinctUntilChanged, map, mapTo, pluck, retryWhen, sampleTime, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { dualshockMapping } from '../helpers';
 
 export class Dualshock {
-  private ds4$: Observable<HID>;
-  private ds4Data$: Observable<Partial<DualshockState>>;
+  private dualshock$: Observable<HID>;
   private ds4RuntimeError$: Observable<any>;
-  private ds4Connected$: Observable<boolean>;
-  public state$: Observable<DualshockState>;
-
+  private connected$: Observable<boolean>;
+  private battery$: Observable<number>;
   private errorSubject$ = new Subject<void>();
+  public state$: Observable<DualshockState>;
+  public data$: Observable<Controller>;
 
   constructor() {
-    this.ds4$ = this.createDs4Instance();
+    this.dualshock$ = this.createDs4Instance();
     this.ds4RuntimeError$ = this.createDs4RuntimeError();
-    this.ds4Data$ = this.createDs4DataStream();
 
-    this.ds4Connected$ = merge(
-      this.ds4$.pipe(mapTo(true)),
+    const ds4DataStream$ = this.createDs4DataStream();
+    this.data$ = ds4DataStream$.pipe(
+      pluck('controller'),
+      distinctUntilChanged(),
+      shareReplay(1)
+    );
+    this.battery$ = ds4DataStream$.pipe(
+      pluck('battery'),
+      distinctUntilChanged(),
+      shareReplay(1)
+    );
+
+    this.connected$ = merge(
+      this.dualshock$.pipe(mapTo(true)),
       this.ds4RuntimeError$.pipe(mapTo(false))
     ).pipe(
       distinctUntilChanged(),
@@ -31,24 +41,23 @@ export class Dualshock {
   }
 
   private createDs4State(): Observable<DualshockState> {
-    return combineLatest([this.ds4Data$, this.ds4Connected$]).pipe(
-      scan((state: DualshockState, [ds4data, connected]: [Partial<DualshockState>, boolean]) => {
-        return {...state, ...ds4data, connected};
-      }, initialControllerState)
+    return combineLatest([this.battery$, this.connected$]).pipe(
+      map(([battery, connected]: [number, boolean]) => ({battery, connected}))
     );
   }
 
-  private createDs4DataStream(): Observable<Partial<DualshockState>> {
-    return this.ds4$.pipe(
-      switchMap((ds4) =>  fromEvent(ds4, 'data')),
+  private createDs4DataStream(): Observable<{ battery: number, controller: Controller }> {
+    return this.dualshock$.pipe(
+      switchMap((dualshock) =>  fromEvent(dualshock, 'data')),
       sampleTime(16.7),
-      map(dualshockMapping)
+      map(dualshockMapping),
+      shareReplay(1)
     );
   }
 
   private createDs4RuntimeError(): Observable<unknown> {
-    return this.ds4$.pipe(
-      switchMap((ds4) => fromEvent(ds4, 'error')),
+    return this.dualshock$.pipe(
+      switchMap((dualshock) => fromEvent(dualshock, 'error')),
       tap(() => this.errorSubject$.next())
     );
   }
@@ -66,8 +75,7 @@ export class Dualshock {
         return new HID(ds4[0].vendorId, ds4[0].productId);
       }),
       retryWhen((error) => error.pipe(
-        delayWhen(() => timer(500)),
-        // tap(() => console.log('Retry to connect to dualshock...'))
+        delayWhen(() => timer(500))
       )),
       shareReplay(1)
     );

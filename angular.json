@@ -301,32 +301,6 @@
         }
       }
     },
-    "nrf24": {
-      "root": "libs/nrf24",
-      "sourceRoot": "libs/nrf24/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/nrf24/tsconfig.lib.json",
-              "libs/nrf24/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/nrf24/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/nrf24/jest.config.js",
-            "tsConfig": "libs/nrf24/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "dualshock": {
       "root": "libs/dualshock",
       "sourceRoot": "libs/dualshock/src",
@@ -353,9 +327,9 @@
         }
       }
     },
-    "dualshock-shared": {
-      "root": "libs/dualshock-shared",
-      "sourceRoot": "libs/dualshock-shared/src",
+    "interfaces": {
+      "root": "libs/interfaces",
+      "sourceRoot": "libs/interfaces/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -363,17 +337,17 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/dualshock-shared/tsconfig.lib.json",
-              "libs/dualshock-shared/tsconfig.spec.json"
+              "libs/interfaces/tsconfig.lib.json",
+              "libs/interfaces/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/dualshock-shared/**"]
+            "exclude": ["**/node_modules/**", "!libs/interfaces/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/dualshock-shared/jest.config.js",
-            "tsConfig": "libs/dualshock-shared/tsconfig.spec.json",
+            "jestConfig": "libs/interfaces/jest.config.js",
+            "tsConfig": "libs/interfaces/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

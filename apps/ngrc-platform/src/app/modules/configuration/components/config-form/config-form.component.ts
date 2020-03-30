@@ -1,11 +1,8 @@
-import { Component, Input, ChangeDetectionStrategy, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormArray, FormControl, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-
-import { Model } from '../../models/model';
-import { Mapping } from '../../models/mapping';
-
+import { Router } from '@angular/router';
+import { Mapping, Model } from '@ngrc/interfaces/models';
 import { NameDialogComponent } from '../name-dialog';
 
 @Component({

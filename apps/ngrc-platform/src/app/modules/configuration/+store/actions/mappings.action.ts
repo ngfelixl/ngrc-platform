@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Mapping } from '../../models/mapping';
+import { Mapping } from '@ngrc/interfaces/models';
 
 
 export const loadMappings = createAction(

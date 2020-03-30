@@ -4,19 +4,13 @@ import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'ngrc-model-card',
   templateUrl: './model-card.component.html',
-  styles: [
-    `
-    :host { display: flex; }
-    mat-card { cursor: pointer; flex: 1; }
-    mat-card-title { font-size: 24px !important; }
-    img { width: 72px; height: 72px; border-radius: 18px; }`
-  ],
+  styleUrls: [ './model-card.component.css' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModelCardComponent {
   environment = environment;
-  @Input() logo;
-  @Input() hint;
+  @Input() logo: string;
+  @Input() hint: string;
 
   altImage(img: any) {
     img.src = './assets/icon-196.png';

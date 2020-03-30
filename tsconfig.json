@@ -17,9 +17,8 @@
     "paths": {
       "@ngrc/nrf24": ["libs/nrf24/src/index.ts"],
       "@ngrc/dualshock": ["libs/dualshock/src/index.ts"],
-      "@ngrc/dualshock-shared": [
-        "libs/dualshock-shared/src/index.ts"
-      ]
+      "@ngrc/dualshock-shared": ["libs/dualshock-shared/src/index.ts"],
+      "@ngrc/interfaces/*": ["libs/interfaces/src/*"]
     },
     "rootDir": "."
   },

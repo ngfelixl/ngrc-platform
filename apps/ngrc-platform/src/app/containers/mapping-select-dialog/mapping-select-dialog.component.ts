@@ -1,12 +1,11 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Mapping, Model } from '@ngrc/interfaces/models';
 import { Store } from '@ngrx/store';
-import { Model, Mapping } from '../../modules/configuration/models';
-import { Observable, Subscription, merge } from 'rxjs';
-import { State, loadMappings, selectMapping, loadModels, selectAllMappings,
-  selectAllModels, getSelectedMapping } from '../../modules/configuration/+store';
-import { map, withLatestFrom, pluck, first, filter, shareReplay, tap, skip } from 'rxjs/operators';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { merge, Observable, Subscription } from 'rxjs';
+import { filter, first, map, pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import { getSelectedMapping, loadMappings, loadModels, selectAllMappings, selectAllModels, selectMapping, State } from '../../modules/configuration/+store';
 
 @Component({
   templateUrl: './mapping-select-dialog.component.html',

@@ -8,7 +8,7 @@ import * as fromDevices from '../../modules/devices/+store';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MappingSelectDialogComponent } from '../mapping-select-dialog/mapping-select-dialog.component';
-import { Mapping } from '../../modules/configuration/models';
+import { Mapping } from '@ngrc/interfaces/models';
 import { getNrfConfig, dualshockConnect, dualshockDisconnect, getDualshockBattery } from '../../modules/devices/+store';
 import { closeMappingSelect, closeSidenav, openSidenav, openMappingSelect, checkOrientation } from '../../+store';
 import { map } from 'rxjs/operators';

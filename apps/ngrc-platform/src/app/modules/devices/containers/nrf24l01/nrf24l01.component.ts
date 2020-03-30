@@ -1,14 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-
-import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, skip, map } from 'rxjs/operators';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Nrf24Stats } from '@ngrc/interfaces/nrf24';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../../../../+store';
-import { addSocketListener } from '../../../../+store';
-import { stopNrfTest, startNrfTest, setNrfConfig, getNrfConfig, State, getNrfTransmitting, getNrfState } from '../../+store';
+import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, skip, tap } from 'rxjs/operators';
+import { getNrfState, getNrfStats, getNrfTransmitting, nrfStopTransmission, setNrfConfig, State, nrfStartTest, getNrfTesting, nrfStopTest, getNrfBuffer } from '../../+store';
 
 @Component({
   templateUrl: './nrf24l01.component.html',
@@ -18,19 +15,19 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
   nrfSettingsForm: FormGroup;
   channels = [];
   subscriptions: Subscription[] = [];
-  transmitting$: Observable<boolean>;
-  data$: Observable<any>;
+  testing$: Observable<boolean>;
+  stats$: Observable<Nrf24Stats>;
+  buffer$: Observable<number[]>;
 
   constructor(
     private location: Location,
-    private store: Store<State>,
-    private fb: FormBuilder
+    private store: Store<State>
   ) {
-    this.nrfSettingsForm = this.fb.group({
-      Channel: null,
-      DataRate: null,
-      CRCLength: null,
-      PALevel: null
+    this.nrfSettingsForm = new FormGroup({
+      Channel: new FormControl(null),
+      DataRate: new FormControl(null),
+      CRCLength: new FormControl(null),
+      PALevel: new FormControl(null)
     });
     for (let i = 0; i < 125; i++) {
       this.channels.push(i);
@@ -43,12 +40,13 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
   get paLevel(): FormControl { return this.nrfSettingsForm.get('PALevel') as FormControl; }
 
   ngOnInit() {
-    this.store.dispatch(getNrfConfig());
+    this.stats$ = this.store.select(getNrfStats);
+    this.testing$ = this.store.select(getNrfTesting);
+    this.buffer$ = this.store.select(getNrfBuffer);
+
     this.subscriptions.push(this.store.select(getNrfState).subscribe(state => {
       this.nrfSettingsForm.patchValue(state);
     }));
-
-    this.transmitting$ = this.store.select(getNrfTransmitting);
 
     this.subscriptions.push(this.channel.valueChanges.pipe(skip(1), distinctUntilChanged()).subscribe(channel => {
       this.store.dispatch(setNrfConfig({Channel: channel}));
@@ -68,13 +66,11 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
   }
 
   startTest() {
-    this.store.dispatch(startNrfTest());
-    this.store.dispatch(addSocketListener({ key: '[Nrf] Transmit Data' }));
-    this.data$ = this.store.select(fromRoot.getSocketListeners).pipe(map(o => o['[Nrf] Transmit Data']));
+    this.store.dispatch(nrfStartTest());
   }
 
   stopTest() {
-    this.store.dispatch(stopNrfTest());
+    this.store.dispatch(nrfStopTest());
   }
 
   back() {
@@ -82,7 +78,7 @@ export class Nrf24l01Component implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.stopTest();
+    this.store.dispatch(nrfStopTransmission());
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }

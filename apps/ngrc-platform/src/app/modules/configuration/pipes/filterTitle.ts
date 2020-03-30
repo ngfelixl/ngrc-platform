@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Slot } from '../models/slot';
+import { Slot } from '@ngrc/interfaces/models';
 
 @Pipe({ name: 'filterTitle' })
 export class FilterTitlePipe implements PipeTransform {

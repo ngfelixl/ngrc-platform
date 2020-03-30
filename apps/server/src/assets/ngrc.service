@@ -1,0 +1,12 @@
+[Service]
+WorkingDirectory=/home/pi/ngrc-platform/
+ExecStart=/home/pi/.nvm/versions/node/v13.11.0/bin/node ./dist/apps/server/main.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ngrc
+User=root
+Group=root
+Environment=NODE_ENV=production
+[Install]
+WantedBy=multi-user.target

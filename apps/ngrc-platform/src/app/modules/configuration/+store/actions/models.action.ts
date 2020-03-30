@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Model } from '../../models/model';
+import { Model } from '@ngrc/interfaces/models';
 
 export const loadModels = createAction(
   '[Configuration] Load Models'
