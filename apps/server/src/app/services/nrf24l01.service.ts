@@ -61,32 +61,6 @@ export class Nrf24l01Service implements OnGatewayInit {
         this.server.emit(NrfWebsocket.state, state);
       }
     });
-
-    // const transmission$ = this.isTransmitting$.pipe(
-    //   switchMap((isTransmitting) => {
-    //     if (!this.radio) {
-    //       return NEVER;
-    //     }
-    //
-    //     if (!isTransmitting) {
-    //       this.radio.powerDown();
-    //       return NEVER;
-    //     }
-    //
-    //     let bitArray = new Uint8Array(5).fill(0);
-    //     this.radio.useWritePipe(this.txPipe);
-    //     this.radio.addReadPipe(this.rxPipe);
-    //     this.radio.powerUp();
-    //     return interval(1000 / this.frequency).pipe(
-    //       withLatestFrom(this.dualshockService.dualshock.data$),
-    //       map(([_, controller]) => this.mapService.map(bitArray, controller)),
-    //       tap(console.log),
-    //       tap((bitArray: Uint8Array) => this.radio.write(bitArray, success => true)),
-    //     );
-    //   })
-    // );
-
-    // transmission$.subscribe();
   }
 
   afterInit(server: Server) {
@@ -123,23 +97,9 @@ export class Nrf24l01Service implements OnGatewayInit {
     });
   }
 
-  // @SubscribeMessage(NrfWebsocket.startTransmission)
-  // startTransmission() {
-  //   this.state$.next({
-  //     ...this.state$.getValue(),
-  //     transmitting: true
-  //   });
-  //   return this.state$.getValue();
-  // }
-
   @SubscribeMessage(NrfWebsocket.stopTransmission)
   stopTransmission() {
     this.stopTransmission$.next();
-    // this.state$.next({
-    //   ...this.state$.getValue(),
-    //   transmitting: false
-    // });
-    // return this.state$.getValue();
   }
 
   @SubscribeMessage(NrfWebsocket.getDebugInformation)
