@@ -1,15 +1,15 @@
-<mat-card *ngIf="!mapping">
+<mat-card *ngIf="!(mapping$ | async)">
   <mat-card-content>
     <h2>Select a mapping</h2>
     <p>You need to select a mapping before you are able to control your device.</p>
   </mat-card-content>
 </mat-card>
-<div class="grid" [class.isLandscape]="isLandscape$ | async" *ngIf="mapping" >
+<div class="grid" [class.isLandscape]="isLandscape$ | async" *ngIf="mapping$ | async" >
   <div class="mat-elevation-z1">
     <ngrc-plot-yt [data]="data$ | async"></ngrc-plot-yt>
   </div>
   <div class="mat-elevation-z1">
-    <ngrc-stats-widget></ngrc-stats-widget>
+    <ngrc-stats-widget [stats]="stats$ | async"></ngrc-stats-widget>
   </div>
   <div class="mat-elevation-z1">
     <ngrc-ds-visualization [data]="dsData$ | async"></ngrc-ds-visualization>
