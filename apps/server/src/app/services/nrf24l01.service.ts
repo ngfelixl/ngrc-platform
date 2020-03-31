@@ -3,12 +3,12 @@ import { OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer, Mes
 import { Nrf24State, Nrf24Stats } from '@ngrc/interfaces/nrf24';
 import { NrfWebsocket } from '@ngrc/interfaces/websockets';
 import * as nrf24 from 'nrf24';
-import { BehaviorSubject, interval, NEVER, Subject } from 'rxjs';
-import { distinctUntilChanged, map, mapTo, pluck, scan, shareReplay, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, interval, NEVER, Subject, combineLatest } from 'rxjs';
+import { distinctUntilChanged, map, mapTo, pluck, scan, shareReplay, switchMap, takeUntil, tap, withLatestFrom, sampleTime } from 'rxjs/operators';
 import { Server } from 'socket.io';
 import { environment } from '../../environments/environment';
 import { DualshockService } from './dualshock.service';
-import { MappingService } from './mapping.service';
+import { MapService } from '../mappings/map.service';
 
 @WebSocketGateway(environment.port, { transports: ['polling'] })
 export class Nrf24l01Service implements OnGatewayInit {
@@ -38,7 +38,7 @@ export class Nrf24l01Service implements OnGatewayInit {
   stopTransmission$ = new Subject();
 
   constructor(
-    private mappingService: MappingService,
+    private mapService: MapService,
     private dualshockService: DualshockService
   ) {
     this.connect();
@@ -62,53 +62,31 @@ export class Nrf24l01Service implements OnGatewayInit {
       }
     });
 
-    const transmission$ = this.isTransmitting$.pipe(
-      switchMap((isTransmitting) => {
-        if (!this.radio) {
-          return NEVER;
-        }
+    // const transmission$ = this.isTransmitting$.pipe(
+    //   switchMap((isTransmitting) => {
+    //     if (!this.radio) {
+    //       return NEVER;
+    //     }
+    //
+    //     if (!isTransmitting) {
+    //       this.radio.powerDown();
+    //       return NEVER;
+    //     }
+    //
+    //     let bitArray = new Uint8Array(5).fill(0);
+    //     this.radio.useWritePipe(this.txPipe);
+    //     this.radio.addReadPipe(this.rxPipe);
+    //     this.radio.powerUp();
+    //     return interval(1000 / this.frequency).pipe(
+    //       withLatestFrom(this.dualshockService.dualshock.data$),
+    //       map(([_, controller]) => this.mapService.map(bitArray, controller)),
+    //       tap(console.log),
+    //       tap((bitArray: Uint8Array) => this.radio.write(bitArray, success => true)),
+    //     );
+    //   })
+    // );
 
-        if (!isTransmitting) {
-          this.radio.powerDown();
-          return NEVER;
-        }
-
-        let bitArray = new Uint8Array(5).fill(0);
-        this.radio.useWritePipe(this.txPipe);
-        this.radio.addReadPipe(this.rxPipe);
-        this.radio.powerUp();
-        return interval(1000 / this.frequency).pipe(
-          withLatestFrom(this.dualshockService.dualshock.data$),
-          map(([_, controller]) => this.mappingService.map(bitArray, controller)),
-          tap(console.log),
-          tap((bitArray: Uint8Array) => this.radio.write(bitArray, success => true)),
-        );
-      })
-    );
-
-    const stats$ = this.isTransmitting$.pipe(
-      tap(console.log),
-      switchMap(isTransmitting => {
-        if (!isTransmitting || !this.radio) {
-          return NEVER;
-        }
-
-        return interval(1000).pipe(
-          mapTo(this.radio.getStats()),
-          tap(console.log),
-          scan(this.statsAccumulator, {
-            TotalRx: 0,
-            TotalTx_Err: 0,
-            TotalTx_Ok: 0,
-            PipesRx: [0, 0, 0, 0, 0, 0]
-          }),
-          tap((stats) => this.server.emit(NrfWebsocket.stats, stats))
-        );
-      })
-    );
-
-    transmission$.subscribe();
-    // stats$.subscribe();
+    // transmission$.subscribe();
   }
 
   afterInit(server: Server) {
@@ -145,27 +123,50 @@ export class Nrf24l01Service implements OnGatewayInit {
     });
   }
 
-  @SubscribeMessage(NrfWebsocket.startTransmission)
-  startTransmission() {
-    this.state$.next({
-      ...this.state$.getValue(),
-      transmitting: true
-    });
-    return this.state$.getValue();
-  }
+  // @SubscribeMessage(NrfWebsocket.startTransmission)
+  // startTransmission() {
+  //   this.state$.next({
+  //     ...this.state$.getValue(),
+  //     transmitting: true
+  //   });
+  //   return this.state$.getValue();
+  // }
 
   @SubscribeMessage(NrfWebsocket.stopTransmission)
   stopTransmission() {
-    this.state$.next({
-      ...this.state$.getValue(),
-      transmitting: false
-    });
-    return this.state$.getValue();
+    this.stopTransmission$.next();
+    // this.state$.next({
+    //   ...this.state$.getValue(),
+    //   transmitting: false
+    // });
+    // return this.state$.getValue();
   }
 
   @SubscribeMessage(NrfWebsocket.getDebugInformation)
   wsGetDebugInfo() {
     return this.radio.printDetails();
+  }
+
+  @SubscribeMessage(NrfWebsocket.startTransmission)
+  startTransmission() {
+    this.radio.useWritePipe(this.txPipe);
+    this.radio.addReadPipe(this.rxPipe);
+    this.radio.powerUp();
+
+    return this.dualshockService.dualshock.data$.pipe(
+      sampleTime(24),
+      scan((values, controller) => {
+        return this.mapService.map(values, controller);
+      }, new Uint8Array(5)),
+      map((buffer) => ({
+        event: NrfWebsocket.stats,
+        data: {
+          buffer: Array.from(buffer),
+          stats: null // this.radio.getStats()
+        }
+      })),
+      takeUntil(this.stopTransmission$)
+    );
   }
 
   @SubscribeMessage(NrfWebsocket.startTest)
