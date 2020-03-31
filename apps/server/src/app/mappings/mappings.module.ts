@@ -3,6 +3,7 @@ import { MappingsController } from './mappings.controller';
 import { MappingsService } from './mappings.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mapping } from './mapping.entity';
+import { MapService } from './map.service';
 
 @Module({
   imports: [
@@ -12,10 +13,12 @@ import { Mapping } from './mapping.entity';
     MappingsController
   ],
   providers: [
-    MappingsService
+    MappingsService,
+    MapService
   ],
   exports: [
-    MappingsService
+    MappingsService,
+    MapService
   ]
 })
 export class MappingsModule {}

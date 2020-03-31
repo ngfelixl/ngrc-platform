@@ -1,23 +1,37 @@
-import { WebSocketGateway } from '@nestjs/websockets';
+import { WebSocketGateway, MessageBody, SubscribeMessage } from '@nestjs/websockets';
 import { Controller } from '@ngrc/interfaces/dualshock';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { DirectControl, RelativeControl, Slot } from '../../models';
 import { Mapping } from '../../models/mapping';
+import { MappingWebsockets } from '@ngrc/interfaces/websockets';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Mapping as MappingEntity } from '../mappings/mapping.entity';
+import { Repository } from 'typeorm';
 
 @WebSocketGateway(environment.port, { transports: ['polling'] })
-export class MappingService {
+export class MapService {
   mapping: Mapping;
+  mapping$: Observable<Mapping>;
   frequency = 100;
   output$ = new Subject<Uint8Array>();
 
-  constructor() {}
+  constructor(
+    @InjectRepository(MappingEntity)
+    private readonly mappingRepository: Repository<MappingEntity>
+  ) {}
 
-  /* @SubscribeMessage('[Mapper] Set Mapping')
-  setMapping(@MessageBody() mapping: Mapping): void {
-    this.mapping = mapping;
+  @SubscribeMessage(MappingWebsockets.setMapping)
+  async setMapping(@MessageBody() id: number) {
+    const mappings = await this.mappingRepository.find({ id });
+    if (!mappings || !mappings[0]) {
+      return null;
+    }
+
+    const mapping = mappings[0];
+    this.mapping = {...mapping, slots: JSON.parse(mapping.slots)};
   }
-
+  /*
   @SubscribeMessage('[Mapper] Get Mapping')
   getMapping() {
     return this.mapping;
@@ -36,7 +50,7 @@ export class MappingService {
     try {
       const usualSlots = this.mapping.slots.filter(o => o.type !== 'copy');
       const copySlots = this.mapping.slots.filter(o => o.type === 'copy');
-      for (let slot of usualSlots) {
+      for (const slot of usualSlots) {
         switch (slot.type) {
           case 'direct':
             output[slot.port] = this.direct(slot, input);
@@ -52,7 +66,7 @@ export class MappingService {
         }
       }
 
-      for (let slot of copySlots) {
+      for (const slot of copySlots) {
         const res = slot.copy.invert ? (-1) * output[slot.copy.port] + 180 : output[slot.copy.port];
         output[slot.port] = res;
       }
@@ -81,11 +95,14 @@ export class MappingService {
 
   private getAnalogValue(control: DirectControl | RelativeControl, input: Controller): number {
     const controller = control.controller;
+
     let value = 0;
     if (['l2', 'r2'].includes(controller)) {
       value = input.triggers[controller];
     } else {
-      value = input.sticks[controller];
+      const direction = controller.slice(0, controller.length - 1);
+      const axis = controller.slice(controller.length - 1, controller.length);
+      value = input.sticks[direction][axis];
     }
     return value;
   }

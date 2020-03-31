@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { loadMappings, loadMappingsSuccess, loadMappingsFailed, addMapping,
   selectMapping, addMappingSuccess, addMappingFailed, updateMapping, updateMappingSuccess,
   updateMappingFailed, deleteMapping, deleteMappingSuccess, deleteMappingFailed } from '../actions';
+import { MappingWebsockets } from '@ngrc/interfaces/websockets';
 
 @Injectable()
 export class MappingsEffects {
@@ -75,7 +76,7 @@ export class MappingsEffects {
   selectMapping$ = createEffect(() => this.actions$.pipe(
     ofType(selectMapping),
     tap(({ id }) => {
-      this.socketService.emit('[Mapper] Set Mapping', id);
+      this.socketService.emit(MappingWebsockets.setMapping, id);
     })
   ), { dispatch: false });
 }
