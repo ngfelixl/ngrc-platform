@@ -157,12 +157,15 @@ export class Nrf24l01Service implements OnGatewayInit {
       sampleTime(24),
       scan((values, controller) => {
         return this.mapService.map(values, controller);
-      }, new Uint8Array(5)),
+      }, new Uint8Array([0, 0, 0, 0, 0])),
+      tap((buffer) => {
+        this.radio.write(buffer, success => true);
+      }),
       map((buffer) => ({
         event: NrfWebsocket.stats,
         data: {
           buffer: Array.from(buffer),
-          stats: null // this.radio.getStats()
+          stats: this.radio.getStats()
         }
       })),
       takeUntil(this.stopTransmission$)

@@ -23,7 +23,6 @@ export class MapService {
 
   @SubscribeMessage(MappingWebsockets.setMapping)
   async setMapping(@MessageBody() id: number) {
-    console.log('Set Mapping: ', id);
     const mappings = await this.mappingRepository.find({ id });
     if (!mappings || !mappings[0]) {
       return null;
@@ -96,11 +95,14 @@ export class MapService {
 
   private getAnalogValue(control: DirectControl | RelativeControl, input: Controller): number {
     const controller = control.controller;
+
     let value = 0;
     if (['l2', 'r2'].includes(controller)) {
       value = input.triggers[controller];
     } else {
-      value = input.sticks[controller];
+      const direction = controller.slice(0, controller.length - 1);
+      const axis = controller.slice(controller.length - 1, controller.length);
+      value = input.sticks[direction][axis];
     }
     return value;
   }
