@@ -26,14 +26,8 @@ export class Nrf24l01Service implements OnGatewayInit {
     Channel: 90,
     PALevel: 'RF24_PA_LOW',
     DataRate: 'RF24_1MBPS',
-    CRCLength: 'RF24_CRC_16',
-    transmitting: false
+    CRCLength: 'RF24_CRC_16'
   });
-  isTransmitting$ = this.state$.pipe(
-    pluck('transmitting'),
-    distinctUntilChanged(),
-    shareReplay(1)
-  );
   stopTest$ = new Subject();
   stopTransmission$ = new Subject();
 
