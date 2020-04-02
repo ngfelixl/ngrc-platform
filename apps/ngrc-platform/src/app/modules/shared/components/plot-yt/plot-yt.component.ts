@@ -9,10 +9,10 @@ import { Component, ViewChild, ElementRef, OnInit, Input, ChangeDetectionStrateg
 export class PlotYtComponent implements OnInit {
   @ViewChild('canvas', {static: true}) canvasRef: ElementRef;
   @Input() data = [0, 0, 0, 0, 0];
-  @Input() title = 'Sending values';
+  @Input() title = 'Output [°]';
   @Input() xLabel = '';
   @Input() yLabel = '';
-  @Input() tics = [4, 4];
+  @Input() tics = [0, 4];
   @Input() minYRange = [0, 180];
   ctx: CanvasRenderingContext2D;
   size: number[] = [0, 0];
@@ -43,7 +43,7 @@ export class PlotYtComponent implements OnInit {
 
   drawTitle() {
     this.ctx.textAlign = 'center';
-    this.ctx.font = '24px roboto, sans-serif, helvetica';
+    this.ctx.font = '16px roboto, sans-serif, helvetica';
     this.ctx.textBaseline = 'middle';
 
     this.ctx.fillText(this.title, this.size[0] / 2, this.size[1] * 0.05);
@@ -53,6 +53,8 @@ export class PlotYtComponent implements OnInit {
   private paintLoop() {
     if (this.data) {
       this.ctx.clearRect(0, this.offset[1] - 2, this.size[0], this.size[1]);
+      this.ctx.fillStyle = '#fff';
+      this.ctx.fillRect(this.offset[0], this.offset[1], this.plotSize[0], this.plotSize[1])
       this.dataArray.push(this.data);
       if (this.dataArray.length > this.cropDataPointsAfter) {
         this.dataArray.shift();
@@ -96,11 +98,38 @@ export class PlotYtComponent implements OnInit {
 
   private drawAxis() {
     this.ctx.beginPath();
-    this.ctx.strokeStyle = '#000';
+
+    this.ctx.strokeStyle = '#ddd';
+    this.ctx.lineWidth = 1;
+    for (let i = 1; i < this.tics[0]; i++) {
+      this.ctx.moveTo(this.offset[0] + i * this.plotSize[0] / this.tics[0], this.offset[1])
+      this.ctx.lineTo(this.offset[0] + i * this.plotSize[0] / this.tics[0], this.offset[1] + this.plotSize[1])
+    }
+    for (let i = 1; i < this.tics[1]; i++) {
+      this.ctx.moveTo(this.offset[0], this.offset[1] + i * this.plotSize[1] / this.tics[1])
+      this.ctx.lineTo(this.offset[0] + this.plotSize[0], this.offset[1] + i * this.plotSize[1] / this.tics[1])
+    }
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = '#888';
     this.ctx.lineWidth = 2;
     this.ctx.moveTo(this.offset[0], this.offset[1]);
     this.ctx.lineTo(this.offset[0], this.offset[1] + this.plotSize[1] + 2);
     this.ctx.lineTo(this.offset[0] + this.plotSize[0], this.offset[1] + this.plotSize[1] + 2);
     this.ctx.stroke();
+
+    this.ctx.fillStyle = '#ddd';
+    this.ctx.textAlign = 'left';
+    this.ctx.font = '16px sans-serif';
+
+    for (let i = 1; i < this.tics[1]; i++) {
+      this.ctx.fillText(
+        `${i * this.yRange[1] / this.tics[1]}`,
+        this.offset[0] + 2,
+        this.offset[1] + this.plotSize[1] - i * this.plotSize[1] / this.tics[1] - 8,
+        40
+      );
+    }
   }
 }

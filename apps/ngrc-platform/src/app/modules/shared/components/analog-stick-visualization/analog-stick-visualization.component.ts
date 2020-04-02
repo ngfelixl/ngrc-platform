@@ -14,7 +14,7 @@ export interface Point {
 export class AnalogStickVisualizationComponent implements AfterViewInit {
   @ViewChild('canvas', {static: true}) canvasRef: ElementRef;
 
-  @Input() data: Point;
+  @Input() data: number[];
   @Input() xlabel = 'xLabel';
   @Input() ylabel = 'yLabel';
   @Input() color = 'rgb(0, 96, 100)';
@@ -42,12 +42,12 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
     const ctx = this.ctx;
     const ar = this.ar;
     ctx.beginPath();
-    ctx.font = '24px sans-serif';
+    ctx.font = '16px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(this.xlabel, this.x(128), this.y(256) + 28);
+    ctx.fillText(this.xlabel, this.x(128), this.y(256) + 16);
 
     ctx.rotate(-Math.PI  / 2);
-    ctx.fillText(this.ylabel, - ar[1] * 128, 20);
+    ctx.fillText(this.ylabel, - ar[1] * 128, 24);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
@@ -60,14 +60,16 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
 
   paintLoop(): void {
     const ctx = this.ctx;
-    const dist = this.data ? 2 * Math.round(Math.sqrt(Math.pow(this.data.x - 128, 2) + Math.pow(this.data.y - 128, 2))) : 0;
+    const dist = this.data ? 2 * Math.round(Math.sqrt(Math.pow(this.data[0] - 128, 2) + Math.pow(this.data[1] - 128, 2))) : 0;
     const ar = this.ar;
     const offset = this.offset;
     const x = this.x.bind(this);
     const y = this.y.bind(this);
-    const p = this.data ? {x: x(this.data.x), y: y(this.data.y)} : {x: x(128), y: y(128)};
+    const p = this.data ? {x: x(this.data[0]), y: y(this.data[1])} : {x: x(128), y: y(128)};
 
     ctx.clearRect(offset.left - 2, offset.top - 2, ar[0] * 256 + 4, ar[1] * 256 + 4);
+    ctx.fillStyle = '#202020';
+    ctx.fillRect(offset.left, offset.top + 2, ar[0] * 256 - 1, ar[1] * 256 - 4);
 
     // line to center
     ctx.beginPath();
@@ -80,8 +82,20 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
 
     // dashed axis lines
     ctx.beginPath();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#aaa';
+    ctx.lineWidth = 1;
+
+    const gradient = ctx.createLinearGradient(x(0), 0, x(256), 0);
+
+    // Add three color stops
+    gradient.addColorStop(0, '#333');
+    gradient.addColorStop(p.y / 255, '#ff0000');
+    gradient.addColorStop(1, '#333');
+
+    // Set the fill style and draw a rectangle
+    // ctx.fillStyle = gradient;
+    ctx.strokeStyle = gradient;
+
+    // ctx.strokeStyle = '#bbb';
     ctx.moveTo(x(0), p.y);
     ctx.lineTo(x(256), p.y);
     ctx.moveTo(p.x, y(0));
@@ -90,7 +104,7 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
 
     ctx.setLineDash([]);
     ctx.beginPath();
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = this.color;
     ctx.moveTo(p.x, y(240));
     ctx.lineTo(p.x, y(256));

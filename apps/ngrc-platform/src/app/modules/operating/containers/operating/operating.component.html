@@ -15,9 +15,9 @@
     <ngrc-ds-visualization [data]="dsData$ | async"></ngrc-ds-visualization>
   </div>
   <div class="mat-elevation-z1">
-    <ngrc-analog-stick-visualization [data]="dsLeft$ | async" xlabel="x Axis" ylabel="Aileron Left"></ngrc-analog-stick-visualization>
+    <ngrc-analog-stick-visualization [data]="dsLeft$ | async" xlabel="Left Stick X" ylabel="Left Stick Y"></ngrc-analog-stick-visualization>
   </div>
   <div class="mat-elevation-z1">
-    <ngrc-analog-stick-visualization [data]="dsRight$ | async" xlabel="Aileron Left" ylabel="Elevator"></ngrc-analog-stick-visualization>
+    <ngrc-analog-stick-visualization [data]="dsRight$ | async" xlabel="Right Stick X" ylabel="Right Stick Y"></ngrc-analog-stick-visualization>
   </div>
 </div>
