@@ -1,5 +1,3 @@
-<button mat-raised-button color="accent" routerLink="new"><mat-icon>add</mat-icon> Add Model</button>
-
 <div class="models">
   <ngrc-model-card
     *ngFor="let model of models$ | async"
@@ -7,5 +5,9 @@
     [routerLink]="[model.id]"
     [hint]="model.slots?.length + ' Channels'">
     {{model.title}}
+  </ngrc-model-card>
+
+  <ngrc-model-card routerLink="new" [isAdd]="true">
+    Add Model
   </ngrc-model-card>
 </div>

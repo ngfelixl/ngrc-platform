@@ -1,14 +1,32 @@
 :host {
-  display: flex;
-}
-
-mat-card {
+  display: grid;
+  min-height: 120px;
+  align-items: center;
+  background-color: #eeeaea;
+  padding: 12px;
+  border-radius: 4px;
+  grid-template-columns: 72px 1fr;
+  grid-gap: 12px;
+  box-shadow: 0 1px 4px -1px #888;
   cursor: pointer;
-  flex: 1;
+  outline: none;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 }
 
-mat-card-title {
-  font-size: 24px !important;
+:host.isAdd {
+  color: white;
+  background-color: #222121;
+}
+
+:host:hover {
+  transform: scale(1.05);
+  box-shadow: 0 1px 8px -1px #888;
+}
+
+.title {
+  font-size: 24px;
 }
 
 img {
