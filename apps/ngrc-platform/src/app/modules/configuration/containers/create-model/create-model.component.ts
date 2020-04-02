@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import { clearMapping, addModel } from '../../+store';
 })
 export class CreateModelComponent {
   modelForm: FormGroup;
+  preview: string;
 
   constructor(
     private store: Store<fromFeature.State>,
@@ -20,9 +21,9 @@ export class CreateModelComponent {
     private fb: FormBuilder
   ) {
     this.modelForm = this.fb.group({
-      title: [''],
-      img: [null],
-      slots: this.fb.array([this.createItem()])
+      title: ['', Validators.required],
+      img: [null, Validators.required],
+      slots: this.fb.array([this.createItem()], Validators.required)
     });
   }
 
@@ -36,7 +37,7 @@ export class CreateModelComponent {
 
   createItem() {
     return this.fb.group({
-      title: ['']
+      title: ['', Validators.required]
     });
   }
 
@@ -61,6 +62,17 @@ export class CreateModelComponent {
     if (event.target.files && event.target.files.length) {
       const file = event.target.files.item(0);
       this.modelForm.patchValue({ img: file });
+
+
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.preview = e.target.result.toString();
+      }
+
+      reader.readAsDataURL(event.target.files.item(0));
     }
+
+
   }
 }
