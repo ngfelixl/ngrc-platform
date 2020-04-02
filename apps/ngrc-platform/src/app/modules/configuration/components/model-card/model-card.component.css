@@ -1,10 +1,10 @@
 :host {
   display: grid;
-  min-height: 120px;
+  min-height: 100px;
   align-items: center;
-  background-color: #eeeaea;
+  background-color: #eeeded;
   padding: 12px;
-  border-radius: 4px;
+  border-radius: 8px;
   grid-template-columns: 72px 1fr;
   grid-gap: 12px;
   box-shadow: 0 1px 4px -1px #888;
@@ -13,6 +13,12 @@
   transition:
     transform 0.2s ease-in-out,
     box-shadow 0.2s ease-in-out;
+  border: 2px solid #222121;
+  color: #222121;
+}
+
+.hint {
+  color: #6e6e6e;
 }
 
 :host.isAdd {
