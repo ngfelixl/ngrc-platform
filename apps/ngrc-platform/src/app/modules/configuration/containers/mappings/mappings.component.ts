@@ -3,7 +3,8 @@ import { Mapping, Model } from '@ngrc/interfaces/models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { addMapping, clearMapping, deleteMapping, deleteModel, getMappings, getSelectedMapping, getSelectedModel, loadMappings, loadModels, selectMapping, State, updateMapping } from '../../+store';
+import { addMapping, clearMapping, deleteMapping, deleteModel, getMappings,
+  getSelectedMapping, getSelectedModel, loadMappings, loadModels, selectMapping, State, updateMapping } from '../../+store';
 import { getModelId } from '../../../../+store';
 
 

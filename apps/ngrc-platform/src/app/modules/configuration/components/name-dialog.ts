@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
+  selector: 'ngrc-name-dialog',
   template: `
     <mat-form-field>
       <input matInput placeholder="Name" [(ngModel)]="title" autocomplete="off">

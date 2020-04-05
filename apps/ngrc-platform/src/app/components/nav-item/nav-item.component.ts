@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'ngrc-nav-item',
   templateUrl: './nav-item.component.html',
   styleUrls: [ './nav-item.component.css' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavItemComponent {
   @Input() icon = '';

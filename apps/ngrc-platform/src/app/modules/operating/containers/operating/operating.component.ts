@@ -44,6 +44,10 @@ export class OperatingComponent implements OnDestroy {
     this.store.dispatch(listenToDualshock());
   }
 
+  selectMapping() {
+    this.store.dispatch(openMappingSelect());
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.store.dispatch(nrfStopTransmission());
