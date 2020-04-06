@@ -7,16 +7,22 @@ export interface Slot {
     max: number
   };
   direct?: DirectControl;
+  binary?: BinaryControl;
   copy?: CopyControl;
   relative?: RelativeControl;
   threshold?: ThresholdControl;
   button?: ButtonControl;
 }
 
+export interface BinaryControl {
+  controller: string;
+  releaseValue: number;
+  pressValue: number;
+};
 export interface DirectControl {
   controller: string;
   invert: boolean;
-}
+};
 export interface RelativeControl {
   controller: string;
   variation: number;

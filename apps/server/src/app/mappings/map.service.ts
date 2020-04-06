@@ -2,8 +2,7 @@ import { WebSocketGateway, MessageBody, SubscribeMessage } from '@nestjs/websock
 import { Controller } from '@ngrc/interfaces/dualshock';
 import { Subject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { DirectControl, RelativeControl, Slot } from '../../models';
-import { Mapping } from '../../models/mapping';
+import { DirectControl, RelativeControl, Slot, Mapping } from '@ngrc/interfaces/models';
 import { MappingWebsockets } from '@ngrc/interfaces/websockets';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Mapping as MappingEntity } from '../mappings/mapping.entity';
@@ -60,6 +59,10 @@ export class MapService {
             output[slot.port] = this.relative(state[slot.port], slot, input);
             break;
 
+            case 'binary':
+              output[slot.port] = this.binary(slot, input);
+              break;
+
           case 'button':
             output[slot.port] = this.button(state[slot.port], slot, input);
             break;
@@ -85,6 +88,11 @@ export class MapService {
     } catch (e) {
       return 0;
     }
+  }
+
+  private binary(slot: Slot, input: Controller): number {
+    const { controller, pressValue, releaseValue } = slot.binary;
+    return input[controller] ? pressValue : releaseValue;
   }
 
   private relative(state: number, slot: Slot, input: Controller): number {
