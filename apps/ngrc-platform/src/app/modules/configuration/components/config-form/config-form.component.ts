@@ -38,12 +38,12 @@ export class ConfigFormComponent implements OnChanges {
         this.mapping.slots.map(data => {
           const slot = {
             ...data,
-            range: this.fb.group(data.range),
-            direct: this.fb.group(data.direct),
-            relative: this.fb.group(data.relative),
-            threshold: this.fb.group(data.threshold),
-            button: this.fb.group(data.button),
-            copy: this.fb.group(data.copy)
+            range: this.fb.group(data.range || {}),
+            direct: this.fb.group(data.direct || {}),
+            relative: this.fb.group(data.relative || {}),
+            threshold: this.fb.group(data.threshold || {}),
+            button: this.fb.group(data.button || {}),
+            copy: this.fb.group(data.copy || {})
           };
           return this.fb.group(slot);
         })
@@ -66,7 +66,7 @@ export class ConfigFormComponent implements OnChanges {
   }
 
   get slots(): FormArray { return this.mappingForm.get('slots') as FormArray; }
-  get title(): string { return this.mappingForm.get('title').value as string; }
+  get title(): string { return this.mappingForm.get('title')?.value as string; }
 
   addItem() {
     this.slots.controls.push(this.createItem());

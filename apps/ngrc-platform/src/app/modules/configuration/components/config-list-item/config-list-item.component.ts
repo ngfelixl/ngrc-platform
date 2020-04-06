@@ -15,8 +15,8 @@ export class ConfigListItemComponent {
   ports = [0, 1, 2, 3, 4];
   expanded = false;
 
-  get title(): string { return this.form.get('title').value as string; }
-  get type(): string { return this.form.get('type').value as string; }
+  get title(): string { return this.form.get('title')?.value as string; }
+  get type(): string { return this.form.get('type')?.value as string; }
   get copy(): FormGroup { return this.form.get('copy') as FormGroup; }
   get direct(): FormGroup { return this.form.get('direct') as FormGroup; }
   get relative(): FormGroup { return this.form.get('relative') as FormGroup; }
