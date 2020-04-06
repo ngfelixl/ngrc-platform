@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selected$: Observable<number>;
   battery: number;
   batteryIcon$: Observable<string>;
-  mapping$: Observable<Mapping>;
+  mapping$: Observable<Mapping | undefined>;
   isLandscape$: Observable<boolean>;
   transmitting$: Observable<boolean>;
 
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showSidenav$ = this.store.select(fromFeature.getShowSidenav);
     this.selected$ = this.store.select(fromFeature.getSidenavItemSelected);
     this.mapping$ = this.store.select(fromConfiguration.getSelectedMapping);
-    this.transmitting$ = this.store.select(fromDevices.getNrfTransmitting);
+    // this.transmitting$ = this.store.select(fromDevices.getNrfTransmitting);
 
     this.batteryIcon$ = this.store.select(getDualshockBattery).pipe(
       map(battery => this.getBatteryIcon(battery))
@@ -97,6 +97,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else if (battery === 100) {
       return 'battery_full';
     }
+    return 'battery_unknown';
   }
 
   ngOnDestroy() {

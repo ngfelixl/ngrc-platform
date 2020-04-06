@@ -15,7 +15,7 @@ import { getSelectedMapping, loadMappings, loadModels, selectAllMappings, select
 export class MappingSelectDialogComponent implements OnInit {
   models$: Observable<Model[]>;
   mappings$: Observable<Mapping[]>;
-  mapping$: Observable<Mapping>;
+  mapping$: Observable<Mapping | undefined>;
   subscription: Subscription;
   showSelection$: Observable<boolean>;
   hideMappingsSelection$: Observable<boolean>;
@@ -38,7 +38,7 @@ export class MappingSelectDialogComponent implements OnInit {
     this.mapping$ = this.store.select(getSelectedMapping).pipe(
       first(),
       filter(mapping => !!mapping),
-      tap(mapping => this.mappingSelectForm.patchValue(mapping))
+      tap(mapping => this.mappingSelectForm.patchValue(mapping || {}))
     );
     this.mappings$ = merge(this.mappingSelectForm.valueChanges, this.mapping$).pipe(
       pluck('modelId'),

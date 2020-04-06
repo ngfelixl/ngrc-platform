@@ -22,7 +22,7 @@ export class PlotYtComponent implements OnInit {
   xMax = 1;
   yRange = [0, 1];
   cropDataPointsAfter = 200; // [s]
-  dataArray = [];
+  dataArray: number[][] = [];
   colors = ['#940', '#f00', '#0f0', '#00f', '#494'];
 
   constructor() {}

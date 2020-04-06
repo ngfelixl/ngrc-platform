@@ -14,7 +14,7 @@ import { getNrfBuffer, getNrfState, getNrfStats, getNrfTesting, nrfStartTest, nr
 })
 export class Nrf24l01Component implements OnInit, OnDestroy {
   nrfSettingsForm: FormGroup;
-  channels = [];
+  channels: number[] = [];
   subscriptions: Subscription[] = [];
   testing$: Observable<boolean>;
   stats$: Observable<Nrf24Stats>;
