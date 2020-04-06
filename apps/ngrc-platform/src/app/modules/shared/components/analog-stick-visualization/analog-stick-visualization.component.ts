@@ -60,12 +60,11 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
 
   paintLoop(): void {
     const ctx = this.ctx;
-    const dist = this.data ? 2 * Math.round(Math.sqrt(Math.pow(this.data[0] - 128, 2) + Math.pow(this.data[1] - 128, 2))) : 0;
     const ar = this.ar;
     const offset = this.offset;
     const x = this.x.bind(this);
     const y = this.y.bind(this);
-    const p = this.data ? {x: x(this.data[0]), y: y(this.data[1])} : {x: x(128), y: y(128)};
+    const p = this.data ? {x: x(this.data[0]), y: y(255 - this.data[1])} : {x: x(128), y: y(128)};
 
     ctx.clearRect(offset.left - 2, offset.top - 2, ar[0] * 256 + 4, ar[1] * 256 + 4);
     ctx.fillStyle = '#202020';
@@ -73,39 +72,50 @@ export class AnalogStickVisualizationComponent implements AfterViewInit {
 
     // line to center
     ctx.beginPath();
-    ctx.strokeStyle = `rgb(${dist * this.accent[0]}, ${dist * this.accent[1]}, ${dist * this.accent[2]})`;
-    ctx.lineWidth = dist / 128 * 3 + 1;
+    // ctx.strokeStyle = `rgb(${dist * this.accent[0]}, ${dist * this.accent[1]}, ${dist * this.accent[2]})`;
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    // ctx.lineWidth = dist / 128 * 3 + 1;
     ctx.moveTo(x(128), y(128));
     ctx.lineTo(p.x, p.y);
     ctx.closePath();
     ctx.stroke();
 
     // dashed axis lines
-    ctx.beginPath();
-    ctx.lineWidth = 1;
 
-    const gradient = ctx.createLinearGradient(x(0), 0, x(256), 0);
 
     // Add three color stops
-    gradient.addColorStop(0, '#333');
-    gradient.addColorStop(p.y / 255, '#ff0000');
-    gradient.addColorStop(1, '#333');
-
-    // Set the fill style and draw a rectangle
-    // ctx.fillStyle = gradient;
-    ctx.strokeStyle = gradient;
-
-    // ctx.strokeStyle = '#bbb';
-    ctx.moveTo(x(0), p.y);
-    ctx.lineTo(x(256), p.y);
+    // const ygradient = ctx.createLinearGradient(0, y(0), 0, y(256));
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    const ygradient = ctx.createLinearGradient(0, y(0), 0, y(256));
+    // const ygradient = ctx.createLinearGradient(x(0), 0, x(256), 0);
+    ygradient.addColorStop(0, '#333');
+    ygradient.addColorStop((255 - this.data[1]) / 255, '#ff0000');
+    ygradient.addColorStop(1, '#333');
+    ctx.strokeStyle = ygradient;
     ctx.moveTo(p.x, y(0));
     ctx.lineTo(p.x, y(256));
     ctx.stroke();
+    ctx.closePath();
+
+    // ctx.strokeStyle = '#bbb';
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    const xgradient = ctx.createLinearGradient(x(0), 0, x(256), 0);
+    xgradient.addColorStop(0, '#333');
+    xgradient.addColorStop(this.data[0] / 255, '#ff0000');
+    xgradient.addColorStop(1, '#333');
+    ctx.strokeStyle = xgradient;
+    ctx.moveTo(x(0), p.y);
+    ctx.lineTo(x(256), p.y);
+    ctx.stroke();
+    ctx.closePath();
 
     ctx.setLineDash([]);
     ctx.beginPath();
     ctx.lineWidth = 2;
-    ctx.strokeStyle = this.color;
+    ctx.strokeStyle = '#ff0000';
     ctx.moveTo(p.x, y(240));
     ctx.lineTo(p.x, y(256));
     ctx.moveTo(x(0), p.y);

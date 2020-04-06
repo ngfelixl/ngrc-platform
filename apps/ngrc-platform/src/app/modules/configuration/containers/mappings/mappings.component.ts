@@ -15,7 +15,7 @@ import { getModelId } from '../../../../+store';
 export class MappingsComponent implements OnInit {
   model$: Observable<Model>;
   mappings$: Observable<Mapping[]>;
-  mapping$: Observable<Mapping>;
+  mapping$: Observable<Mapping | undefined>;
 
   constructor(
     private store: Store<State>
@@ -30,7 +30,7 @@ export class MappingsComponent implements OnInit {
       withLatestFrom(this.store.select(getModelId)),
       map(([mapping, modelId]) => {
         if (mapping && mapping.modelId !== modelId) {
-          mapping = null;
+          mapping = undefined;
         }
         return mapping;
       })

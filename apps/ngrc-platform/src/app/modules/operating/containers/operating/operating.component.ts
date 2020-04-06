@@ -22,7 +22,7 @@ export class OperatingComponent implements OnDestroy {
   data$: Observable<number[]>;
   subscription: Subscription;
   isLandscape$: Observable<boolean>;
-  mapping$: Observable<Mapping>;
+  mapping$: Observable<Mapping | undefined>;
   stats$: Observable<Nrf24Stats>
 
   constructor(private store: Store<State>) {

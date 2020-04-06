@@ -42,9 +42,7 @@ export class CreateModelComponent {
   }
 
   get slots(): FormArray {
-    if (this.modelForm) {
-      return this.modelForm.get('slots') as FormArray;
-    }
+    return this.modelForm.get('slots') as FormArray;
   }
 
   back() {
@@ -56,21 +54,21 @@ export class CreateModelComponent {
     this.store.dispatch(addModel({ model }));
   }
 
-  onImgChange(event) {
-    // const reader = new FileReader();
-
-    if (event.target.files && event.target.files.length) {
-      const file = event.target.files.item(0);
+  onImgChange(event: Event) {
+    const files = (event.target as HTMLInputElement)?.files;
+    if (files && files?.length) {
+      const file = files.item(0);
       this.modelForm.patchValue({ img: file });
 
 
       const reader = new FileReader();
 
-      reader.onload = (e) => {
-        this.preview = e.target.result.toString();
+      reader.onload = (progressEvent: ProgressEvent<FileReader>) => {
+        const preview = progressEvent.target?.result?.toString()
+        this.preview = preview || '';
       }
 
-      reader.readAsDataURL(event.target.files.item(0));
+      reader.readAsDataURL(files.item(0) as File);
     }
 
 
