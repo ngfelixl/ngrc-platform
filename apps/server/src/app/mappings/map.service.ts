@@ -59,9 +59,9 @@ export class MapService {
             output[slot.port] = this.relative(state[slot.port], slot, input);
             break;
 
-            case 'binary':
-              output[slot.port] = this.binary(slot, input);
-              break;
+          case 'binary':
+            output[slot.port] = this.binary(slot, input);
+            break;
 
           case 'button':
             output[slot.port] = this.button(state[slot.port], slot, input);

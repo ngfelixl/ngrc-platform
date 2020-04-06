@@ -1,4 +1,4 @@
-import { Slot } from '../../models';
+import { Slot } from '@ngrc/interfaces/models';
 
 export interface MappingDto {
   id: number;
