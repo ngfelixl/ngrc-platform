@@ -92,7 +92,7 @@ export class MapService {
 
   private binary(slot: Slot, input: Controller): number {
     const { controller, pressValue, releaseValue } = slot.binary;
-    return input[controller] ? pressValue : releaseValue;
+    return input.buttons[controller] ? pressValue : releaseValue;
   }
 
   private relative(state: number, slot: Slot, input: Controller): number {
