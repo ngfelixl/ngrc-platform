@@ -19,6 +19,7 @@ export class ConfigListItemComponent {
   get type(): string { return this.form.get('type')?.value as string; }
   get copy(): FormGroup { return this.form.get('copy') as FormGroup; }
   get direct(): FormGroup { return this.form.get('direct') as FormGroup; }
+  get binary(): FormGroup { return this.form.get('binary') as FormGroup; }
   get relative(): FormGroup { return this.form.get('relative') as FormGroup; }
   get button(): FormGroup { return this.form.get('button') as FormGroup; }
   get threshold(): FormGroup { return this.form.get('threshold') as FormGroup; }

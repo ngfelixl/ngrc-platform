@@ -1,0 +1,16 @@
+<div class="form" [formGroup]="form">
+  <div class="formfields">
+    <mat-form-field>
+      <mat-label>Button</mat-label>
+      <mat-select formControlName="controller" placeholder="Button">
+        <mat-option *ngFor="let button of buttons" [value]="button.id">{{button.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="releaseValue" placeholder="Default Value" autocomplete="off" min="0" max="180">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="pressValue" placeholder="Press Value" autocomplete="off" min="0" max="180">
+    </mat-form-field>
+  </div>
+</div>

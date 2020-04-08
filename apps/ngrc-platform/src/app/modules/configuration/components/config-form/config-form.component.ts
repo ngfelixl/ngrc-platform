@@ -40,6 +40,7 @@ export class ConfigFormComponent implements OnChanges {
             ...data,
             range: this.fb.group(data.range || {}),
             direct: this.fb.group(data.direct || {}),
+            binary: this.fb.group(data.binary || {}),
             relative: this.fb.group(data.relative || {}),
             threshold: this.fb.group(data.threshold || {}),
             button: this.fb.group(data.button || {}),
@@ -84,6 +85,11 @@ export class ConfigFormComponent implements OnChanges {
       direct: this.fb.group({
         controller: null,
         invert: false
+      }),
+      binary: this.fb.group({
+        controller: null,
+        releaseValue: 0,
+        pressValue: 0
       }),
       copy: this.fb.group({
         port: null,

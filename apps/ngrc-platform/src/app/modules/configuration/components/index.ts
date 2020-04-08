@@ -10,12 +10,14 @@ import { RangeVisualizationComponent } from './range-visualization';
 import { ConfigFormThresholdComponent } from './config-form-threshold/config-form-threshold.component';
 import { ConfigFormCopyComponent } from './config-form-copy/config-form-copy.component';
 import { NameDialogComponent } from './name-dialog';
+import { ConfigFormBinaryComponent } from './config-form-binary/config-form-binary.component';
 
 export const components: any[] = [
   AnalogValueComponent,
   ConfigFormComponent,
   ConfigFormCopyComponent,
   ConfigFormDirectComponent,
+  ConfigFormBinaryComponent,
   ConfigFormButtonComponent,
   ConfigFormHeaderComponent,
   ConfigFormRelativeComponent,
