@@ -5,7 +5,7 @@ import { freemem, totalmem } from 'os';
 import { interval, Observable, Observer, zip, Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { SystemReportWebsocket } from '../../../../../libs/interfaces/src/websockets';
+import { SystemReportWebsocket } from '@ngrc/interfaces/websockets';
 
 @WebSocketGateway(environment.port, { transports: ['polling'] })
 export class SystemReportService {
