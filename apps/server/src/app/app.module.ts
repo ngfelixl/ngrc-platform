@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
-
-import { WebsocketGateway } from './websocket.gateway';
-import { ModelsModule } from './models/models.module';
-import { MappingsModule } from './mappings/mappings.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Model } from './models/model.entity';
-import { Mapping } from './mappings/mapping.entity';
-import { services } from './services';
 import { MulterModule } from '@nestjs/platform-express';
-import { imageFileFilter } from './helpers';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { gateways } from './gateways';
+import { imageFileFilter } from './helpers';
+import { Mapping } from './mappings/mapping.entity';
+import { MappingsModule } from './mappings/mappings.module';
+import { Model } from './models/model.entity';
+import { ModelsModule } from './models/models.module';
 
 @Module({
   imports: [
@@ -29,8 +27,7 @@ import { join } from 'path';
     })
   ],
   providers: [
-    WebsocketGateway,
-    ...services
+    ...gateways
   ],
 })
 export class AppModule {}
