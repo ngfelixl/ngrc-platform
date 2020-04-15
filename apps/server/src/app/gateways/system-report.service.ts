@@ -3,7 +3,7 @@ import { SystemReport } from '@ngrc/interfaces/raspberrypi';
 import { spawn } from 'child_process';
 import { freemem, totalmem } from 'os';
 import { interval, Observable, Observer, zip, Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil, startWith } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { RaspberrypiWebsocket } from '@ngrc/interfaces/websockets';
 
@@ -25,10 +25,12 @@ export class SystemReportService {
     });
 
     const temparture$ = interval(2000).pipe(
+      startWith(0),
       switchMap(() => temperatureChildProcess$)
     );
 
     const memoryInPercent$ = interval(2000).pipe(
+      startWith(0),
       map(() => 1 - freemem() / totalmem())
     );
 
