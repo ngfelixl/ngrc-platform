@@ -1,5 +1,5 @@
 import { WebSocketGateway, SubscribeMessage } from '@nestjs/websockets';
-import { SystemReport } from '@ngrc/interfaces/system-report';
+import { SystemReport } from '@ngrc/interfaces/raspberrypi';
 import { spawn } from 'child_process';
 import { freemem, totalmem } from 'os';
 import { interval, Observable, Observer, zip, Subject } from 'rxjs';

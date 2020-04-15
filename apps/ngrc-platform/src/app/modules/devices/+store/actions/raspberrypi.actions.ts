@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { SystemReport } from '@ngrc/interfaces/system-report';
+import { SystemReport } from '@ngrc/interfaces/raspberrypi';
 
 export const listenToRaspberrypi = createAction(
   '[Devices] Rasbperrypi Listen'

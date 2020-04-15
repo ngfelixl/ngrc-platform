@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { State, getSystemReport, listenToRaspberrypi, unlistenToRaspberrypi } from '../../+store';
 import { Store } from '@ngrx/store';
-import { SystemReport } from '@ngrc/interfaces/system-report';
+import { SystemReport } from '@ngrc/interfaces/raspberrypi';
 import { Observable } from 'rxjs';
 
 @Component({
