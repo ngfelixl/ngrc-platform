@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 
 import * as fromFeature from '../../+store';
 import * as fromConfiguration from '../../modules/configuration/+store';
-import * as fromDevices from '../../modules/devices/+store';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MappingSelectDialogComponent } from '../mapping-select-dialog/mapping-select-dialog.component';

@@ -21,16 +21,16 @@ export class DualshockService {
     );
   }
 
-  @SubscribeMessage(DsWebsocket.unlisten)
-  unlisten() {
-    this.unlisten$.next();
-  }
-
   @SubscribeMessage(DsWebsocket.listen)
   listenToData() {
     return this.dualshock.data$.pipe(
       map(controller => ({ event: DsWebsocket.valueChange, data: { ...controller }})),
       takeUntil(this.unlisten$)
     );
+  }
+
+  @SubscribeMessage(DsWebsocket.unlisten)
+  unlisten() {
+    this.unlisten$.next();
   }
 }

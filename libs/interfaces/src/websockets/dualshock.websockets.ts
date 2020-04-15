@@ -3,5 +3,5 @@ export enum DsWebsocket {
   stateChange = '[Dualshock] State Changed',
   valueChange = '[Dualshock] Value Changed',
   listen = '[Dualshock] Listen',
-  unlisten = '[Dualshock] Listen'
+  unlisten = '[Dualshock] Unlisten'
 }

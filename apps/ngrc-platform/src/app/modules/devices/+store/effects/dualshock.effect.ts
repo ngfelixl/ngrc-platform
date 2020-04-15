@@ -6,7 +6,7 @@ import { catchError, map, switchMap, tap, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { DualshockState, Controller } from '@ngrc/interfaces/dualshock';
 import { DsWebsocket } from '@ngrc/interfaces/websockets';
-import { dualshockStateChanged, dualshockError, dualshockConnect, dualshockDisconnect,
+import { dualshockStateChanged, dualshockError, dualshockConnect,
   dualshockValuesChanged, listenToDualshock, unlistenToDualshock } from '../actions';
 
 @Injectable()
