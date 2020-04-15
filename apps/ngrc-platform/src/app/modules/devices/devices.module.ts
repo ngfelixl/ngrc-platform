@@ -1,21 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
+import { StoreModule } from '@ngrx/store';
 import { MatModule } from '../mat/mat.module';
 import { SharedModule } from '../shared/shared.module';
-import { DevicesRoutingModule } from './devices-routing.module';
-
-import { DualshockService } from './services/dualshock.service';
-
-import { containers } from './containers';
+import { effects, reducers } from './+store';
 import { components } from './components';
-
-import { reducers, effects } from './+store';
-
+import { containers } from './containers';
+import { DevicesRoutingModule } from './devices-routing.module';
+import { DualshockService } from './services/dualshock.service';
 
 @NgModule({
   imports: [
