@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getDualshockState, getIsPVariant, getNrfConnected, State } from '../../+store';
 import { Device } from '../../models/device';
+import { getSocketConnected } from '../../../../+store';
 
 @Component({
   templateUrl: './devices.component.html',
@@ -12,10 +13,12 @@ export class DevicesComponent {
   dualshock$: Observable<Device>;
   nrf$: Observable<boolean>;
   isP$: Observable<boolean>;
+  socketConnected$: Observable<boolean>;
 
   constructor(private store: Store<State>) {
     this.dualshock$ = this.store.select(getDualshockState);
     this.nrf$ = this.store.select(getNrfConnected);
     this.isP$ = this.store.select(getIsPVariant);
+    this.socketConnected$ = this.store.select(getSocketConnected);
   }
 }

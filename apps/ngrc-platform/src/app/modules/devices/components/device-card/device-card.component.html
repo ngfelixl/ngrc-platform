@@ -6,5 +6,6 @@
   <span *ngIf="device || device === false" class="status">
     <ngrc-dualshock-details *ngIf="identifier === 'dualshock'" [device]="device"></ngrc-dualshock-details>
     <ngrc-nrf24l01-details *ngIf="identifier === 'nrf24l01'" [connected]="device"></ngrc-nrf24l01-details>
+    <div *ngIf="identifier === 'raspberrypi'">{{ device ? 'Connected' : 'Disconnected' }}</div>
   </span>
 </div>
