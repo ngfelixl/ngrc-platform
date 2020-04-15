@@ -5,7 +5,10 @@
     </div>
     <div class="text">
       <mat-card-title>Raspberry Pi Zero W</mat-card-title>
-      {{ systemReport$ | async | json }}
+      <p>
+        Temperature: {{ (temperature$ | async | number:'1.0-1') || '-' }} °C<br>
+        Memory Usage: {{ memory$ | async | number:'1.0-4'}}
+      </p>
     </div>
   </div>
 

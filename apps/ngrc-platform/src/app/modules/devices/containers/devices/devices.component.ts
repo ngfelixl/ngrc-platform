@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-import { State, getDualshockState, getNrfConnected, getIsPVariant } from '../../+store';
 import { Observable } from 'rxjs';
+import { getDualshockState, getIsPVariant, getNrfConnected, State } from '../../+store';
 import { Device } from '../../models/device';
-import { Nrf24State } from '@ngrc/interfaces/nrf24';
 
 @Component({
   templateUrl: './devices.component.html',

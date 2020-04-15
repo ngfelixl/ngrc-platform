@@ -12,3 +12,13 @@ export const getSystemReport = createSelector(
   getRaspberrypiState,
   (state) => state.systemReport
 );
+
+export const getMemoryUsage = createSelector(
+  getSystemReport,
+  (report) => report?.usedMemoryInPercent
+);
+
+export const getTemperature = createSelector(
+  getSystemReport,
+  (report) => report?.temperature
+);

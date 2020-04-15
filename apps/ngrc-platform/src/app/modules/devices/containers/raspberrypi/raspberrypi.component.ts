@@ -1,22 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { State, getSystemReport, listenToRaspberrypi, unlistenToRaspberrypi } from '../../+store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { SystemReport } from '@ngrc/interfaces/raspberrypi';
 import { Observable } from 'rxjs';
+import { getMemoryUsage, getTemperature, listenToRaspberrypi, State, unlistenToRaspberrypi } from '../../+store';
 
 @Component({
   templateUrl: './raspberrypi.component.html',
   styleUrls: [ './raspberrypi.component.css' ]
 })
 export class RaspberrypiComponent implements OnInit, OnDestroy {
-  systemReport$: Observable<SystemReport>;
+  temperature$: Observable<number>;
+  memory$: Observable<number>;
 
   constructor(
     private location: Location,
     private store: Store<State>
   ) {
-    this.systemReport$ = this.store.select(getSystemReport);
+    this.temperature$ = this.store.select(getTemperature);
+    this.memory$ = this.store.select(getMemoryUsage);
   }
 
   ngOnInit() {
