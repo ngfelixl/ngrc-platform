@@ -1,10 +1,11 @@
 <mat-card>
   <div class="flex">
     <div class="logo">
-      <img [src]="'assets/raspberrypi.jpg'">
+      <img [src]="'assets/raspberrypi.png'">
     </div>
     <div class="text">
       <mat-card-title>Raspberry Pi Zero W</mat-card-title>
+      {{ systemReport$ | async | json }}
     </div>
   </div>
 

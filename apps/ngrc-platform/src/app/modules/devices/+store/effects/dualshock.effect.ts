@@ -6,7 +6,8 @@ import { catchError, map, switchMap, tap, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { DualshockState, Controller } from '@ngrc/interfaces/dualshock';
 import { DsWebsocket } from '@ngrc/interfaces/websockets';
-import { dualshockStateChanged, dualshockError, dualshockConnect, dualshockDisconnect, dualshockValuesChanged, listenToDualshock, unlistenToDualshock } from '../actions';
+import { dualshockStateChanged, dualshockError, dualshockConnect, dualshockDisconnect,
+  dualshockValuesChanged, listenToDualshock, unlistenToDualshock } from '../actions';
 
 @Injectable()
 export class DualshockEffects {
@@ -32,14 +33,14 @@ export class DualshockEffects {
     ofType(listenToDualshock),
     tap(() => this.socketService.emit(DsWebsocket.listen)),
     switchMap(() => this.socketService.listen<Controller>(DsWebsocket.valueChange).pipe(
-      takeUntil(this.actions$.pipe(ofType(unlistenToDualshock))),
       map((controller) => dualshockValuesChanged({ controller })),
-      catchError(error => of(dualshockError({ error })))
+      catchError(error => of(dualshockError({ error }))),
+      takeUntil(this.actions$.pipe(ofType(unlistenToDualshock)))
     ))
   ));
 
   disconnectFromDualshock = createEffect(() => this.actions$.pipe(
-    ofType(dualshockDisconnect),
+    ofType(unlistenToDualshock),
     tap(() => this.socketService.emit(DsWebsocket.unlisten))
   ), { dispatch: false });
 }

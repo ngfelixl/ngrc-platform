@@ -24,7 +24,7 @@ export class DualshockComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(unlistenToDualshock())
+    this.store.dispatch(unlistenToDualshock());
   }
 
   back() { this.location.back(); }

@@ -5,7 +5,7 @@ import { freemem, totalmem } from 'os';
 import { interval, Observable, Observer, zip, Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { SystemReportWebsocket } from '@ngrc/interfaces/websockets';
+import { RaspberrypiWebsocket } from '@ngrc/interfaces/websockets';
 
 @WebSocketGateway(environment.port, { transports: ['polling'] })
 export class SystemReportService {
@@ -40,15 +40,15 @@ export class SystemReportService {
     );
   }
 
-  @SubscribeMessage(SystemReportWebsocket.readSystemReport)
+  @SubscribeMessage(RaspberrypiWebsocket.readSystemReport)
   listen() {
     return this.systemReport$.pipe(
-      map((report) => ({event: SystemReportWebsocket.systemReport, data: report})),
+      map((report) => ({event: RaspberrypiWebsocket.systemReport, data: report})),
       takeUntil(this.unlisten$)
     );
   }
 
-  @SubscribeMessage(SystemReportWebsocket.unreadSystemReport)
+  @SubscribeMessage(RaspberrypiWebsocket.unreadSystemReport)
   unlisten() {
     this.unlisten$.next();
   }
