@@ -38,8 +38,6 @@ export class SystemReportService {
     ).pipe(
       map(([temperature, usedMemoryInPercent]) => ({ temperature, usedMemoryInPercent }))
     );
-
-    // this.systemReport$.subscribe(console.log);
   }
 
   @SubscribeMessage(SystemReportWebsocket.readSystemReport)
