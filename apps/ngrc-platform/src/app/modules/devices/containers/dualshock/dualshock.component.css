@@ -1,7 +1,8 @@
 mat-card-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 12px;
+  grid-gap: 24px;
+  margin: 24px 0;
   justify-content: space-between;
 }
 

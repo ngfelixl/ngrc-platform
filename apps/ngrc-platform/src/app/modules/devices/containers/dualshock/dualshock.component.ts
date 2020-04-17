@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/
 import { Controller } from '@ngrc/interfaces/dualshock';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { getDualshockData, listenToDualshock, State, unlistenToDualshock, getDualshockConfig, loadDualshockConfig } from '../../+store';
+import { getDualshockData, listenToDualshock, State, unlistenToDualshock, getDualshockConfig, loadDualshockConfig, setDualshockConfig } from '../../+store';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -38,6 +38,10 @@ export class DualshockComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.dispatch(unlistenToDualshock());
     this.subscription.unsubscribe();
+  }
+
+  save() {
+    this.store.dispatch(setDualshockConfig({ config: this.dualshockForm.value }));
   }
 
   back() { this.location.back(); }

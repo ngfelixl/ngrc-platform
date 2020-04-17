@@ -4,10 +4,10 @@
     <!--<ngrc-analog-stick-visualization [data]="(dsData$ | async).left" xlabel="x Axis" ylabel="y Axis"></ngrc-analog-stick-visualization>
     <ngrc-analog-stick-visualization [data]="(dsData$ | async).right"></ngrc-analog-stick-visualization>-->
     <ngrc-ds-visualization [data]="dsData$ | async"></ngrc-ds-visualization>
-    <form [formGroup]="dualshockForm">
+    <form [formGroup]="dualshockForm" (ngSubmit)="save()">
       <mat-form-field appearance="outline">
         <mat-label>Frequency</mat-label>
-        <input matInput type="number" placeholder="Frequency" formControlName="frequency"/>
+        <input matInput type="number" placeholder="Frequency" formControlName="frequency" autocomplete="off"/>
       </mat-form-field>
       <button mat-stroked-button>Save</button>
     </form>
