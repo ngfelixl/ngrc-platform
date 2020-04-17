@@ -25,9 +25,6 @@
     "server": {
       "tags": ["dualshock"]
     },
-    "dualshock": {
-      "tags": ["dualshock"]
-    },
     "interfaces": {
       "tags": []
     }

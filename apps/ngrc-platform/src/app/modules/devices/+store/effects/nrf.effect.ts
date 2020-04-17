@@ -5,7 +5,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { SocketService } from '../../../../services/socket.service';
-import { nrfError, nrfStartTest, nrfStartTransmission, nrfStateChanged, nrfStatsChanged, nrfStopTest, nrfStopTransmission, setNrfConfig, setNrfConfigFailed, setNrfConfigSuccess } from '../actions';
+import { nrfError, nrfStartTest, nrfStartTransmission, nrfStateChanged, nrfStatsChanged,
+  nrfStopTest, nrfStopTransmission, setNrfConfig, setNrfConfigFailed, setNrfConfigSuccess } from '../actions';
 
 @Injectable()
 export class NrfEffects {

@@ -1,9 +1,10 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
-import { Dualshock } from '@ngrc/dualshock';
+import { SubscribeMessage, WebSocketGateway, MessageBody } from '@nestjs/websockets';
+import { Dualshock } from './dualshock';
 import { DsWebsocket } from '@ngrc/interfaces/websockets';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { DualshockConfig } from '@ngrc/interfaces/dualshock';
 
 @WebSocketGateway(environment.port, { transports: ['polling'] })
 export class DualshockService {
@@ -12,6 +13,16 @@ export class DualshockService {
 
   constructor() {
     this.dualshock = new Dualshock();
+  }
+
+  @SubscribeMessage(DsWebsocket.setConfig)
+  setConfig(@MessageBody() config: DualshockConfig) {
+    this.dualshock.config$.next(config);
+  }
+
+  @SubscribeMessage(DsWebsocket.getConfig)
+  getConfig() {
+    return this.dualshock.config$.getValue();
   }
 
   @SubscribeMessage(DsWebsocket.connect)
