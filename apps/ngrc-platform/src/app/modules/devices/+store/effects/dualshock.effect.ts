@@ -4,10 +4,11 @@ import { SocketService } from '../../../../services/socket.service';
 
 import { catchError, map, switchMap, tap, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { DualshockState, Controller } from '@ngrc/interfaces/dualshock';
+import { DualshockState, Controller, DualshockConfig } from '@ngrc/interfaces/dualshock';
 import { DsWebsocket } from '@ngrc/interfaces/websockets';
 import { dualshockStateChanged, dualshockError, dualshockConnect,
-  dualshockValuesChanged, listenToDualshock, unlistenToDualshock } from '../actions';
+  dualshockValuesChanged, listenToDualshock, unlistenToDualshock, setDualshockConfig,
+  setDualshockConfigSuccess, setDualshockConfigFailed, loadDualshockConfig, loadDualshockConfigSuccess, loadDualshockConfigFailed } from '../actions';
 
 @Injectable()
 export class DualshockEffects {
@@ -15,6 +16,22 @@ export class DualshockEffects {
     private actions$: Actions,
     private socketService: SocketService,
   ) {}
+
+  setConfig$ = createEffect(() => this.actions$.pipe(
+    ofType(setDualshockConfig),
+    switchMap(({ config }) => this.socketService.request<DualshockConfig>(DsWebsocket.setConfig, config).pipe(
+      map(() => setDualshockConfigSuccess({ config })),
+      catchError(error => of(setDualshockConfigFailed({ error })))
+    ))
+  ));
+
+  loadConfig$ = createEffect(() => this.actions$.pipe(
+    ofType(loadDualshockConfig),
+    switchMap(() => this.socketService.request<DualshockConfig>(DsWebsocket.getConfig).pipe(
+      map((config) => loadDualshockConfigSuccess({ config })),
+      catchError(error => of(loadDualshockConfigFailed({ error })))
+    ))
+  ));
 
   dispatchListen = createEffect(() => this.actions$.pipe(
     ofType(dualshockConnect),

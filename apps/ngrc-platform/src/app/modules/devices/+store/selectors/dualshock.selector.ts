@@ -22,3 +22,8 @@ export const getDualshockData = createSelector(
   getDualshockState,
   (state) => state.controller
 );
+
+export const getDualshockConfig = createSelector(
+  getDualshockState,
+  (state) => state.config
+);
