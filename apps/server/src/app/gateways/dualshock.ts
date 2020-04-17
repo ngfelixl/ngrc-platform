@@ -1,6 +1,6 @@
-import { Controller, DualshockState } from '@ngrc/interfaces/dualshock';
+import { Controller, DualshockState, DualshockConfig } from '@ngrc/interfaces/dualshock';
 import { devices, HID } from 'node-hid';
-import { combineLatest, fromEvent, merge, Observable, of, Subject, timer } from 'rxjs';
+import { combineLatest, fromEvent, merge, Observable, of, Subject, timer, BehaviorSubject } from 'rxjs';
 import { delayWhen, distinctUntilChanged, map, mapTo, pluck, retryWhen, sampleTime, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { dualshockMapping } from '../helpers';
 
@@ -12,6 +12,9 @@ export class Dualshock {
   private errorSubject$ = new Subject<void>();
   public state$: Observable<DualshockState>;
   public data$: Observable<Controller>;
+  public config$ = new BehaviorSubject<DualshockConfig>({
+    frequency: 16.7
+  });
 
   constructor() {
     this.dualshock$ = this.createDs4Instance();
@@ -47,9 +50,13 @@ export class Dualshock {
   }
 
   private createDs4DataStream(): Observable<{ battery: number, controller: Controller }> {
-    return this.dualshock$.pipe(
-      switchMap((dualshock) =>  fromEvent(dualshock, 'data')),
-      sampleTime(16.7),
+    return combineLatest([
+      this.dualshock$,
+      this.config$
+    ]).pipe(
+      switchMap(([dualshock, config]) => fromEvent(dualshock, 'data').pipe(
+        sampleTime(config?.frequency || 16.7)
+      )),
       map(dualshockMapping),
       shareReplay(1)
     );

@@ -1,7 +1,7 @@
 import { SubscribeMessage, WebSocketGateway, MessageBody } from '@nestjs/websockets';
 import { Dualshock } from './dualshock';
 import { DsWebsocket } from '@ngrc/interfaces/websockets';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { DualshockConfig } from '@ngrc/interfaces/dualshock';
@@ -10,9 +10,6 @@ import { DualshockConfig } from '@ngrc/interfaces/dualshock';
 export class DualshockService {
   dualshock: Dualshock;
   unlisten$ = new Subject();
-  config$ = new BehaviorSubject<DualshockConfig>({
-    frequency: 24
-  });
 
   constructor() {
     this.dualshock = new Dualshock();
@@ -20,12 +17,12 @@ export class DualshockService {
 
   @SubscribeMessage(DsWebsocket.setConfig)
   setConfig(@MessageBody() config: DualshockConfig) {
-    this.config$.next(config);
+    this.dualshock.config$.next(config);
   }
 
   @SubscribeMessage(DsWebsocket.getConfig)
   getConfig() {
-    return this.config$.getValue();
+    return this.dualshock.config$.getValue();
   }
 
   @SubscribeMessage(DsWebsocket.connect)
